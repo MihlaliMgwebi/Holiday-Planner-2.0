@@ -1,5 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@angular/fire/auth";
+import {AuthService} from "./services/fire/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -7,17 +8,17 @@ import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Auth';
-
-  auth: Auth = inject(Auth)
-  constructor(){}
+  constructor(private authService: AuthService){}
 
   signUpNewUser(email: string, password: string){
-    createUserWithEmailAndPassword(this.auth, email, password).then(console.log).catch(console.error)
+    this.authService.signUpNewUser(email, password)
   }
 
-  signInExistingUsers(email: string, password: string){
-    signInWithEmailAndPassword(this.auth, email, password).then(console.log).catch(console.error)
+  signInExistingUser(email: string, password: string){
+    this.authService.signInExistingUser(email,password)
   }
 
+  signInExistingUserWithGoogle(){
+    this.authService.signInExistingUserWithGoogle()
+  }
 }
