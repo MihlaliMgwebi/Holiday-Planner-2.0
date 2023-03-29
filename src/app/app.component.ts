@@ -1,5 +1,4 @@
-import {Component, inject} from '@angular/core';
-import {Auth, createUserWithEmailAndPassword} from "@angular/fire/auth";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +6,5 @@ import {Auth, createUserWithEmailAndPassword} from "@angular/fire/auth";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Auth';
 
-  auth: Auth = inject(Auth)
-
-  signUp(){
-    createUserWithEmailAndPassword(this.auth, "test@gmail.com", "test@gmail.com").then(console.log).catch(console.error)
-  }
 }
