@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {Auth, createUserWithEmailAndPassword} from "@angular/fire/auth";
+import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,14 @@ export class AppComponent {
   title = 'Auth';
 
   auth: Auth = inject(Auth)
+  constructor(){}
 
-  signUp(){
-    createUserWithEmailAndPassword(this.auth, "test@gmail.com", "test@gmail.com").then(console.log).catch(console.error)
+  signUpNewUser(email: string, password: string){
+    createUserWithEmailAndPassword(this.auth, email, password).then(console.log).catch(console.error)
   }
+
+  signInExistingUsers(email: string, password: string){
+    signInWithEmailAndPassword(this.auth, email, password).then(console.log).catch(console.error)
+  }
+
 }

@@ -1,1 +1,8 @@
-<button (click)="signUp()">Sup</button>
+<form>
+  <input type="email" #email>
+  <input type="password" #password>
+
+  <button type="button" (click)="signUpNewUser(email.value, password.value)">Sign Up</button>
+  <button type="button" (click)="signInExistingUsers(email.value, password.value)">Sign In</button>
+
+</form>
