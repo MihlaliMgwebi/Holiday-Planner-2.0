@@ -1,5 +1,4 @@
-import {Component, inject} from '@angular/core';
-import {Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "@angular/fire/auth";
+import {Component} from '@angular/core';
 import {AuthService} from "./services/fire/auth.service";
 
 @Component({
@@ -20,5 +19,9 @@ export class AppComponent {
 
   signInExistingUserWithGoogle(){
     this.authService.signInExistingUserWithGoogle()
+  }
+
+  signOut(){
+    this.authService.signOut()
   }
 }

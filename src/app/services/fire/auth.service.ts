@@ -2,11 +2,12 @@ import {inject, Injectable} from '@angular/core';
 import {
   Auth,
   createUserWithEmailAndPassword,
-  getAdditionalUserInfo,
+  getAdditionalUserInfo, idToken,
   signInWithEmailAndPassword,
   signInWithPopup
 } from "@angular/fire/auth";
 import { GoogleAuthProvider } from 'firebase/auth';
+import {Subscription} from "rxjs";
 
 
 @Injectable({
@@ -14,13 +15,26 @@ import { GoogleAuthProvider } from 'firebase/auth';
 })
 export class AuthService {
   auth: Auth = inject(Auth)
+  idToken$ = idToken(this.auth);
+  idTokenSubscription: Subscription | undefined;
+
   constructor() { }
+  setTokenInLocalStorage(){
+    this.idTokenSubscription = this.idToken$.subscribe((token: string | null) => {
+      //handle idToken changes here. Note, that user will be null if there is no currently logged in user.
+      (token) ? window.localStorage.setItem('token', 'true') : window.localStorage.setItem('token', 'false')
+    })
+  }
+
+  removeTokenInLocalStorage(){
+    window.localStorage.removeItem('token')
+  }
 
   signUpNewUser(email: string, password: string){
     createUserWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
+        const user = userCredential.user
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -31,8 +45,9 @@ export class AuthService {
   signInExistingUser(email: string, password: string){
     signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
+        // Signed in
+        const user = userCredential.user;
+        this.setTokenInLocalStorage();
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -47,6 +62,7 @@ export class AuthService {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
+        this.setTokenInLocalStorage()
         // The signed-in user info.
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
@@ -58,7 +74,17 @@ export class AuthService {
       const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
+    })
+  }
 
-    });
+  signOut(){
+    this.removeTokenInLocalStorage();
+    this.auth.signOut()
+      .then(()=>{
+        // Signed out
+      })
+      .catch((error)=>{
+        // Sign out error
+      })
   }
 }
