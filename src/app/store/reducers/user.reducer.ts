@@ -1,5 +1,4 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import * as UserActions from '../actions/user.actions';
+import { createFeature, createReducer } from '@ngrx/store';
 
 export const userFeatureKey = 'user';
 
@@ -13,9 +12,6 @@ export const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
-  on(UserActions.yUsers, state => state),
-  on(UserActions.yUsersSuccess, (state, action) => state),
-  on(UserActions.yUsersFailure, (state, action) => state),
 );
 
 export const userFeature = createFeature({
