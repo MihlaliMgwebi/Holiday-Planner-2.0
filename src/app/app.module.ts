@@ -7,6 +7,21 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
+import * as fromUser from './store/reducers/user.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { UserEffects } from './store/effects/user.effects';
+
+export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function(state, action) {
+    console.log(action.type, action);
+    console.log('current state', state)
+    console.log('future value of state', reducer(state, action));
+
+    return reducer(state, action);
+  };
+}
+export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug] : [];
 
 @NgModule({
   declarations: [
@@ -18,7 +33,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
 
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+
+    StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
+
+    StoreModule.forRoot({}, {metaReducers}),
+
+    EffectsModule.forFeature([UserEffects]),
+    EffectsModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
