@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import * as TripActions from '../actions/trip.actions';
-import {Trip} from "../../models/trips.model";
+import {Trip} from "../../models/trip.model";
 
 export const tripFeatureKey = 'trip';
 
