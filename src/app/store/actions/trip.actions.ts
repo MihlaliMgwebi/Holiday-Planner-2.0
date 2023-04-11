@@ -4,7 +4,7 @@ import {Trip} from "../../models/trip.model";
 // API CRUD ACTIONS
 
 // CREATE
-export const createTrip = createAction( 
+export const createTrip = createAction(
   '[Trip Create Component] Create Trip',
   props<{ trip: Trip }>()
 );

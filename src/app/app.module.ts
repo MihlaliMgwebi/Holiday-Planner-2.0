@@ -14,6 +14,7 @@ import { UserEffects } from './store/effects/user.effects';
 import {AuthComponent} from "./components/auth/auth.component";
 import * as fromTrip from './store/reducers/trip.reducer';
 import {TripEffects} from "./store/effects/trip.effects";
+import {HttpClientModule} from "@angular/common/http";
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -46,6 +47,8 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
 
     EffectsModule.forFeature([UserEffects, TripEffects]),
     EffectsModule.forRoot(),
+
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
