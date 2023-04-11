@@ -28,7 +28,7 @@ export const reducer = createReducer(
   initialState,
   on(UserActions.setSignedUpNewUserComplete,(state) => (state)),
   on(UserActions.setSignedInExistingUserComplete,(state, { email, password}) => ({...state, email, password})),
-  on(UserActions.setSignedInComplete, UserActions.setLoggedInUserOnBrowserReload, UserActions.setLoggedInUserOnBrowserReload,(state, {loggedInUser}) => ({...state,loggedInUser, error: null})),
+  on(UserActions.setSignedInComplete, UserActions.setLoggedInUserOnBrowserReload,(state, {loggedInUser}) => ({...state,loggedInUser, error: null})),
   on(UserActions.setSignedInFailure, UserActions.setSignedInExistingUserFailure,(state, {error}) => (
     {...state,
       loggedInUser: {

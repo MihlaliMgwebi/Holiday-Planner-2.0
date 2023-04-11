@@ -14,7 +14,17 @@ import { UserEffects } from './store/effects/user.effects';
 import {AuthComponent} from "./components/auth/auth.component";
 import * as fromTrip from './store/reducers/trip.reducer';
 import {TripEffects} from "./store/effects/trip.effects";
+import * as fromItineraryItem from './store/reducers/itinerary-item.reducer';
+import {ItineraryItemEffects} from "./store/effects/itinerary-item.effects";
 import {HttpClientModule} from "@angular/common/http";
+import { TripComponent } from './components/trip/trip.component';
+import {TripCreateComponent} from "./components/trip-create/trip-create.component";
+import {TripUpsertComponent} from "./components/trip-upsert/trip-upsert.component";
+import { ItineraryComponent } from './components/itinerary/itinerary.component';
+import { ItineraryItemComponent } from './components/itinerary-item/itinerary-item.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ItineraryItemCreateComponent} from "./components/itinerary-item-create/itinerary-item-create.component";
+import {ItineraryItemUpsertComponent} from "./components/itinerary-item-upsert/itinerary-item-upsert.component";
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -31,7 +41,14 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent
+    AuthComponent,
+    TripComponent,
+    TripCreateComponent,
+    TripUpsertComponent,
+    ItineraryComponent,
+    ItineraryItemComponent,
+    ItineraryItemCreateComponent,
+    ItineraryItemUpsertComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,16 +56,19 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
 
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: !isDevMode()}),
 
+    StoreModule.forFeature(fromItineraryItem.itineraryItemFeatureKey, fromItineraryItem.reducer),
     StoreModule.forFeature(fromTrip.tripFeatureKey, fromTrip.reducer),
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
     StoreModule.forRoot({}, {metaReducers}),
 
-    EffectsModule.forFeature([UserEffects, TripEffects]),
+    EffectsModule.forFeature([UserEffects, TripEffects, ItineraryItemEffects]),
     EffectsModule.forRoot(),
 
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
