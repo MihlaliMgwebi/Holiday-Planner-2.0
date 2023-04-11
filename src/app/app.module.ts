@@ -12,6 +12,8 @@ import * as fromUser from './store/reducers/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user.effects';
 import {AuthComponent} from "./components/auth/auth.component";
+import * as fromTrip from './reducers/trip.reducer';
+import { TripEffects } from './effects/trip.effects';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -38,10 +40,11 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
 
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
 
+    StoreModule.forFeature(fromTrip.tripFeatureKey, fromTrip.reducer),
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
     StoreModule.forRoot({}, {metaReducers}),
 
-    EffectsModule.forFeature([UserEffects]),
+    EffectsModule.forFeature([UserEffects, TripEffects]),
     EffectsModule.forRoot(),
   ],
   providers: [],
