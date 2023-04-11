@@ -12,8 +12,8 @@ import * as fromUser from './store/reducers/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user.effects';
 import {AuthComponent} from "./components/auth/auth.component";
-import * as fromTrip from './reducers/trip.reducer';
-import { TripEffects } from './effects/trip.effects';
+import * as fromTrip from './store/reducers/trip.reducer';
+import {TripEffects} from "./store/effects/trip.effects";
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
