@@ -21,6 +21,7 @@ export class UserEffects {
       )
     )
   });
+
   setSignedInExistingUser$ = createEffect(()=> {
     return this.actions$.pipe(
       ofType(UserActions.SignInUser),
@@ -29,6 +30,19 @@ export class UserEffects {
           .pipe(
             map(loggedInUser => UserActions.setSignedInComplete({loggedInUser})),
             catchError(error => of(UserActions.setSignedInFailure({error})))
+          )
+      )
+    )
+  });
+
+  setSignedInExistingUserEmailAndPassword$ = createEffect(()=> {
+    return this.actions$.pipe(
+      ofType(UserActions.SignInUser),
+      switchMap(({email, password}) =>
+        this.authService.signInExistingUser(email, password)
+          .pipe(
+            map(() => UserActions.setSignedInExistingUserComplete({email, password})),
+            catchError(error => of(UserActions.setSignedInExistingUserFailure({error})))
           )
       )
     )

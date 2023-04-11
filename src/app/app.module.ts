@@ -11,6 +11,7 @@ import {ActionReducer, MetaReducer, StoreModule} from '@ngrx/store';
 import * as fromUser from './store/reducers/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './store/effects/user.effects';
+import {AuthComponent} from "./components/auth/auth.component";
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -26,7 +27,8 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,

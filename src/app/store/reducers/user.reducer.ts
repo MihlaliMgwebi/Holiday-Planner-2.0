@@ -29,7 +29,7 @@ export const reducer = createReducer(
   on(UserActions.setSignedUpNewUserComplete,(state) => (state)),
   on(UserActions.setSignedInExistingUserComplete,(state, { email, password}) => ({...state, email, password})),
   on(UserActions.setSignedInComplete, UserActions.setLoggedInUserOnBrowserReload, UserActions.setLoggedInUserOnBrowserReload,(state, {loggedInUser}) => ({...state,loggedInUser, error: null})),
-  on(UserActions.setSignedInFailure,(state, {error}) => (
+  on(UserActions.setSignedInFailure, UserActions.setSignedInExistingUserFailure,(state, {error}) => (
     {...state,
       loggedInUser: {
         displayName: null,
