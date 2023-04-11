@@ -25,6 +25,7 @@ import { ItineraryItemComponent } from './components/itinerary-item/itinerary-it
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ItineraryItemCreateComponent} from "./components/itinerary-item-create/itinerary-item-create.component";
 import {ItineraryItemUpsertComponent} from "./components/itinerary-item-upsert/itinerary-item-upsert.component";
+import {CurrencyComponent} from "./components/currency/currency.component";
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -49,6 +50,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     ItineraryItemComponent,
     ItineraryItemCreateComponent,
     ItineraryItemUpsertComponent,
+    CurrencyComponent,
   ],
   imports: [
     BrowserModule,
