@@ -28,6 +28,7 @@ import {ItineraryItemUpsertComponent} from "./components/itinerary-item-upsert/i
 import {CurrencyComponent} from "./components/currency/currency.component";
 import { AppRoutingModule } from './app-routing.module';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -54,6 +55,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     ItineraryItemUpsertComponent,
     CurrencyComponent,
     NavBarComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
