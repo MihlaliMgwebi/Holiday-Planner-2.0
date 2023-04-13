@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "T1",
+    "description": "Trip Description 1",
+    "title": "Trip Title Description 1",
+    "userId": "U1",
+    "itinerary": {
+      "_id": "I1",
+      "description": "Itinerary Description 1",
+      "title": "Itinerary Title 1"
+    }
+  },
+  {
+    "_id": "T2",
+    "description": "Trip Description 2",
+    "title": "Trip Title 2",
+    "userId": "OPUZG9snX0TVHMeyqCOA2UtedSx1",
+    "itinerary": {
+      "_id": "I2",
+      "description": "Itinerary Description 2",
+      "title": "Itinerary Title"
+    }
+  }
+]

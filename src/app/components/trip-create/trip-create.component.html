@@ -1,0 +1,24 @@
+<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+  <div hidden class="form-group">
+    <input type="text" class="form-control" id="userId" formControlName="userId" [value]="(loggedInUser$ | async)?.uid">
+  </div>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="title" formControlName="title">
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" id="description" formControlName="description"></textarea>
+  </div>
+  <div formGroupName="itinerary">
+    <div class="form-group">
+      <label for="itineraryTitle">Itinerary Title</label>
+      <input type="text" class="form-control" id="itineraryTitle" formControlName="title">
+    </div>
+    <div class="form-group">
+      <label for="itineraryDescription">Itinerary Description</label>
+      <textarea class="form-control" id="itineraryDescription" formControlName="description"></textarea>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Create Trip</button>
+</form>

@@ -1,4 +1,9 @@
 import {Component} from '@angular/core';
+import {UserState} from "./store/reducers/user.reducer";
+import {User} from "./models/user.model";
+import {Store} from "@ngrx/store";
+import * as UserActions from './store/actions/user.actions';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +12,13 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
 
+  constructor(private userStore: Store<UserState>) {}
+
+  ngOnInit() {
+    const loggedInUser: User = JSON.parse(localStorage.getItem('user') || '{}');
+
+    if (loggedInUser){
+      this.userStore.dispatch(UserActions.setLoggedInUserOnBrowserReload({loggedInUser}))
+    }
+  }
 }
