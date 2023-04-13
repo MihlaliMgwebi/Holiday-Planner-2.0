@@ -6,7 +6,10 @@ import {ItineraryComponent} from "./components/itinerary/itinerary.component";
 import {TripCreateComponent} from "./components/trip-create/trip-create.component";
 import {TripUpsertComponent} from "./components/trip-upsert/trip-upsert.component";
 import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
-import {NavBarComponent} from "./components/nav-bar/nav-bar.component"; // CLI imports router
+import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
+import {ItineraryItemUpsertComponent} from "./components/itinerary-item-upsert/itinerary-item-upsert.component";
+import {ItineraryItemCreateComponent} from "./components/itinerary-item-create/itinerary-item-create.component";
+import {ItineraryItemComponent} from "./components/itinerary-item/itinerary-item.component"; // CLI imports router
 
 const routes: Routes = [
 
@@ -43,18 +46,18 @@ const routes: Routes = [
       },
 
       {
-        path: 'itineraries',
+        path: 'itinerary-items',
         title: 'All Your Itineraries',
-        component: ItineraryComponent},
+        component: ItineraryItemComponent},
       {
         path: 'itinerary-item/add',
         title: 'Add an Itinerary Item',
-        component: TripCreateComponent
+        component: ItineraryItemCreateComponent
       },
       {
         path: 'itinerary-item/edit',
         title: 'Edit an Itinerary Item',
-        component: TripUpsertComponent
+        component: ItineraryItemUpsertComponent
       },
     ],
   },
