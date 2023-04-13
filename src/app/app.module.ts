@@ -27,6 +27,7 @@ import {ItineraryItemCreateComponent} from "./components/itinerary-item-create/i
 import {ItineraryItemUpsertComponent} from "./components/itinerary-item-upsert/itinerary-item-upsert.component";
 import {CurrencyComponent} from "./components/currency/currency.component";
 import { AppRoutingModule } from './app-routing.module';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -52,6 +53,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     ItineraryItemCreateComponent,
     ItineraryItemUpsertComponent,
     CurrencyComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,

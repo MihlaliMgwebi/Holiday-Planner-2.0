@@ -1,11 +1,16 @@
-<app-auth/>
-<h1>CRUD TRIP</h1>
-
-<h2>CREATE</h2>
-<app-trip-create/>
-<h2>READ AND DELETE</h2>
-<app-trip/>
-<h2>UPDATE</h2>
-<app-trip-upsert/>
-
-
+<h1>Angular Router App</h1>
+<!-- This nav gives you links to click, which tells the router which route to use (defined in the routes constant in  AppRoutingModule) -->
+<nav>
+  <ul>
+    <li><a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Log in</a></li>
+    <li><a routerLink="/logout" routerLinkActive="active" ariaCurrentWhenActive="page">Log out</a></li>
+    <li><a routerLink="/trips" routerLinkActive="active" ariaCurrentWhenActive="page">All Trips</a></li>
+    <li><a routerLink="/trip/create" routerLinkActive="active" ariaCurrentWhenActive="page">Add Trip</a></li>
+    <li><a routerLink="/trip/edit" routerLinkActive="active" ariaCurrentWhenActive="page">Edit Trip</a></li>
+    <li><a routerLink="/itineraries" routerLinkActive="active" ariaCurrentWhenActive="page">All Itineraries</a></li>
+    <li><a routerLink="/itinerary/create" routerLinkActive="active" ariaCurrentWhenActive="page">Create Itinerary</a></li>
+    <li><a routerLink="/itinerary/edit" routerLinkActive="active" ariaCurrentWhenActive="page">Edit Itinerary</a></li>
+  </ul>
+</nav>
+<!-- The routed views render in the <router-outlet>-->
+<router-outlet/>
