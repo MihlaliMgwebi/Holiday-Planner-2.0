@@ -12,20 +12,50 @@ const routes: Routes = [
 
   { path: '', pathMatch: 'full', redirectTo: 'login' },
 
-  { path: 'login', component: AuthComponent },
-  { path: 'logout', component: AuthComponent },
-
+  {
+    path: 'login',
+    title: 'Log In',
+    component: AuthComponent
+  },
+  {
+    path: 'logout',
+    title: 'Log Out',
+    component: AuthComponent
+  },
   {
     path: 'user',
     component: NavBarComponent, // this is the component with the <router-outlet> in the template
     children: [
-      { path: 'trips', component: TripComponent },
-      { path: 'trip/create', component: TripCreateComponent},
-      { path: 'trip/edit', component: TripUpsertComponent},
+      {
+        path: 'trips',
+        title: 'All Your Trips',
+        component: TripComponent
+      },
+      {
+        path: 'trip/add',
+        title: 'Add a Trip',
+        component: TripCreateComponent
+      },
+      {
+        path: 'trip/edit',
+        title: 'Edit a Trip',
+        component: TripUpsertComponent
+      },
 
-      { path: 'itineraries', component: ItineraryComponent},
-      { path: 'itinerary/create', component: TripCreateComponent},
-      { path: 'itinerary/edit', component: TripUpsertComponent},
+      {
+        path: 'itineraries',
+        title: 'All Your Itineraries',
+        component: ItineraryComponent},
+      {
+        path: 'itinerary-item/add',
+        title: 'Add an Itinerary Item',
+        component: TripCreateComponent
+      },
+      {
+        path: 'itinerary-item/edit',
+        title: 'Edit an Itinerary Item',
+        component: TripUpsertComponent
+      },
     ],
   },
 
