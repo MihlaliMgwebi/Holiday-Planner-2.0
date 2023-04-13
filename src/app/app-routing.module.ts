@@ -4,9 +4,13 @@ import {AuthComponent} from "./components/auth/auth.component";
 import {TripComponent} from "./components/trip/trip.component";
 import {ItineraryComponent} from "./components/itinerary/itinerary.component";
 import {TripCreateComponent} from "./components/trip-create/trip-create.component";
-import {TripUpsertComponent} from "./components/trip-upsert/trip-upsert.component"; // CLI imports router
+import {TripUpsertComponent} from "./components/trip-upsert/trip-upsert.component";
+import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component"; // CLI imports router
 
 const routes: Routes = [
+
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+
   { path: 'login', component: AuthComponent },
   { path: 'logout', component: AuthComponent },
 
@@ -18,6 +22,7 @@ const routes: Routes = [
   { path: 'itinerary/create', component: TripCreateComponent},
   { path: 'itinerary/edit', component: TripUpsertComponent},
 
+  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
 ]; // sets up routes constant where you define your routes
 
 // configures NgModule imports and exports
