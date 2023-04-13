@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {AuthService} from "./services/fire/auth/auth.service";
+import {UserState} from "./store/reducers/user.reducer";
+import {User} from "./models/user.model";
+import {Store} from "@ngrx/store";
+import * as UserActions from './store/actions/user.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,21 +10,13 @@ import {AuthService} from "./services/fire/auth/auth.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private authService: AuthService){}
+  constructor(private userStore: Store<UserState>) {}
 
-  signUpNewUser(email: string, password: string){
-    this.authService.signUpNewUser(email, password)
-  }
+  ngOnInit() {
+    const loggedInUser: User = JSON.parse(localStorage.getItem('user') || '{}');
 
-  signInExistingUser(email: string, password: string){
-    this.authService.signInExistingUser(email,password)
-  }
-
-  signInExistingUserWithGoogle(){
-    this.authService.signInExistingUserWithGoogle()
-  }
-
-  signOut(){
-    this.authService.signOut()
+    if (loggedInUser){
+      this.userStore.dispatch(UserActions.setLoggedInUserOnBrowserReload({loggedInUser}))
+    }
   }
 }

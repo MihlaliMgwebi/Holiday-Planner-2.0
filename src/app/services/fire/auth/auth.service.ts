@@ -2,13 +2,12 @@ import {inject, Injectable} from '@angular/core';
 import {
   Auth,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup
 } from "@angular/fire/auth";
 import { GoogleAuthProvider } from 'firebase/auth';
-import {Observable} from "rxjs";
-import {User} from "../../../models/user.model";
+import { Observable } from "rxjs";
+import { User } from "../../../models/user.model";
 
 
 @Injectable({
@@ -68,13 +67,4 @@ export class AuthService {
         })
     })
   }
-
-  getCurrentlySignedInUser(): Observable<User> {
-    return new Observable(observer => {
-      onAuthStateChanged(this.auth, (user) => {
-        observer.next(JSON.parse(JSON.stringify(user)));
-      });
-    });
-  }
-
 }

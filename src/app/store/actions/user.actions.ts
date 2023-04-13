@@ -34,13 +34,18 @@ export const setSignedInExistingUserComplete = createAction(
   props<{ email: string, password: string }>()
 );
 
+export const setSignedInExistingUserFailure = createAction(
+  '[User] Set Signed In Existing User Failure',
+  props<{ error: unknown }>()
+);
+
 export const setSignedInComplete = createAction(
-  '[User Effect] Set Signed In Existing User Complete',
+  '[User Effect] Set Signed In Complete',
   props<{ loggedInUser: User }>()
 );
 
 export const setSignedInFailure = createAction(
-  '[User Effect] Set Signed In Existing User Failure',
+  '[User Effect] Set Signed In Failure',
   props<{ error: unknown }>()
 );
 
