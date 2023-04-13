@@ -1,12 +1,15 @@
+<h1>ALL MY TRIPS</h1>
+<button (click)="addTrip()">Add Trip</button>
 <div
   *ngFor="let correlatedTrip of (correlatedTrips$ | async)"
   class="trip"
   [class.selected]="correlatedTrip.trip._id === (selectedCorrelatedTrip$ | async)?.trip?._id"
   (click)="selectTrip(correlatedTrip.trip)">
+<!--  TODO: move this to child component (  changeDetection: ChangeDetectionStrategy.OnPush &   @Input() selectedCorrelatedTrip: CorrelatedData | undefined;-->
   <h2>Title: {{correlatedTrip.trip.title}}</h2>
   Description: {{correlatedTrip.trip.description}}
   <app-itinerary [correlatedTrips]="(correlatedTrips$ | async) ?? []"/>
+  <button (click)="editTrip(correlatedTrip.trip)">Edit Trip</button>
   <button (click)="deleteTrip(correlatedTrip.trip._id)">Delete Trip</button>
 </div>
 
-<app-itinerary-item [selectedCorrelatedTrip]="(selectedCorrelatedTrip$ | async) ?? undefined"/>

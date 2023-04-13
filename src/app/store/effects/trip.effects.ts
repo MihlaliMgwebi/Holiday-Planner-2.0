@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {catchError, combineLatestWith, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as TripActions from "../actions/trip.actions";
 import {FireStoreService} from "../../services/fire/store/fire-store.service";
+import * as UserActions from "../actions/user.actions";
+import {setSelectedTrip} from "../actions/trip.actions";
+import {ActivatedRoute, Router} from "@angular/router";
+import {selectLoggedInUser} from "../selectors/user.selectors";
+import {Store} from "@ngrx/store";
+import {UserState} from "../reducers/user.reducer";
 @Injectable()
 export class TripEffects {
   // Trips and ItineraryItems are root collections in DB
@@ -64,5 +70,22 @@ export class TripEffects {
     )
   });
 
-  constructor(private actions$: Actions, private fireStoreService: FireStoreService) {}
+  // NAVIGATION:
+  navigateToSelectedTrip = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType( TripActions.setSelectedTrip ),
+        withLatestFrom(this.userStore.select(selectLoggedInUser)),
+        tap(([trip, user]) => this.router.navigate([`../users/${user.uid}/trips/${trip.selectedTrip._id}/itinerary-items`], { relativeTo: this.route })),
+
+      ),
+    { dispatch: false }
+  );
+  constructor(
+    private actions$: Actions,
+    private fireStoreService: FireStoreService,
+    private route: ActivatedRoute,
+    private router:Router,
+    private userStore: Store<UserState>
+  ) {}
 }

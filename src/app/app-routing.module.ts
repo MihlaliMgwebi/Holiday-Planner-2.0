@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AuthComponent} from "./components/auth/auth.component";
 import {TripComponent} from "./components/trip/trip.component";
-import {ItineraryComponent} from "./components/itinerary/itinerary.component";
 import {TripCreateComponent} from "./components/trip-create/trip-create.component";
 import {TripUpsertComponent} from "./components/trip-upsert/trip-upsert.component";
 import {PageNotFoundComponent} from "./components/page-not-found/page-not-found.component";
 import {NavBarComponent} from "./components/nav-bar/nav-bar.component";
 import {ItineraryItemUpsertComponent} from "./components/itinerary-item-upsert/itinerary-item-upsert.component";
 import {ItineraryItemCreateComponent} from "./components/itinerary-item-create/itinerary-item-create.component";
-import {ItineraryItemComponent} from "./components/itinerary-item/itinerary-item.component"; // CLI imports router
+import {ItineraryItemComponent} from "./components/itinerary-item/itinerary-item.component";
 
 const routes: Routes = [
 
@@ -26,7 +25,7 @@ const routes: Routes = [
     component: AuthComponent
   },
   {
-    path: 'user',
+    path: 'users/:userId',
     component: NavBarComponent, // this is the component with the <router-outlet> in the template
     children: [
       {
@@ -35,27 +34,26 @@ const routes: Routes = [
         component: TripComponent
       },
       {
-        path: 'trip/add',
+        path: 'trips/add',
         title: 'Add a Trip',
         component: TripCreateComponent
       },
       {
-        path: 'trip/edit',
+        path: 'trips/:tripId/edit',
         title: 'Edit a Trip',
         component: TripUpsertComponent
       },
-
       {
-        path: 'itinerary-items',
+        path: 'trips/:tripId/itinerary-items',
         title: 'All Your Itineraries',
         component: ItineraryItemComponent},
       {
-        path: 'itinerary-item/add',
+        path: 'trips/:tripId/itinerary-items/add',
         title: 'Add an Itinerary Item',
         component: ItineraryItemCreateComponent
       },
       {
-        path: 'itinerary-item/edit',
+        path: 'trips/:tripId/itinerary-items/:itineraryItemId/edit',
         title: 'Edit an Itinerary Item',
         component: ItineraryItemUpsertComponent
       },

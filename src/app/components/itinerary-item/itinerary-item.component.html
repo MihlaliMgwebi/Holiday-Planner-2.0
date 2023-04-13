@@ -1,1 +1,9 @@
-<p>itinerary-item works!</p>
+<button (click)="addItineraryItem()">Add Itinerary Item</button>
+<div
+  *ngFor="let itineraryItem of (selectedCorrelatedTrip$ | async)?.itineraryItems">
+  Title:{{itineraryItem.title}}
+  Description: {{itineraryItem.description}}
+<!--  TODO: display other deets-->
+  <button (click)="editItineraryItem(itineraryItem)">Edit Itinerary Item</button>
+  <button (click)="deleteItineraryItem(itineraryItem._id)">Delete Itinerary Item</button>
+</div>
