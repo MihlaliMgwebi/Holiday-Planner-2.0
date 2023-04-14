@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { UserState } from '../../store/reducers/user.reducer';
 import { Observable, of } from 'rxjs';
 import { selectIsLoggedIn } from '../../store/selectors/user.selectors';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -13,21 +13,45 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 })
 export class AuthComponent implements OnInit {
   isLoggedIn$: Observable<boolean> = of(false);
+  authForm: FormGroup = new FormGroup({});
+
   constructor(private userStore: Store<UserState>, private fb: UntypedFormBuilder) {}
   ngOnInit(): void {
     this.isLoggedIn$ = this.userStore.pipe(select(selectIsLoggedIn));
-    this.validateForm = this.fb.group({
-      email: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+    this.authForm = new FormGroup({
+      email: new FormControl(''),
+      password: new FormControl(''),
     });
   }
 
-  signUpNewUser(email: string, password: string) {
-    this.userStore.dispatch(SignUpUser({ email, password }));
+  signUpNewUser() {
+    if (this.authForm.valid) {
+      const email = this.authForm.value.email;
+      const password = this.authForm.value.password;
+      this.userStore.dispatch(SignUpUser({ email, password }));
+    } else {
+      Object.values(this.authForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
-  signInExistingUser(email: string, password: string) {
-    this.userStore.dispatch(SignInUser({ email, password }));
+  signInExistingUser() {
+    if (this.authForm.valid) {
+      const email = this.authForm.value.email;
+      const password = this.authForm.value.password;
+      this.userStore.dispatch(SignInUser({ email, password }));
+    } else {
+      Object.values(this.authForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 
   signInExistingUserWithGoogle() {
@@ -36,19 +60,5 @@ export class AuthComponent implements OnInit {
 
   signOut() {
     this.userStore.dispatch(SignOutUser());
-  }
-  validateForm!: UntypedFormGroup;
-
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach((control) => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-    }
   }
 }
