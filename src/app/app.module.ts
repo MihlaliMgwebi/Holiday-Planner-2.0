@@ -29,6 +29,13 @@ import {CurrencyComponent} from "./components/currency/currency.component";
 import { AppRoutingModule } from './app-routing.module';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { uk_UA } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import uk from '@angular/common/locales/uk';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+registerLocaleData(uk);
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -77,8 +84,11 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    { provide: NZ_I18N, useValue: uk_UA }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
