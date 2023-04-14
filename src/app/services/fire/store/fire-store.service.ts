@@ -8,6 +8,7 @@ import {ItineraryItem} from "../../../models/itineraryItem.model";
   providedIn: 'root'
 })
 export class FireStoreService {
+  // MOCK. TODO: Convert mock to real deal in separate branch
   constructor(private http: HttpClient) {}
 
   // CRUD
