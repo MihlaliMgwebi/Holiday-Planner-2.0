@@ -34,8 +34,8 @@ export class TripComponent implements OnInit {
     this.router.navigate([`../trips/add`], { relativeTo: this.route })
   }
   //READ
-  selectTrip(trip: Trip) {
-    this.tripStore.dispatch(setSelectedTrip({selectedTrip: trip}))
+  selectTrip(selectedTrip: Trip) {
+    this.tripStore.dispatch(setSelectedTrip({selectedTrip}))
   }
   // UPDATE
   editTrip(trip: Trip){

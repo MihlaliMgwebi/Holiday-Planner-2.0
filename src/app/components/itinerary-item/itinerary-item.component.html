@@ -1,9 +1,9 @@
 <button (click)="addItineraryItem()">Add Itinerary Item</button>
 <div
-  *ngFor="let itineraryItem of (selectedCorrelatedTrip$ | async)?.itineraryItems">
+  *ngFor="let itineraryItem of selectedCorrelatedTrip?.itineraryItems">
   Title:{{itineraryItem.title}}
   Description: {{itineraryItem.description}}
-<!--  TODO: display other deets-->
+<!--  TODO: display other deets when UI done-->
   <button (click)="editItineraryItem(itineraryItem)">Edit Itinerary Item</button>
   <button (click)="deleteItineraryItem(itineraryItem._id)">Delete Itinerary Item</button>
 </div>

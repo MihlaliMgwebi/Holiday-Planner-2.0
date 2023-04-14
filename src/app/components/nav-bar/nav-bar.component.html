@@ -4,12 +4,7 @@
   <ul>
     <li><a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Log in</a></li>
     <li><a routerLink="/logout" routerLinkActive="active" ariaCurrentWhenActive="page">Log out</a></li>
-    <li><a routerLink="trips" routerLinkActive="active" ariaCurrentWhenActive="page">All Trips</a></li>
-    <li><a routerLink="trip/add" routerLinkActive="active" ariaCurrentWhenActive="page">Add Trip</a></li>
-    <li><a routerLink="trip/edit" routerLinkActive="active" ariaCurrentWhenActive="page">Edit Trip</a></li>
-    <li><a routerLink="itinerary-items" routerLinkActive="active" ariaCurrentWhenActive="page">All Itineraries</a></li>
-    <li><a routerLink="itinerary-item/add" routerLinkActive="active" ariaCurrentWhenActive="page">Create Itinerary</a></li>
-    <li><a routerLink="itinerary-item/edit" routerLinkActive="active" ariaCurrentWhenActive="page">Edit Itinerary</a></li>
   </ul>
+  <button (click)="back()">Back</button>
 </nav>
 <router-outlet/>

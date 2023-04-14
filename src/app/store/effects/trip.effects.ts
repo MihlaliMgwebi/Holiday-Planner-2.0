@@ -70,22 +70,8 @@ export class TripEffects {
     )
   });
 
-  // NAVIGATION:
-  navigateToSelectedTrip = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType( TripActions.setSelectedTrip ),
-        withLatestFrom(this.userStore.select(selectLoggedInUser)),
-        tap(([trip, user]) => this.router.navigate([`../users/${user.uid}/trips/${trip.selectedTrip._id}/itinerary-items`], { relativeTo: this.route })),
-
-      ),
-    { dispatch: false }
-  );
   constructor(
     private actions$: Actions,
     private fireStoreService: FireStoreService,
-    private route: ActivatedRoute,
-    private router:Router,
-    private userStore: Store<UserState>
   ) {}
 }

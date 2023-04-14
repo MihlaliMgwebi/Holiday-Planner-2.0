@@ -13,3 +13,4 @@
   <button (click)="deleteTrip(correlatedTrip.trip._id)">Delete Trip</button>
 </div>
 
+<app-itinerary-item [selectedCorrelatedTrip]="(selectedCorrelatedTrip$ | async) ?? undefined"/>
