@@ -4,7 +4,7 @@ import {TripState} from "../../store/reducers/trip.reducer";
 import {CorrelatedData} from "../../models/correlatedData.model";
 import {Store} from "@ngrx/store";
 import {deleteTrip, getAllTrips, setSelectedTrip} from "../../store/actions/trip.actions";
-import {deleteItineraryItem, getAllItineraryItems} from "../../store/actions/itinerary-item.actions";
+import { getAllItineraryItems} from "../../store/actions/itinerary-item.actions";
 import {Observable} from "rxjs";
 import {selectCorrelatedTrips, selectSelectedCorrelatedTrip} from "../../store/selectors/trip.selectors";
 import {ItineraryItemState} from "../../store/reducers/itinerary-item.reducer";

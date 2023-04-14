@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import {TripState} from "../../store/reducers/trip.reducer";
 import {Store} from "@ngrx/store";
-import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import { FormControl, FormGroup,} from "@angular/forms";
 import {createTrip} from "../../store/actions/trip.actions";
 import {Trip} from "../../models/trip.model";
 import {Observable} from "rxjs";
-import {selectAllCurrencies} from "../../store/selectors/currency.selectors";
 import {UserState} from "../../store/reducers/user.reducer";
 import {User} from "../../models/user.model";
 import {selectLoggedInUser} from "../../store/selectors/user.selectors";

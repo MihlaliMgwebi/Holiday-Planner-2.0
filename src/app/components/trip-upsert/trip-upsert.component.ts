@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {TripState} from "../../store/reducers/trip.reducer";
 import {Store} from "@ngrx/store";
 import {NgForm} from "@angular/forms";
-import {createTrip, upsertTrip} from "../../store/actions/trip.actions";
+import {upsertTrip} from "../../store/actions/trip.actions";
 
 @Component({
   selector: 'app-trip-upsert',

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {Store} from "@ngrx/store";
-import {TripState} from "../../store/reducers/trip.reducer";
 import {NgForm} from "@angular/forms";
-import {createTrip, upsertTrip} from "../../store/actions/trip.actions";
+import {upsertTrip} from "../../store/actions/trip.actions";
 import {ItineraryItemState} from "../../store/reducers/itinerary-item.reducer";
 
 @Component({

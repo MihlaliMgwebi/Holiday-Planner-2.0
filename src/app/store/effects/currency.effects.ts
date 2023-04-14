@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, concatMap } from 'rxjs/operators';
-import { Observable, EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import * as CurrencyActions from '../actions/currency.actions';
 import {CurrencyApiService} from "../../services/api/currency-api.service";
 import {Currency} from "../../models/currency.model";
-import {getAllCurrencies} from "../actions/currency.actions";
 
 
 @Injectable()

@@ -3,8 +3,6 @@ import {Currency} from "../../models/currency.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {CurrencyState} from "../../store/reducers/currency.reducer";
-import {getAllTrips} from "../../store/actions/trip.actions";
-import {getAllItineraryItems} from "../../store/actions/itinerary-item.actions";
 import {getAllCurrencies} from "../../store/actions/currency.actions";
 import {Observable} from "rxjs";
 import {selectAllCurrencies} from "../../store/selectors/currency.selectors";
