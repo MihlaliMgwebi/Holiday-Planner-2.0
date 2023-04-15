@@ -17,7 +17,8 @@ export class FireStoreService {
   // CREATE
   createTrip(trip: Trip): Observable<Trip> {
     const dbRef = collection(this.db, 'trips');
-    addDoc(dbRef, trip)
+    const { _id, ...tripWthoutId } = trip;
+    addDoc(dbRef, tripWthoutId)
       .then()
       .catch((error) => {
         throwError(() => {
@@ -29,7 +30,8 @@ export class FireStoreService {
   }
   createItineraryItem(itineraryItem: ItineraryItem): Observable<ItineraryItem> {
     const dbRef = collection(this.db, 'itineraryItems');
-    addDoc(dbRef, itineraryItem)
+    const { _id, ...itemWithoutId } = itineraryItem;
+    addDoc(dbRef, itemWithoutId)
       .then()
       .catch((error) => {
         throwError(() => {

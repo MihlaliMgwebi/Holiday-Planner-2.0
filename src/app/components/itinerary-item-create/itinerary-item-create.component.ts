@@ -10,12 +10,16 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
+import { first, Observable, Observer } from 'rxjs';
 import { CurrencyState } from '../../store/reducers/currency.reducer';
 import { getAllCurrencies } from '../../store/actions/currency.actions';
 import { Currency } from '../../models/currency.model';
 import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
 import { map, tap } from 'rxjs/operators';
+import { ItineraryItem } from '../../models/itineraryItem.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { createItineraryItem } from '../../store/actions/itinerary-item.actions';
+import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
 
 @Component({
   selector: 'app-itinerary-item-create',
@@ -24,10 +28,14 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ItineraryItemCreateComponent implements OnInit {
   allCurrencies$: Observable<Currency[]>;
-  selectedCurrency: string = '';
   itineraryItemForm: UntypedFormGroup;
 
-  constructor(private fb: UntypedFormBuilder, private currencyStore: Store<CurrencyState>) {
+  constructor(
+    private fb: UntypedFormBuilder,
+    private currencyStore: Store<CurrencyState>,
+    private itineraryItemStore: Store<ItineraryItemState>,
+    private route: ActivatedRoute
+  ) {
     this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
     this.itineraryItemForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
@@ -40,10 +48,23 @@ export class ItineraryItemCreateComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.currencyStore.dispatch(getAllCurrencies()); // Q: should I make this optional
+    this.currencyStore.dispatch(getAllCurrencies());
   }
   submitForm(): void {
-    console.log('submit', this.itineraryItemForm.value);
+    const item = this.itineraryItemForm.value;
+    const newItineraryItem: ItineraryItem = {
+      _id: null,
+      costEstimate: item.costEstimate,
+      currency: item.currency,
+      description: item.description,
+      endDateTimeISOString: item.dateRange[1],
+      itineraryId: this.route.snapshot.paramMap.get('tripId'),
+      notes: item.notes,
+      startDateTimeISOString: item.dateRange[0],
+      tag: item.tag,
+      title: item.title,
+    };
+    this.itineraryItemStore.dispatch(createItineraryItem({ itineraryItem: newItineraryItem }));
   }
 
   resetForm(e: MouseEvent): void {
@@ -55,9 +76,5 @@ export class ItineraryItemCreateComponent implements OnInit {
         this.itineraryItemForm.controls[key].updateValueAndValidity();
       }
     }
-  }
-
-  onSelectCurrency(currency: string): void {
-    this.selectedCurrency = currency;
   }
 }
