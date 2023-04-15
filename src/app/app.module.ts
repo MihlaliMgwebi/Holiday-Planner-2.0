@@ -16,6 +16,8 @@ import * as fromTrip from './store/reducers/trip.reducer';
 import { TripEffects } from './store/effects/trip.effects';
 import * as fromItineraryItem from './store/reducers/itinerary-item.reducer';
 import { ItineraryItemEffects } from './store/effects/itinerary-item.effects';
+import * as fromCurrency from './store/reducers/currency.reducer';
+import { CurrencyEffects } from './store/effects/currency.effects';
 import { HttpClientModule } from '@angular/common/http';
 import { TripComponent } from './components/trip/trip.component';
 import { TripCreateComponent } from './components/trip-create/trip-create.component';
@@ -80,12 +82,13 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     // NgRx
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
 
+    StoreModule.forFeature(fromCurrency.currencyFeatureKey, fromCurrency.reducer),
     StoreModule.forFeature(fromItineraryItem.itineraryItemFeatureKey, fromItineraryItem.reducer),
     StoreModule.forFeature(fromTrip.tripFeatureKey, fromTrip.reducer),
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
     StoreModule.forRoot({}, { metaReducers }),
 
-    EffectsModule.forFeature([UserEffects, TripEffects, ItineraryItemEffects]),
+    EffectsModule.forFeature([UserEffects, TripEffects, ItineraryItemEffects, CurrencyEffects]),
     EffectsModule.forRoot(),
 
     // NgZorro and Forms

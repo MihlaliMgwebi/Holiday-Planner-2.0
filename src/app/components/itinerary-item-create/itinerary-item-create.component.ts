@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
-import { createItineraryItem } from '../../store/actions/itinerary-item.actions';
+import { getISOWeek } from 'date-fns';
+
 import {
   NgForm,
   UntypedFormBuilder,
@@ -11,15 +11,37 @@ import {
   Validators,
 } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
+import { CurrencyState } from '../../store/reducers/currency.reducer';
+import { getAllCurrencies } from '../../store/actions/currency.actions';
+import { Currency } from '../../models/currency.model';
+import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-itinerary-item-create',
   templateUrl: './itinerary-item-create.component.html',
   styleUrls: ['./itinerary-item-create.component.css'],
 })
-export class ItineraryItemCreateComponent {
+export class ItineraryItemCreateComponent implements OnInit {
+  allCurrencies$: Observable<Currency[]>;
+  selectedCurrency: string = '';
   itineraryItemForm: UntypedFormGroup;
-  demoValue = 100;
+
+  constructor(private fb: UntypedFormBuilder, private currencyStore: Store<CurrencyState>) {
+    this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
+    this.itineraryItemForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+      dateRange: ['', [Validators.required]],
+      tag: ['', [Validators.required, Validators.minLength(1)]],
+      currency: ['ZAR', [Validators.required, Validators.minLength(3)]],
+      costEstimate: ['', [Validators.required, Validators.min(0)]],
+      description: ['', [Validators.maxLength(250)]],
+      notes: ['', [Validators.maxLength(250)]],
+    });
+  }
+  ngOnInit(): void {
+    this.currencyStore.dispatch(getAllCurrencies()); // Q: should I make this optional
+  }
   submitForm(): void {
     console.log('submit', this.itineraryItemForm.value);
   }
@@ -35,20 +57,7 @@ export class ItineraryItemCreateComponent {
     }
   }
 
-  constructor(private fb: UntypedFormBuilder) {
-    this.itineraryItemForm = this.fb.group({
-      title: ['', [Validators.required]],
-      startDateTimeISOString: ['', [Validators.required]],
-      endDateTimeISOString: ['', [Validators.required]],
-      tag: [''],
-      currency: ['', [Validators.required]],
-      costEstimate: [''],
-      description: [''],
-      notes: [''],
-    });
-  }
-
-  onCurrencySelected(selectedCurrency: string): void {
-    this.itineraryItemForm.get('currency')?.setValue(selectedCurrency);
+  onSelectCurrency(currency: string): void {
+    this.selectedCurrency = currency;
   }
 }
