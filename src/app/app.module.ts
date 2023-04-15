@@ -30,13 +30,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { uk_UA } from 'ng-zorro-antd/i18n';
+import { uk_UA, en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import uk from '@angular/common/locales/uk';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgZorroAntdModule } from './ng-zorro-antd.module';
+import en from '@angular/common/locales/en';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
-registerLocaleData(uk);
+registerLocaleData(en);
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action) {
@@ -91,8 +94,10 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     BrowserAnimationsModule,
     NgZorroAntdModule,
     HttpClientModule,
+    NzInputNumberModule,
+    NzSpaceModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: uk_UA }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

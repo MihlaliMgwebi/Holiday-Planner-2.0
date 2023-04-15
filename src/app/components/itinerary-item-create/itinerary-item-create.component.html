@@ -1,1 +1,101 @@
 <p>itinerary-item-create works!</p>
+<form nz-form [formGroup]="itineraryItemForm" (ngSubmit)="submitForm()">
+<!--  Title  -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Itinerary Item Title</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
+      <input nz-input formControlName="title" placeholder="E.g. Jack the Ripper Waling Tour" />
+      <ng-template #titleErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please input the title!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+<!-- Start Date -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Start Time</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="startDateTimeISOStringErrorTpl">
+      <nz-date-picker nzShowTime formControlName="startDateTimeISOString"/>
+      <ng-template #startDateTimeISOStringErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please input the start date!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+<!-- End Date -->
+  <nz-form-item>
+    <nz-form-label nzRequired>End Date</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="endDateTimeISOStringErrorTpl">
+      <nz-date-picker nzShowTime formControlName="endDateTimeISOString"/>
+      <ng-template #endDateTimeISOStringErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please input the end date!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- Tag -->
+  <nz-form-item>
+    <nz-form-label nzFor="tag" nzRequired>Category</nz-form-label>
+    <nz-form-control nzErrorTip="Please select a category">
+      <nz-select
+        id="tag"
+        formControlName="tag"
+        nzPlaceHolder="Select a category"
+      >
+        <nz-option nzValue="destination" nzLabel="destination">Destination</nz-option>
+        <nz-option nzValue="travel" nzLabel="travel">Travel</nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+<!-- Cost Estimate and Currency -->
+  <nz-form-item>
+    <nz-form-label nzFor="costEstimate" nzRequired>Cost Estimate</nz-form-label>
+    <nz-form-control nzErrorTip="Please enter a cost estimate">
+      <nz-space nzDirection="vertical" style="width: 100%">
+<!--        TODO: formatter for currency-->
+        <nz-input-number-group *nzSpaceItem [nzAddOnAfter]="addOnAfterTemplate">
+          <nz-input-number formControlName="costEstimate" [nzStep]="1" nzPlaceHolder="Enter a cost estimate"></nz-input-number>
+        </nz-input-number-group>
+        <ng-template #addOnAfterTemplate>
+          <nz-select
+            id="currency"
+            formControlName="currency"
+            nzPlaceHolder="ZAR"
+            [ngModel]="'ZAR'" style="width: 120px">
+            <!--        TODO: Get curency symbol-->
+            <nz-option nzValue="USD" nzLabel="USD"></nz-option>
+            <nz-option nzValue="EUR" nzLabel="EUR"></nz-option>
+            <nz-option nzValue="GBP" nzLabel="GBP"></nz-option>
+            <nz-option nzValue="CNY" nzLabel="CNY"></nz-option>
+          </nz-select>
+        </ng-template>
+      </nz-space>
+    </nz-form-control>
+  </nz-form-item>
+<!--  TODO: new api implementation-->
+
+  <!-- Description -->
+  <nz-form-item>
+      <nz-form-label nzRequired>Description</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <nz-textarea-count [nzMaxCharacterCount]="2000">
+          <textarea formControlName="description" nz-input rows="2" placeholder="Describe your itinerary item "></textarea>
+        </nz-textarea-count>
+      </nz-form-control>
+    </nz-form-item>
+  <!-- Notes -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Notes</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <nz-textarea-count [nzMaxCharacterCount]="2000">
+        <textarea formControlName="notes" nz-input rows="2" placeholder="Write any notes about your trip"></textarea>
+      </nz-textarea-count>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!itineraryItemForm.valid">Submit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+
