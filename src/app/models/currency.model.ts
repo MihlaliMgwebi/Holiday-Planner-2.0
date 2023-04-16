@@ -1,4 +1,4 @@
 export interface Currency {
-  code: string | null,
-  value: number | null,
+  code: string | null;
+  rate: number | null;
 }

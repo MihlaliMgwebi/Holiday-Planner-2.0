@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {ItineraryItem} from "../../models/itineraryItem.model";
+import { ItineraryItem } from '../../models/itineraryItem.model';
 
 // API CRUD ACTIONS
 
@@ -18,15 +18,26 @@ export const createItineraryItemFailure = createAction(
 );
 
 // READ
-export const getAllItineraryItems = createAction(
-  '[Trip Component] Get All Itinerary Items',
-);
+export const getAllItineraryItems = createAction('[Trip Component] Get All Itinerary Items');
 export const getAllItineraryItemsComplete = createAction(
   '[Itinerary Item Effect] Get All Itinerary Items Complete',
-  props<{ allItineraryItems: ItineraryItem[] }>() // with pagination deets etc
+  props<{ allItineraryItems: ItineraryItem[] }>()
 );
 export const getAllItineraryItemsFailure = createAction(
   '[Itinerary Item Effect] Get All Itinerary Items Failure',
+  props<{ error: unknown }>()
+);
+
+export const getItineraryItem = createAction(
+  '[Trip Upsert Component] Get Itinerary Item',
+  props<{ itineraryItemId: string }>()
+);
+export const getItineraryItemComplete = createAction(
+  '[Itinerary Item Effect] Get Itinerary Item Complete',
+  props<{ itineraryItem: ItineraryItem }>()
+);
+export const getItineraryItemFailure = createAction(
+  '[Itinerary Item Effect] Get All Itinerary Item Failure',
   props<{ error: unknown }>()
 );
 
@@ -51,14 +62,10 @@ export const deleteItineraryItem = createAction(
   props<{ deletedItineraryItemId: string }>()
 );
 
-export const deleteItineraryItemComplete = createAction(
-  '[Itinerary Item Effect] Delete Itinerary Item Complete',
-);
+export const deleteItineraryItemComplete = createAction('[Itinerary Item Effect] Delete Itinerary Item Complete');
 
 export const deleteItineraryItemFailure = createAction(
   '[Itinerary Item Effect] Delete Itinerary Item Failure',
   props<{ error: unknown }>()
 );
-export const clearItineraryItems = createAction(
-  '[ItineraryItem/API] Clear ItineraryItems'
-);
+export const clearItineraryItems = createAction('[ItineraryItem/API] Clear ItineraryItems');

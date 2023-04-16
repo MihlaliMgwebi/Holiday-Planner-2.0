@@ -1,1 +1,93 @@
-<p>itinerary-item-create works!</p>
+<form nz-form [formGroup]="itineraryItemForm" (ngSubmit)="submitForm()">
+<!--  Title  -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Itinerary Item Title</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
+      <input nz-input formControlName="title" placeholder="E.g. Jack the Ripper Waling Tour" />
+      <ng-template #titleErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please input the title!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+<!--  Date Range -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Date Range</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateRangeErrorTpl">
+      <nz-range-picker [nzShowTime]="true" formControlName="dateRange"></nz-range-picker>
+      <ng-template #dateRangeErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please select a date range!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- Tag -->
+  <nz-form-item>
+    <nz-form-label nzFor="tag" nzRequired>Category</nz-form-label>
+    <nz-form-control nzErrorTip="Please select a category">
+      <nz-select
+        id="tag"
+        formControlName="tag"
+        nzPlaceHolder="Select a category"
+      >
+        <nz-option nzValue="" nzLabel="Select a category">Select a category</nz-option>
+        <nz-option nzValue="destination" nzLabel="destination">Destination</nz-option>
+        <nz-option nzValue="travel" nzLabel="travel">Travel</nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+<!-- Cost Estimate and Currency -->
+  <nz-form-item>
+    <nz-form-label nzFor="costEstimate" nzRequired>Cost Estimate</nz-form-label>
+    <nz-form-control [nzErrorTip]="costEstimateErrorTpl">
+      <nz-input-number-group  [nzAddOnAfter]="addOnAfterTemplate">
+        <nz-input-number formControlName="costEstimate" [nzStep]="0.1" nzPlaceHolder="Enter a cost estimate"></nz-input-number>
+      </nz-input-number-group>
+    </nz-form-control>
+  </nz-form-item>
+  <ng-template #addOnAfterTemplate>
+    <nz-select
+      id="currency"
+      formControlName="currency"
+      nzPlaceHolder="ZAR"
+    >
+      <ng-container *ngIf="allCurrencies$ | async as categories">
+        <nz-option *ngFor="let category of categories" [nzValue]="category.code" [nzLabel]="category.code"></nz-option>
+      </ng-container>
+    </nz-select>
+  </ng-template>
+
+  <ng-template #costEstimateErrorTpl let-control>
+    <ng-container *ngIf="control.hasError('required')">
+      Please enter a cost estimate!
+    </ng-container>
+    <ng-container *ngIf="control.hasError('min')">
+      Please enter a valid cost estimate!
+    </ng-container>
+  </ng-template>
+  <!-- Description -->
+  <nz-form-item>
+      <nz-form-label>Description</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <nz-textarea-count [nzMaxCharacterCount]="2000">
+          <textarea formControlName="description" nz-input rows="2" placeholder="Describe your itinerary item "></textarea>
+        </nz-textarea-count>
+      </nz-form-control>
+    </nz-form-item>
+  <!-- Notes -->
+  <nz-form-item>
+    <nz-form-label>Notes</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <nz-textarea-count [nzMaxCharacterCount]="2000">
+        <textarea formControlName="notes" nz-input rows="2" placeholder="Write any notes about your trip"></textarea>
+      </nz-textarea-count>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!itineraryItemForm.valid">Submit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+

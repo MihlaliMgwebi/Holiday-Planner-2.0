@@ -4,6 +4,7 @@ import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import {  of } from 'rxjs';
 import * as UserActions from '../actions/user.actions';
 import { AuthService } from "../../services/fire/auth/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Injectable()
 export class UserEffects {
@@ -93,5 +94,29 @@ export class UserEffects {
     { dispatch: false }
   );
 
-  constructor(private actions$: Actions, private authService: AuthService) {}
+  // Navigation
+  navigateToLoginPage = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType( UserActions.setSignedOutComplete,),
+        tap((user)=> this.router.navigate(['/login'])),
+      ),
+    { dispatch: false }
+  );
+
+  navigateToAllMyTrips = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType( UserActions.setSignedInComplete,),
+        tap((user)=> this.router.navigate([`../users/${user.loggedInUser.uid}/trips`], { relativeTo: this.route })),
+      ),
+    { dispatch: false }
+  );
+
+  constructor(
+    private actions$: Actions,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private router:Router
+  ) {}
 }

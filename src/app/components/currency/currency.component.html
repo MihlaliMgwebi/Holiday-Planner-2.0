@@ -1,22 +1,29 @@
-<p>currency works!</p>
+<!--<p>currency works!</p>-->
 
-<div class="container">
-  <h1> Example of Select Dropdown in Angular </h1>
+<!--<div class="container">-->
+<!--  <h1> Example of Select Dropdown in Angular </h1>-->
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
+<!--  <form [formGroup]="form" (ngSubmit)="submit()">-->
 
-    <div class="form-group">
-      <label>Currency:</label>
-      <select formControlName="currency" class="form-control">
-        <option disabled>Select Website</option>
-        <option>Choose Currency</option>
-        <option *ngFor="let currency of (allCurrencies$ | async)">{{currency.code}}</option>
-      </select>
-      <div *ngIf="f.currency.touched && f.currency.invalid" class="alert alert-danger">
-<!--        <div *ngIf="f.currency.errors.required">Name is required.</div>-->
-      </div>
-    </div>
+<!--    <div class="form-group">-->
+<!--      <label>Currency:</label>-->
+<!--      <select formControlName="currency" class="form-control">-->
+<!--        <option disabled>Select Website</option>-->
+<!--        <option>Choose Currency</option>-->
+<!--        <option *ngFor="let currency of (allCurrencies$ | async)">{{currency.code}}</option>-->
+<!--      </select>-->
+<!--      <div *ngIf="f.currency.touched && f.currency.invalid" class="alert alert-danger">-->
+<!--&lt;!&ndash;        <div *ngIf="f.currency.errors.required">Name is required.</div>&ndash;&gt;-->
+<!--      </div>-->
+<!--    </div>-->
 
-    <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
-  </form>
-</div>
+<!--    <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>-->
+<!--  </form>-->
+<!--</div>-->
+
+<nz-select [ngModel]="selectedCurrency" (ngModelChange)="onCurrencyChange($event)">
+  <nz-option nzValue="USD" nzLabel="USD"></nz-option>
+  <nz-option nzValue="EUR" nzLabel="EUR"></nz-option>
+  <nz-option nzValue="GBP" nzLabel="GBP"></nz-option>
+  <nz-option nzValue="CNY" nzLabel="CNY"></nz-option>
+</nz-select>

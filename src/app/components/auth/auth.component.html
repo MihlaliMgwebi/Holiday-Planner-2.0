@@ -1,10 +1,55 @@
-<form>
-  <input type="email" #email>
-  <input type="password" #password>
+<!--  <button *ngIf="isLoggedIn$ | async" type="button" (click)="signOut()">Sign Out</button>-->
+<div class="
+      h-full
+      bg-auth bg-no-repeat bg-cover bg-center bg-fixed
+      flex justify-center items-center">
+  <form class="
+        h-fit max-w-xs p-4
+        bg-white opacity-90 rounded
+        flex flex-col justify-center
+        "
+        nz-form [formGroup]="authForm">
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="email">E-mail</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your E-mail!">
+        <nz-input-group nzPrefixIcon="user">
+          <input id="email" type="email" nz-input formControlName="email" placeholder="Email" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="password">Password</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your Password!">
+        <nz-input-group nzPrefixIcon="lock">
+          <input id="password" type="password"  nz-input formControlName="password" placeholder="Password" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <button class="
+    text-white bg-black opacity-90
+    hover:bg-auth-hover focus:ring-4 focus:outline-none focus:ring-blue-300
+    font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mb-2.5 text-center
+    "
+            *ngIf="!(isLoggedIn$ | async)" type="button" (click)="signUpNewUser()"
+    >Sign Up</button>
+    <button nz-button class="
+    text-white bg-black opacity-90
+    hover:bg-auth-hover focus:ring-4 focus:outline-none focus:ring-blue-300
+    font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mb-2.5 text-center
+    "
+            *ngIf="!(isLoggedIn$ | async)" type="button" (click)="signInExistingUser()"
+    >Sign In</button>
+    <button nz-button class="
+    text-white bg-black opacity-90
+    hover:bg-auth-hover
+    font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mb-2.5 text-center
+    "
+            *ngIf="!(isLoggedIn$ | async)" type="button" (click)="signInExistingUserWithGoogle()"
+    >Sign In With Google</button>
+  </form>
+</div>
 
-  <button *ngIf="!(isLoggedIn$ | async)" type="button" (click)="signUpNewUser(email.value, password.value)">Sign Up</button>
-  <button *ngIf="!(isLoggedIn$ | async)" type="button" (click)="signInExistingUser(email.value, password.value)">Sign In</button>
-  <button *ngIf="!(isLoggedIn$ | async)" type="button" (click)="signInExistingUserWithGoogle()">Sign In  With Google</button>
-  <button *ngIf="isLoggedIn$ | async" type="button" (click)="signOut()">Sign Out</button>
+<div class="bg-auth bg-no-repeat bg-cover bg-center bg-fixed">
 
-</form>
+</div>
+
