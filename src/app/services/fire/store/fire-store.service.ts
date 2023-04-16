@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Trip } from '../../../models/trip.model';
-import { EMPTY, from, Observable, throwError } from 'rxjs';
+import { EMPTY, from, Observable, of, throwError } from 'rxjs';
 import { ItineraryItem } from '../../../models/itineraryItem.model';
-import { addDoc, collection, deleteDoc, doc, Firestore, getDocs, setDoc } from '@angular/fire/firestore';
+import { addDoc, collection, deleteDoc, doc, Firestore, getDoc, getDocs, setDoc } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -70,6 +70,31 @@ export class FireStoreService {
     return itineraryItems;
   }
 
+  getItineraryItemById(itineraryItemId: string): Observable<ItineraryItem> {
+    return from(this.getItineraryItemAsync(itineraryItemId));
+  }
+
+  async getItineraryItemAsync(itineraryItemId: string) {
+    const docRef = doc(this.db, 'itineraryItems', itineraryItemId);
+    try {
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const itineraryItemFromDB = docSnap.data() as ItineraryItem;
+        return { ...itineraryItemFromDB, _id: docRef.id } as ItineraryItem;
+      } else {
+        throwError(() => {
+          return new Error('Itinerary Item does not exist');
+        });
+        return {} as ItineraryItem;
+      }
+    } catch (error) {
+      throwError(() => {
+        return error;
+      });
+      return {} as ItineraryItem;
+    }
+  }
+
   // UPSERT
   upsertTrip(trip: Trip): Observable<Trip> {
     if (!trip._id) return EMPTY;
@@ -88,16 +113,14 @@ export class FireStoreService {
   upsertItineraryItem(itineraryItem: ItineraryItem): Observable<ItineraryItem> {
     if (!itineraryItem._id) return EMPTY;
     const docRef = doc(this.db, 'itineraryItems', itineraryItem._id);
-
-    setDoc(docRef, itineraryItem)
-      .then()
-      .catch((error) => {
-        throwError(() => {
-          error.timestamp = Date.now();
-          return error;
-        });
+    const { _id, ...itineraryItemWithoutId } = itineraryItem;
+    setDoc(docRef, itineraryItemWithoutId).catch((error) => {
+      throwError(() => {
+        error.timestamp = Date.now();
+        return error;
       });
-    return EMPTY;
+    });
+    return of(itineraryItem);
   }
 
   // DELETE

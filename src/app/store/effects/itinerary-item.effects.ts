@@ -25,10 +25,21 @@ export class ItineraryItemEffects {
     return this.actions$.pipe(
       ofType(ItineraryItemActions.getAllItineraryItems),
       switchMap(() => {
-        console.log('Tim ');
         return this.fireStoreService.getAllItineraryItems().pipe(
           map((res) => ItineraryItemActions.getAllItineraryItemsComplete({ allItineraryItems: res })),
           catchError((error) => of(ItineraryItemActions.getAllItineraryItemsFailure({ error })))
+        );
+      })
+    );
+  });
+
+  getItineraryItem$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ItineraryItemActions.getItineraryItem),
+      switchMap(({ itineraryItemId }) => {
+        return this.fireStoreService.getItineraryItemById(itineraryItemId).pipe(
+          map((res) => ItineraryItemActions.getItineraryItemComplete({ itineraryItem: res })),
+          catchError((error) => of(ItineraryItemActions.getItineraryItemFailure({ error })))
         );
       })
     );
