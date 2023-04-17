@@ -41,3 +41,16 @@ export const selectSelectedCorrelatedTrip = createSelector(
   selectCorrelatedTrips,
   (trip, correlatedTrips) => correlatedTrips.find((correlatedTrip) => correlatedTrip.trip._id === trip?._id)
 );
+
+export const selectSelectedCorrelatedTripStartDate = createSelector(selectSelectedCorrelatedTrip, (correlatedData) =>
+  correlatedData?.itineraryItems[0].startDateTimeISOString?.toDate()
+);
+export const selectSelectedCorrelatedTripEndDate = createSelector(selectSelectedCorrelatedTrip, (correlatedData) =>
+  correlatedData?.itineraryItems[correlatedData?.itineraryItems.length - 1].endDateTimeISOString?.toDate()
+);
+
+export const selectSelectedCorrelatedTripTotalCostEstimate = createSelector(
+  selectSelectedCorrelatedTrip,
+  (correlatedData) =>
+    correlatedData?.itineraryItems.reduce((acc, itineraryItem) => acc + (itineraryItem.costEstimate ?? 0), 0)
+);
