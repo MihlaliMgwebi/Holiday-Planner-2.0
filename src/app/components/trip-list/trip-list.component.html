@@ -37,11 +37,29 @@
 <div class="flex flex-col items-center bg-white h-full">
 <nz-content class="w-full py-2 px-12">
   <div>
-    <h1 class="self-center text-4xl font-semibold whitespace-nowrap w-full">All My Trips</h1>
-    <button nz-button nzType="primary" nzShape="circle" nzSize="large" class="flex items-center justify-center bg-black">
-      <span nz-icon nzType="edit" nzTheme="outline" nzSize="large"></span>
-    </button>
+    <h1 class="self-center text-4xl font-semibold whitespace-nowrap w-full">My Trips</h1>
+    <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16" *ngFor="let correlatedTrip of (correlatedTrips$ | async)" (click)="selectTrip(correlatedTrip.trip)">
+      <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl">{{correlatedTrip.trip.title}}</h2>
+      <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl">{{selectedCorrelatedTripTotalCostEstimate$ | async | currency:'ZAR'}}</p>
+      <dl>
+        <dt class="mb-2 font-semibold leading-none text-gray-900">Description</dt>
+        <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{correlatedTrip.trip.description}}</dd>
+      </dl>
+      <dl class="flex items-center space-x-6">
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900">Start Date</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{selectedCorrelatedTripStartDate$ | async | date: 'EEEE, MMMM d, y' }}</dd>
+        </div>
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900">End Date</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{selectedCorrelatedTripEndDate$ | async | date: 'EEEE, MMMM d, y'}}</dd>
+        </div>
+      </dl>
+    </div>
   </div>
 </nz-content>
 <nz-footer class="bg-white">Footer</nz-footer>
 </div>
+<!--    <button nz-button nzType="primary" nzShape="circle" nzSize="large" class="flex items-center justify-center bg-black">-->
+<!--      <span nz-icon nzType="edit" nzTheme="outline" nzSize="large"></span>-->
+<!--    </button>-->
