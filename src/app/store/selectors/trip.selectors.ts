@@ -32,7 +32,6 @@ export const selectCorrelatedTrips = createSelector(
         correlatedData.push({ trip, itineraryItems: itineraryItemsForTrip });
       }
     }
-    console.log('correlatedData', correlatedData);
     return correlatedData;
   }
 );

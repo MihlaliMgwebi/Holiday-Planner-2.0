@@ -23,7 +23,38 @@ import { tap } from 'rxjs/operators';
 export class TripComponent {
   selectedCorrelatedData$: Observable<CorrelatedData | null>;
 
-  constructor(private tripStore: Store<TripState>) {
+  constructor(
+    private tripStore: Store<TripState>,
+    private itineraryItemStore: Store<ItineraryItemState>,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.correlatedTrips$ = tripStore.select(selectCorrelatedTrips);
     this.selectedCorrelatedData$ = tripStore.select(selectedCorrelatedData);
+    this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip).pipe(tap((c) => console.log(c)));
+  }
+
+  // CREATE
+  addTrip() {
+    this.router.navigate([`../trips/add`], { relativeTo: this.route });
+  }
+  //READ
+  selectTrip(selectedTrip: Trip) {
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
+  }
+  // UPDATE
+  editTrip(selectedTrip: Trip) {
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
+    this.router.navigate([`../trips/${selectedTrip._id}/edit`], { relativeTo: this.route });
+  }
+  // DELETE
+  deleteTrip(deletedTripId: string | null) {
+    if (deletedTripId) this.tripStore.dispatch(deleteTrip({ deletedTripId }));
+  }
+
+  ngOnInit(): void {
+    // Need to get all trips AND items to correlate
+    this.tripStore.dispatch(getAllTrips());
+    this.itineraryItemStore.dispatch(getAllItineraryItems());
   }
 }
