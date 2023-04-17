@@ -6,7 +6,11 @@ import { Store } from '@ngrx/store';
 import { deleteTrip, getAllTrips, setSelectedTrip } from '../../store/actions/trip.actions';
 import { getAllItineraryItems } from '../../store/actions/itinerary-item.actions';
 import { Observable } from 'rxjs';
-import { selectCorrelatedTrips, selectSelectedCorrelatedTrip } from '../../store/selectors/trip.selectors';
+import {
+  selectCorrelatedTrips,
+  selectedCorrelatedData,
+  selectSelectedCorrelatedTrip,
+} from '../../store/selectors/trip.selectors';
 import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -14,11 +18,10 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'app-trip',
   templateUrl: './trip.component.html',
-  styleUrls: ['./trip.component.css'],
+  styleUrls: [],
 })
-export class TripComponent implements OnInit {
-  correlatedTrips$: Observable<CorrelatedData[]>;
-  selectedCorrelatedTrip$: Observable<CorrelatedData | undefined>;
+export class TripComponent {
+  selectedCorrelatedData$: Observable<CorrelatedData | null>;
 
   constructor(
     private tripStore: Store<TripState>,
@@ -27,6 +30,7 @@ export class TripComponent implements OnInit {
     private router: Router
   ) {
     this.correlatedTrips$ = tripStore.select(selectCorrelatedTrips);
+    this.selectedCorrelatedData$ = tripStore.select(selectedCorrelatedData);
     this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip).pipe(tap((c) => console.log(c)));
   }
 

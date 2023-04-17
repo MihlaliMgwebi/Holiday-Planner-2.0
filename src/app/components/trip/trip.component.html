@@ -1,16 +1,17 @@
-<h1>ALL MY TRIPS</h1>
-<button (click)="addTrip()">Add Trip</button>
-<div
-  *ngFor="let correlatedTrip of (correlatedTrips$ | async)"
-  class="trip"
-  [class.selected]="correlatedTrip.trip._id === (selectedCorrelatedTrip$ | async)?.trip?._id"
-  (click)="selectTrip(correlatedTrip.trip)">
-<!--  TODO: move this to child component (  changeDetection: ChangeDetectionStrategy.OnPush &   @Input() selectedCorrelatedTrip: CorrelatedData | undefined;-->
-  <h2>Title: {{correlatedTrip.trip.title}}</h2>
-  Description: {{correlatedTrip.trip.description}}
-  <app-itinerary [correlatedTrips]="(correlatedTrips$ | async) ?? []"/>
-  <button (click)="editTrip(correlatedTrip.trip)">Edit Trip</button>
-  <button (click)="deleteTrip(correlatedTrip.trip._id)">Delete Trip</button>
-</div>
+<section class="bg-white antialiased">
+  <div class="max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-16 lg:py-24">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 ">
+        {{(selectedCorrelatedData$ | async)?.trip?.itinerary?.title}}
+      </h2>
 
-<app-itinerary-item [selectedCorrelatedTrip]="(selectedCorrelatedTrip$ | async) ?? undefined"/>
+      <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(selectedCorrelatedData$ | async)?.trip?.itinerary?.description}}</dd>
+    </div>
+    <app-calendar [itineraryItems]="(selectedCorrelatedData$ | async)?.itineraryItems"/>
+    <div class="flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16">
+      <div class="-my-4 divide-y divide-gray-200" *ngFor=" let itineraryItem of (selectedCorrelatedData$ | async)?.itineraryItems">
+        <app-itinerary-item [itineraryItem]="itineraryItem ?? undefined"/>
+      </div>
+    </div>
+  </div>
+</section>
