@@ -42,6 +42,8 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { TripListComponent } from './components/trip-list/trip-list.component';
 import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzIconService } from 'ng-zorro-antd/icon';
 
 registerLocaleData(en);
 
@@ -105,6 +107,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     HttpClientModule,
     NzInputNumberModule,
     NzSpaceModule,
+    NzIconModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
