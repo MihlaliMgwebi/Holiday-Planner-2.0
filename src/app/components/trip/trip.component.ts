@@ -17,4 +17,10 @@ export class TripComponent {
   constructor(private tripStore: Store<TripState>) {
     this.selectedCorrelatedData$ = tripStore.select(selectSelectedCorrelatedTrip);
   }
+
+  trackById(index: number, correlatedTrip: any): number {
+    return correlatedTrip.id;
+  }
+
+  addItineraryItem() {}
 }
