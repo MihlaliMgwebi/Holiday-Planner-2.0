@@ -3,8 +3,7 @@ import { TripState } from '../../store/reducers/trip.reducer';
 import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectedCorrelatedData } from '../../store/selectors/trip.selectors';
-import { ActivatedRoute, Router } from '@angular/router';
+import { selectSelectedCorrelatedTrip } from '../../store/selectors/trip.selectors';
 
 @Component({
   selector: 'app-trip',
@@ -13,12 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TripComponent {
-  selectedCorrelatedData$: Observable<CorrelatedData | null>;
+  selectedCorrelatedData$: Observable<CorrelatedData | undefined>;
 
-  constructor(private tripStore: Store<TripState>, private route: ActivatedRoute, private router: Router) {
-    this.selectedCorrelatedData$ = tripStore.select(selectedCorrelatedData);
-    this.selectedCorrelatedData$.subscribe((correlatedData) =>
-      !correlatedData ? this.router.navigate([`../../`], { relativeTo: this.route }) : ''
-    );
+  constructor(private tripStore: Store<TripState>) {
+    this.selectedCorrelatedData$ = tripStore.select(selectSelectedCorrelatedTrip);
   }
 }

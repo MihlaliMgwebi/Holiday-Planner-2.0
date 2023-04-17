@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { Trip } from '../../models/trip.model';
-import { CorrelatedData } from '../../models/correlatedData.model';
 
 // API CRUD ACTIONS
 
@@ -32,8 +31,3 @@ export const deleteTripFailure = createAction('[Trip Effect] Delete Trip Failure
 
 // UI ACTION
 export const setSelectedTrip = createAction('[Trip Component] Set Selected Trip', props<{ selectedTrip: Trip }>());
-
-export const setSelectedCorrelatedData = createAction(
-  '[Trip List Component] Set Correlated Data',
-  props<{ selectedCorrelatedData: CorrelatedData }>()
-);

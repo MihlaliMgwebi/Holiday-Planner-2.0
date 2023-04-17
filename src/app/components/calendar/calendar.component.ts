@@ -10,7 +10,7 @@ const DAY_MS = 60 * 60 * 24 * 1000;
 export class CalendarComponent {
   @Input() itineraryItems: ItineraryItem[] | undefined;
   @Output() selected = new EventEmitter<ItineraryItem[]>();
-  dates: Array<Date>;
+  dates: Date[];
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   date = new Date();
   constructor() {
@@ -84,10 +84,14 @@ export class CalendarComponent {
 
     return this.range(1, 7)
       .map((num) => new Date(firstDayOfMonth - DAY_MS * num))
-      .find((dt) => dt.getDay() === 0);
+      .find((date) => date.getDay() === 0);
   }
 
   private range(start: number, end: number, length: number = end - start + 1) {
     return Array.from({ length }, (_, i) => start + i);
+  }
+
+  trackByDate(index: number, date: Date) {
+    return date.getTime();
   }
 }
