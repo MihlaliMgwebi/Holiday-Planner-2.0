@@ -14,7 +14,7 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'app-trip',
   templateUrl: './trip.component.html',
-  styleUrls: ['./trip.component.css'],
+  styleUrls: [],
 })
 export class TripComponent implements OnInit {
   correlatedTrips$: Observable<CorrelatedData[]>;

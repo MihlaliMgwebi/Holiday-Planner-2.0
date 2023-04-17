@@ -40,6 +40,8 @@ import { NgZorroAntdModule } from './ng-zorro-antd.module';
 import en from '@angular/common/locales/en';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { TripListComponent } from './components/trip-list/trip-list.component';
 
 registerLocaleData(en);
 
@@ -69,6 +71,8 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     CurrencyComponent,
     NavBarComponent,
     PageNotFoundComponent,
+    CalendarComponent,
+    TripListComponent,
   ],
   imports: [
     BrowserModule,
