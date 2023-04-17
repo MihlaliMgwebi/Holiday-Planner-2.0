@@ -1,25 +1,51 @@
-<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
-  <div hidden class="form-group">
-    <input type="text" class="form-control" id="userId" formControlName="userId" [value]="(loggedInUser$ | async)?.uid">
-  </div>
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input type="text" class="form-control" id="title" formControlName="title">
-  </div>
-  <div class="form-group">
-    <label for="description">Description</label>
-    <textarea class="form-control" id="description" formControlName="description"></textarea>
-  </div>
-  <div formGroupName="itinerary">
-    <div class="form-group">
-      <label for="itineraryTitle">Itinerary Title</label>
-      <input type="text" class="form-control" id="itineraryTitle" formControlName="title">
-    </div>
-    <div class="form-group">
-      <label for="itineraryDescription">Itinerary Description</label>
-      <textarea class="form-control" id="itineraryDescription" formControlName="description"></textarea>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Create Trip</button>
-
+<form nz-form [formGroup]="tripForm" (ngSubmit)="submitForm()">
+  <!--  Title  -->
+  <nz-form-item>
+    <nz-form-label nzRequired>Trip Title</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
+      <input nz-input formControlName="title" placeholder="E.g. Destination Holiday In London" />
+      <ng-template #titleErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please input the title!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- Description -->
+  <nz-form-item>
+    <nz-form-label>Trip Description</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <nz-textarea-count [nzMaxCharacterCount]="250">
+        <textarea formControlName="description" nz-input rows="2" placeholder="Describe your trip"></textarea>
+      </nz-textarea-count>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- Itinerary -->
+  <nz-form-item [formGroupName]="'itinerary'">
+    <!--  Title  -->
+    <nz-form-item>
+      <nz-form-label nzRequired>Itinerary Title</nz-form-label>
+      <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
+        <input nz-input formControlName="title" placeholder="E.g. Jack the Ripper Waling Tour" />
+        <ng-template #titleErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">Please input the title!</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- Description -->
+    <nz-form-item>
+      <nz-form-label>Itinerary Description</nz-form-label>
+      <nz-form-control nzHasFeedback>
+        <nz-textarea-count [nzMaxCharacterCount]="2000">
+          <textarea formControlName="description" nz-input rows="2" placeholder="Describe your itinerary item "></textarea>
+        </nz-textarea-count>
+      </nz-form-control>
+  </nz-form-item>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!tripForm.valid">Submit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
 </form>
+
+
