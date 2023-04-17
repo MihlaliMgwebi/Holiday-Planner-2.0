@@ -34,7 +34,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { uk_UA, en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
-import uk from '@angular/common/locales/uk';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgZorroAntdModule } from './ng-zorro-antd.module';
 import en from '@angular/common/locales/en';
@@ -42,6 +41,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { TripListComponent } from './components/trip-list/trip-list.component';
+import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
 
 registerLocaleData(en);
 
@@ -72,7 +72,9 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     NavBarComponent,
     PageNotFoundComponent,
     CalendarComponent,
+    TripComponent,
     TripListComponent,
+    ItineraryItemListComponent,
   ],
   imports: [
     BrowserModule,

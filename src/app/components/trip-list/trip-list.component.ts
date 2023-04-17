@@ -62,4 +62,10 @@ export class TripListComponent implements OnInit {
   deleteTrip(deletedTripId: string | null) {
     if (deletedTripId) this.tripStore.dispatch(deleteTrip({ deletedTripId }));
   }
+
+  //NAVIGATE
+  viewItinerary(selectedTrip: Trip) {
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
+    this.router.navigate([`../trips/${selectedTrip._id}/itinerary-items`], { relativeTo: this.route });
+  }
 }

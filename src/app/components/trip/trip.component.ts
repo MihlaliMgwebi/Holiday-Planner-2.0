@@ -20,31 +20,9 @@ export class TripComponent implements OnInit {
   correlatedTrips$: Observable<CorrelatedData[]>;
   selectedCorrelatedTrip$: Observable<CorrelatedData | undefined>;
 
-  constructor(
-    private tripStore: Store<TripState>,
-    private itineraryItemStore: Store<ItineraryItemState>,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private tripStore: Store<TripState>, private itineraryItemStore: Store<ItineraryItemState>) {
     this.correlatedTrips$ = tripStore.select(selectCorrelatedTrips);
-    this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip).pipe(tap((c) => console.log(c)));
-  }
-
-  // CREATE
-  addTrip() {
-    this.router.navigate([`../trips/add`], { relativeTo: this.route });
-  }
-  //READ
-  selectTrip(selectedTrip: Trip) {
-    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
-  }
-  // UPDATE
-  editTrip(trip: Trip) {
-    this.router.navigate([`../trips/${trip._id}/edit`], { relativeTo: this.route });
-  }
-  // DELETE
-  deleteTrip(deletedTripId: string | null) {
-    if (deletedTripId) this.tripStore.dispatch(deleteTrip({ deletedTripId }));
+    this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip);
   }
 
   ngOnInit(): void {

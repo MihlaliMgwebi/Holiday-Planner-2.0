@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthComponent } from './components/auth/auth.component';
-import { TripComponent } from './components/trip/trip.component';
 import { TripCreateComponent } from './components/trip-create/trip-create.component';
 import { TripUpsertComponent } from './components/trip-upsert/trip-upsert.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -10,6 +9,8 @@ import { ItineraryItemUpsertComponent } from './components/itinerary-item-upsert
 import { ItineraryItemCreateComponent } from './components/itinerary-item-create/itinerary-item-create.component';
 import { ItineraryItemComponent } from './components/itinerary-item/itinerary-item.component';
 import { TripListComponent } from './components/trip-list/trip-list.component';
+import { TripComponent } from './components/trip/trip.component';
+// import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -30,7 +31,7 @@ const routes: Routes = [
     children: [
       {
         path: 'trips',
-        title: 'All Your Trips',
+        title: 'All My Trips',
         component: TripListComponent,
       },
       {
@@ -40,8 +41,8 @@ const routes: Routes = [
       },
       {
         path: 'trips/:tripId',
-        title: 'All Your Trips',
-        component: TripComponent,
+        title: 'My Trip',
+        component: TripListComponent,
       },
       {
         path: 'trips/:tripId/edit',
@@ -50,13 +51,18 @@ const routes: Routes = [
       },
       {
         path: 'trips/:tripId/itinerary-items',
-        title: 'All Your Itineraries',
-        component: ItineraryItemComponent,
+        title: 'All Your Itinerary Items',
+        component: TripComponent,
       },
       {
         path: 'trips/:tripId/itinerary-items/add',
         title: 'Add an Itinerary Item',
         component: ItineraryItemCreateComponent,
+      },
+      {
+        path: 'trips/:tripId/itinerary-items/:itineraryItemId',
+        title: 'My Itinerary Item',
+        component: ItineraryItemComponent,
       },
       {
         path: 'trips/:tripId/itinerary-items/:itineraryItemId/edit',
