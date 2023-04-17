@@ -1,21 +1,17 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import * as TripActions from '../actions/trip.actions';
 import { Trip } from '../../models/trip.model';
-import { CorrelatedData } from '../../models/correlatedData.model';
-import { setSelectedCorrelatedData } from '../actions/trip.actions';
 
 export const tripFeatureKey = 'trip';
 
 export interface TripState {
   allTrips: Trip[];
   selectedTrip: Trip | null;
-  selectedCorrelatedData: CorrelatedData | null;
 }
 
 export const initialState: TripState = {
   allTrips: [],
   selectedTrip: null,
-  selectedCorrelatedData: null,
 };
 export const reducer = createReducer(
   initialState,
@@ -45,11 +41,7 @@ export const reducer = createReducer(
   ),
 
   // UI
-  on(TripActions.setSelectedTrip, (state, { selectedTrip }) => ({ ...state, selectedTrip })),
-  on(TripActions.setSelectedCorrelatedData, (state, { selectedCorrelatedData }) => ({
-    ...state,
-    selectedCorrelatedData,
-  }))
+  on(TripActions.setSelectedTrip, (state, { selectedTrip }) => ({ ...state, selectedTrip }))
 );
 
 export const tripFeature = createFeature({

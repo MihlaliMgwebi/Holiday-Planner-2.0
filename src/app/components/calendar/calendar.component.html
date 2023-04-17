@@ -3,9 +3,9 @@
 <button (click)="setMonth(+1)">&gt;</button>
 <ul>
   <li class="days" *ngFor="let day of days"> {{day}} </li>
-  <li *ngFor="let date of dates"
-      [ngClass]="{grey: !isSameMonth(date),
-    'bg-blue-200': isCalendarDayMatched(date)}"
+  <li *ngFor="let date of dates;trackBy:trackByDate"
+      [class.grey]="!isSameMonth(date)"
+      [class.bg-blue-200]="isCalendarDayMatched(date)"
       (click)="selected.emit(getItineraryItemsForDate(date))">
     {{date | date:'d'}}
   </li>

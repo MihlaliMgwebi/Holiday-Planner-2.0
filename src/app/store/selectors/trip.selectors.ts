@@ -10,7 +10,6 @@ export const selectTripState = createFeatureSelector<fromTrip.TripState>(fromTri
 export const selectAllTrips = createSelector(selectTripState, (state) => state.allTrips);
 
 export const selectSelectedTrip = createSelector(selectTripState, (state) => state.selectedTrip);
-export const selectedCorrelatedData = createSelector(selectTripState, (state) => state.selectedCorrelatedData);
 
 // Derived State Selectors
 
@@ -32,7 +31,6 @@ export const selectCorrelatedTrips = createSelector(
         correlatedData.push({ trip, itineraryItems: itineraryItemsForTrip });
       }
     }
-    console.log('correlatedData', correlatedData);
     return correlatedData;
   }
 );
@@ -43,11 +41,15 @@ export const selectSelectedCorrelatedTrip = createSelector(
   (trip, correlatedTrips) => correlatedTrips.find((correlatedTrip) => correlatedTrip.trip._id === trip?._id)
 );
 
-export const selectSelectedCorrelatedTripStartDate = createSelector(selectSelectedCorrelatedTrip, (correlatedData) =>
-  correlatedData?.itineraryItems[0].startDateTimeISOString?.toDate()
+export const selectSelectedCorrelatedTripStartDate = createSelector(
+  selectSelectedCorrelatedTrip,
+  (correlatedData) => correlatedData?.itineraryItems[0]?.startDateTimeISOString?.toDate() ?? undefined
 );
-export const selectSelectedCorrelatedTripEndDate = createSelector(selectSelectedCorrelatedTrip, (correlatedData) =>
-  correlatedData?.itineraryItems[correlatedData?.itineraryItems.length - 1].endDateTimeISOString?.toDate()
+export const selectSelectedCorrelatedTripEndDate = createSelector(
+  selectSelectedCorrelatedTrip,
+  (correlatedData) =>
+    correlatedData?.itineraryItems[correlatedData?.itineraryItems.length - 1]?.endDateTimeISOString?.toDate() ??
+    undefined
 );
 
 export const selectSelectedCorrelatedTripTotalCostEstimate = createSelector(
