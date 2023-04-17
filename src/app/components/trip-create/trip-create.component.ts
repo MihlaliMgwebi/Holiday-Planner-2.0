@@ -11,7 +11,7 @@ import { createTrip } from '../../store/actions/trip.actions';
 @Component({
   selector: 'app-trip-create',
   templateUrl: './trip-create.component.html',
-  styleUrls: ['./trip-create.component.css'],
+  styleUrls: [],
 })
 export class TripCreateComponent {
   tripForm: UntypedFormGroup;
@@ -49,7 +49,6 @@ export class TripCreateComponent {
         userId: loggedInUser.uid,
       };
       this.tripStore.dispatch(createTrip({ trip }));
-      this.router.navigate([`../../`], { relativeTo: this.route });
     }
   }
 
@@ -62,5 +61,9 @@ export class TripCreateComponent {
         this.tripForm.controls[key].updateValueAndValidity();
       }
     }
+  }
+
+  back(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

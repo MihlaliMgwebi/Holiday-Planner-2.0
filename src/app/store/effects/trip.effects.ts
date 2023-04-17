@@ -61,5 +61,7 @@ export class TripEffects {
     );
   });
 
+  // Navigation, Routing
+
   constructor(private actions$: Actions, private fireStoreService: FireStoreService) {}
 }
