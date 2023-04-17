@@ -57,8 +57,4 @@ export class AuthComponent implements OnInit {
   signInExistingUserWithGoogle() {
     this.userStore.dispatch(SignInUserWithGoogle());
   }
-
-  signOut() {
-    this.userStore.dispatch(SignOutUser());
-  }
 }

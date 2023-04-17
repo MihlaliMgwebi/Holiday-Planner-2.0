@@ -11,7 +11,7 @@ export class CalendarComponent {
   @Input() itineraryItems: ItineraryItem[] | undefined;
   @Output() selected = new EventEmitter<ItineraryItem[]>();
   dates: Date[];
-  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   date = new Date();
   constructor() {
     this.dates = this.getCalendarDays(this.date) ?? [];

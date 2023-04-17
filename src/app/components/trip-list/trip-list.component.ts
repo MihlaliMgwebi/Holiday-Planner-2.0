@@ -34,14 +34,15 @@ export class TripListComponent implements OnInit {
     this.tripStore.dispatch(getAllTrips());
     this.itineraryItemStore.dispatch(getAllItineraryItems());
   }
+  trackById(index: number, correlatedTrip: any): number {
+    return correlatedTrip.id;
+  }
   // CREATE
   addTrip() {
     this.router.navigate([`../trips/add`], { relativeTo: this.route });
   }
   //READ
-  selectTrip(selectedTrip: Trip) {
-    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
-  }
+  selectTrip(selectedTrip: Trip) {}
   // UPDATE
   editTrip(trip: Trip) {
     this.router.navigate([`../trips/${trip._id}/edit`], { relativeTo: this.route });
@@ -53,6 +54,7 @@ export class TripListComponent implements OnInit {
 
   //NAVIGATE
   viewItinerary(selectedCorrelatedData: CorrelatedData) {
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip: selectedCorrelatedData.trip }));
     this.router.navigate([`../trips/${selectedCorrelatedData.trip._id}/itinerary-items`], { relativeTo: this.route });
   }
 }

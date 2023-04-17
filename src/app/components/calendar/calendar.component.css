@@ -1,8 +1,19 @@
-ul { margin: 0; padding: 0; list-style: none;}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+}
+.days{
+  border: none
+}
+
 li {
   display: inline-block;
-  border: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   width: calc(100%/7 - 2px);
   text-align: center;
   cursor: pointer;
+  height: 2.5rem;
+  padding: 0.5rem;
 }

@@ -5,7 +5,7 @@
     <img src="../assets/img/logo.svg" class="h-6 mr-3" alt="ZAR Trek Logo">
     <span class="self-center text-1xl font-semibold whitespace-nowrap">ZAR Trek</span>
   </a>
-  <button nz-button nzType="primary" nzSize="small" nzShape="circle" class="flex items-center justify-center bg-black">  <span nz-icon nzType="logout" nzTheme="outline"></span></button>
+  <button (click)="signOut()" nz-button nzType="primary" nzSize="small" nzShape="circle" class="flex items-center justify-center bg-black">  <span nz-icon nzType="logout" nzTheme="outline"></span></button>
 </nz-header>
 <router-outlet/>
 </nz-layout>

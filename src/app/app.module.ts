@@ -44,6 +44,7 @@ import { TripListComponent } from './components/trip-list/trip-list.component';
 import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzIconService } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 registerLocaleData(en);
 
@@ -108,6 +109,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     NzInputNumberModule,
     NzSpaceModule,
     NzIconModule,
+    NzSpinModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
