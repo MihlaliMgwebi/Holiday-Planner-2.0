@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ItineraryItem } from '../../models/itineraryItem.model';
@@ -12,6 +11,7 @@ import { CurrencyState } from '../../store/reducers/currency.reducer';
 import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
 import { getAllCurrencies } from '../../store/actions/currency.actions';
 import { map } from 'rxjs/operators';
+import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
 
 @Component({
   selector: 'app-itinerary-item-upsert',
