@@ -28,7 +28,15 @@ export const selectCorrelatedTrips = createSelector(
             itineraryItemsForTrip.push(itineraryItem);
           }
         }
-        correlatedData.push({ trip, itineraryItems: itineraryItemsForTrip });
+        correlatedData.push({
+          trip,
+          itineraryItems: itineraryItemsForTrip,
+          startDate: itineraryItemsForTrip?.[0]?.startDateTimeISOString?.toDate() ?? undefined,
+          endDate:
+            itineraryItemsForTrip?.[itineraryItemsForTrip.length - 1]?.endDateTimeISOString?.toDate() ?? undefined,
+          costEstimate:
+            itineraryItemsForTrip.reduce((acc, itineraryItem) => acc + (itineraryItem.costEstimate ?? 0), 0) ?? 0,
+        });
       }
     }
     return correlatedData;
@@ -39,21 +47,4 @@ export const selectSelectedCorrelatedTrip = createSelector(
   selectSelectedTrip,
   selectCorrelatedTrips,
   (trip, correlatedTrips) => correlatedTrips.find((correlatedTrip) => correlatedTrip.trip._id === trip?._id)
-);
-
-export const selectSelectedCorrelatedTripStartDate = createSelector(
-  selectSelectedCorrelatedTrip,
-  (correlatedData) => correlatedData?.itineraryItems[0]?.startDateTimeISOString?.toDate() ?? undefined
-);
-export const selectSelectedCorrelatedTripEndDate = createSelector(
-  selectSelectedCorrelatedTrip,
-  (correlatedData) =>
-    correlatedData?.itineraryItems[correlatedData?.itineraryItems.length - 1]?.endDateTimeISOString?.toDate() ??
-    undefined
-);
-
-export const selectSelectedCorrelatedTripTotalCostEstimate = createSelector(
-  selectSelectedCorrelatedTrip,
-  (correlatedData) =>
-    correlatedData?.itineraryItems.reduce((acc, itineraryItem) => acc + (itineraryItem.costEstimate ?? 0), 0)
 );

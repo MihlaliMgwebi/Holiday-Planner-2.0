@@ -2,13 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TripState } from '../../store/reducers/trip.reducer';
 import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
-import {
-  selectCorrelatedTrips,
-  selectSelectedCorrelatedTrip,
-  selectSelectedCorrelatedTripEndDate,
-  selectSelectedCorrelatedTripStartDate,
-  selectSelectedCorrelatedTripTotalCostEstimate,
-} from '../../store/selectors/trip.selectors';
+import { selectCorrelatedTrips, selectSelectedCorrelatedTrip } from '../../store/selectors/trip.selectors';
 import { Observable } from 'rxjs';
 import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
 import { getAllItineraryItems } from '../../store/actions/itinerary-item.actions';
@@ -24,9 +18,6 @@ import { Trip } from '../../models/trip.model';
 export class TripListComponent implements OnInit {
   correlatedTrips$: Observable<CorrelatedData[]>;
   selectedCorrelatedTrip$: Observable<CorrelatedData | undefined>;
-  selectedCorrelatedTripStartDate$: Observable<Date | undefined>;
-  selectedCorrelatedTripEndDate$: Observable<Date | undefined>;
-  selectedCorrelatedTripTotalCostEstimate$: Observable<number | undefined>;
 
   constructor(
     private tripStore: Store<TripState>,
@@ -36,9 +27,6 @@ export class TripListComponent implements OnInit {
   ) {
     this.correlatedTrips$ = tripStore.select(selectCorrelatedTrips);
     this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip);
-    this.selectedCorrelatedTripStartDate$ = tripStore.select(selectSelectedCorrelatedTripStartDate);
-    this.selectedCorrelatedTripEndDate$ = tripStore.select(selectSelectedCorrelatedTripEndDate);
-    this.selectedCorrelatedTripTotalCostEstimate$ = tripStore.select(selectSelectedCorrelatedTripTotalCostEstimate);
   }
 
   ngOnInit(): void {

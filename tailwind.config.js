@@ -7,6 +7,7 @@ module.exports = {
         auth: "url('/assets/img/auth.avif')",
       },
       colors: {
+        footer: 'rgb(240 242 245)',
         nav: 'rgb(0 21 41)',
         'auth-hover': 'rgb(253 182 98)',
         primary: {
