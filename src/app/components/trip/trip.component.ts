@@ -39,8 +39,9 @@ export class TripComponent implements OnInit {
     this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
   }
   // UPDATE
-  editTrip(trip: Trip) {
-    this.router.navigate([`../trips/${trip._id}/edit`], { relativeTo: this.route });
+  editTrip(selectedTrip: Trip) {
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
+    this.router.navigate([`../trips/${selectedTrip._id}/edit`], { relativeTo: this.route });
   }
   // DELETE
   deleteTrip(deletedTripId: string | null) {

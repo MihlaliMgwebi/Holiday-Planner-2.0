@@ -3,14 +3,9 @@ import { TripState } from '../../store/reducers/trip.reducer';
 import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Trip } from '../../models/trip.model';
-import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
-import { Currency } from '../../models/currency.model';
 import { CurrencyState } from '../../store/reducers/currency.reducer';
-import { ActivatedRoute } from '@angular/router';
-import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
-import { getAllCurrencies } from '../../store/actions/currency.actions';
-import { createItineraryItem } from '../../store/actions/itinerary-item.actions';
+import { ActivatedRoute, Router } from '@angular/router';
 import { createTrip } from '../../store/actions/trip.actions';
 
 @Component({
@@ -19,16 +14,15 @@ import { createTrip } from '../../store/actions/trip.actions';
   styleUrls: ['./trip-create.component.css'],
 })
 export class TripCreateComponent {
-  allCurrencies$: Observable<Currency[]>;
   tripForm: UntypedFormGroup;
 
   constructor(
     private fb: UntypedFormBuilder,
     private currencyStore: Store<CurrencyState>,
     private tripStore: Store<TripState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-    this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
     this.tripForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
       description: ['', [Validators.maxLength(250)]],
@@ -37,9 +31,6 @@ export class TripCreateComponent {
         description: ['', [Validators.maxLength(250)]],
       }),
     });
-  }
-  ngOnInit(): void {
-    this.currencyStore.dispatch(getAllCurrencies());
   }
   submitForm(): void {
     const newTrip = this.tripForm.value;
@@ -58,6 +49,7 @@ export class TripCreateComponent {
         userId: loggedInUser.uid,
       };
       this.tripStore.dispatch(createTrip({ trip }));
+      this.router.navigate([`../../`], { relativeTo: this.route });
     }
   }
 
