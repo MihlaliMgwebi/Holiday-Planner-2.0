@@ -12,7 +12,7 @@ import {
 import { Observable } from 'rxjs';
 import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
 import { getAllItineraryItems } from '../../store/actions/itinerary-item.actions';
-import { deleteTrip, getAllTrips, setSelectedTrip } from '../../store/actions/trip.actions';
+import { deleteTrip, getAllTrips, setSelectedCorrelatedData, setSelectedTrip } from '../../store/actions/trip.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from '../../models/trip.model';
 
@@ -64,8 +64,8 @@ export class TripListComponent implements OnInit {
   }
 
   //NAVIGATE
-  viewItinerary(selectedTrip: Trip) {
-    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
-    this.router.navigate([`../trips/${selectedTrip._id}/itinerary-items`], { relativeTo: this.route });
+  viewItinerary(selectedCorrelatedData: CorrelatedData) {
+    this.tripStore.dispatch(setSelectedCorrelatedData({ selectedCorrelatedData }));
+    this.router.navigate([`../trips/${selectedCorrelatedData.trip._id}/itinerary-items`], { relativeTo: this.route });
   }
 }

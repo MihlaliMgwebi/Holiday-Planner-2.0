@@ -39,11 +39,11 @@ const routes: Routes = [
         title: 'Add a Trip',
         component: TripCreateComponent,
       },
-      {
-        path: 'trips/:tripId',
-        title: 'My Trip',
-        component: TripListComponent,
-      },
+      // {
+      //   path: 'trips/:tripId',
+      //   title: 'My Trip',
+      //   component: TripListComponent,
+      // },
       {
         path: 'trips/:tripId/edit',
         title: 'Edit a Trip',

@@ -2,15 +2,14 @@
   <div class="max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-16 lg:py-24">
     <div class="max-w-3xl mx-auto text-center">
       <h2 class="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 ">
-        {{(selectedCorrelatedTrip$ | async)?.trip?.itinerary?.title}}
+        {{(selectedCorrelatedData$ | async)?.trip?.itinerary?.title}}
       </h2>
 
-      <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(selectedCorrelatedTrip$ | async)?.trip?.itinerary?.description}}</dd>
+      <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(selectedCorrelatedData$ | async)?.trip?.itinerary?.description}}</dd>
     </div>
 
     <div class="flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16">
-      <div class="-my-4 divide-y divide-gray-200" *ngFor=" let itineraryItem of (selectedCorrelatedTrip$ | async)?.itineraryItems">
-        {{itineraryItem.title}}
+      <div class="-my-4 divide-y divide-gray-200" *ngFor=" let itineraryItem of (selectedCorrelatedData$ | async)?.itineraryItems">
         <app-itinerary-item [itineraryItem]="itineraryItem ?? undefined"/>
       </div>
     </div>
