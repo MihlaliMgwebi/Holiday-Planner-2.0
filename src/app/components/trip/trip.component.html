@@ -7,7 +7,7 @@
 
       <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(selectedCorrelatedData$ | async)?.trip?.itinerary?.description}}</dd>
     </div>
-
+    <app-calendar [itineraryItems]="(selectedCorrelatedData$ | async)?.itineraryItems"/>
     <div class="flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16">
       <div class="-my-4 divide-y divide-gray-200" *ngFor=" let itineraryItem of (selectedCorrelatedData$ | async)?.itineraryItems">
         <app-itinerary-item [itineraryItem]="itineraryItem ?? undefined"/>
