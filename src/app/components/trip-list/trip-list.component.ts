@@ -2,13 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { TripState } from '../../stores/trip/trip.reducer';
 import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
-import { selectCorrelatedTrips, selectSelectedCorrelatedTrip } from '../../stores/trip/trip.selectors';
+import {
+  selectCorrelatedTrips,
+  selectIsLoadingTrips,
+  selectSelectedCorrelatedTrip,
+} from '../../stores/trip/trip.selectors';
 import { Observable } from 'rxjs';
 import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 import { getAllItineraryItems } from '../../stores/itinerary-item/itinerary-item.actions';
 import { deleteTrip, getAllTrips, setSelectedTrip } from '../../stores/trip/trip.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from '../../models/trip.model';
+import { selectIsLoadingItineraryItems } from '../../stores/itinerary-item/itineraryItem.selectors';
 
 @Component({
   selector: 'app-trip-list',
@@ -18,7 +23,8 @@ import { Trip } from '../../models/trip.model';
 export class TripListComponent implements OnInit {
   correlatedTrips$: Observable<CorrelatedData[]>;
   selectedCorrelatedTrip$: Observable<CorrelatedData | undefined>;
-
+  selectIsLoadingTrips$: Observable<boolean>;
+  selectIsLoadingItineraryItems$: Observable<boolean>;
   constructor(
     private tripStore: Store<TripState>,
     private itineraryItemStore: Store<ItineraryItemState>,
@@ -27,6 +33,8 @@ export class TripListComponent implements OnInit {
   ) {
     this.correlatedTrips$ = tripStore.select(selectCorrelatedTrips);
     this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip);
+    this.selectIsLoadingTrips$ = this.tripStore.select(selectIsLoadingTrips);
+    this.selectIsLoadingItineraryItems$ = this.itineraryItemStore.select(selectIsLoadingItineraryItems);
   }
 
   ngOnInit(): void {

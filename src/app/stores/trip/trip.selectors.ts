@@ -10,6 +10,7 @@ export const selectTripState = createFeatureSelector<fromTrip.TripState>(fromTri
 export const selectAllTrips = createSelector(selectTripState, (state) => state.allTrips);
 
 export const selectSelectedTrip = createSelector(selectTripState, (state) => state.selectedTrip);
+export const selectIsLoadingTrips = createSelector(selectTripState, (state) => state.isLoading);
 
 // Derived State Selectors
 

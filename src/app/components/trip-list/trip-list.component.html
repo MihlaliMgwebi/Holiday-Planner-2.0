@@ -1,8 +1,8 @@
 <div  class="flex flex-col items-center bg-white h-full">
-<nz-content  class="w-full py-2 px-12">
+<nz-content *ngIf="(!(selectIsLoadingTrips$ | async)&&!(selectIsLoadingItineraryItems$|async));else isLoading" class="w-full py-2 px-12">
   <div>
     <h1 class="self-center text-4xl font-semibold whitespace-nowrap w-full">My Trips</h1>
-    <div class="border-2 rounded-lg py-4 px-4 my-2 mx-auto max-w-2xl" *ngFor="let correlatedTrip of (correlatedTrips$ | async);trackBy:trackById">
+    <div class="border-2 rounded-lg py-4 px-4 my-2 mx-auto max-w-2xl"  *ngFor="let correlatedTrip of (correlatedTrips$ | async);trackBy:trackById">
       <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl">{{correlatedTrip.trip.title}}</h2>
       <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl">{{correlatedTrip.costEstimate | currency:'R'}}</p>
       <dl>
@@ -51,5 +51,7 @@
 </div>
 
 <ng-template #isLoading>
-  <nz-spin nzTip="Loading..."/>
+  <div class="h-full flex justify-center">
+    <nz-spin nzSize="large"/>
+  </div>
 </ng-template>

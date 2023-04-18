@@ -8,3 +8,4 @@ export const selectItineraryItemState = createFeatureSelector<fromItineraryItem.
 export const selectAllItineraryItems = createSelector(selectItineraryItemState, (state) => state.allItineraryItems);
 
 export const selectItineraryItem = createSelector(selectItineraryItemState, (state) => state.itineraryItem);
+export const selectIsLoadingItineraryItems = createSelector(selectItineraryItemState, (state) => state.isLoading);

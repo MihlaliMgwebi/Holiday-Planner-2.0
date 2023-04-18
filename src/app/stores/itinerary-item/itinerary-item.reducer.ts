@@ -7,11 +7,13 @@ export const itineraryItemFeatureKey = 'itineraryItem';
 export interface ItineraryItemState {
   allItineraryItems: ItineraryItem[];
   itineraryItem: ItineraryItem | null;
+  isLoading: boolean;
 }
 
 export const initialState: ItineraryItemState = {
   allItineraryItems: [],
   itineraryItem: null,
+  isLoading: false,
 };
 
 export const reducer = createReducer(
@@ -25,6 +27,7 @@ export const reducer = createReducer(
   on(ItineraryItemActions.getAllItineraryItemsComplete, (state, { allItineraryItems }) => ({
     ...state,
     allItineraryItems,
+    isLoading: false,
   })),
   on(ItineraryItemActions.getItineraryItemComplete, (state, { itineraryItem }) => ({
     ...state,
