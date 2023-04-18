@@ -16,7 +16,6 @@ import {
   selectSelectBaseValue,
   selectSelectedBaseCurrency,
   selectSelectedCurrencyCode,
-  selectZARCurrency,
 } from '../../stores/currency/currency.selectors';
 import { ItineraryItem } from '../../models/itineraryItem.model';
 import { ActivatedRoute } from '@angular/router';
@@ -31,9 +30,8 @@ import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.r
 export class ItineraryItemCreateComponent implements OnInit {
   allCurrencies$: Observable<Currency[]>;
   selectedCurrencyCode$: Observable<string>;
-  selectSelectBaseValue$: Observable<number>;
-  selectSelectedBaseCurrency$: Observable<Currency | undefined>;
-  selectZARCurrency$: Observable<Currency | undefined>;
+  selectedBaseValue$: Observable<number>;
+  selectedBaseCurrency$: Observable<Currency | undefined>;
   selectConvertedValue$: Observable<number>;
   itineraryItemForm: UntypedFormGroup;
 
@@ -45,9 +43,8 @@ export class ItineraryItemCreateComponent implements OnInit {
   ) {
     this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
     this.selectedCurrencyCode$ = currencyStore.select(selectSelectedCurrencyCode);
-    this.selectSelectBaseValue$ = currencyStore.select(selectSelectBaseValue);
-    this.selectSelectedBaseCurrency$ = currencyStore.select(selectSelectedBaseCurrency);
-    this.selectZARCurrency$ = currencyStore.select(selectZARCurrency);
+    this.selectedBaseValue$ = currencyStore.select(selectSelectBaseValue);
+    this.selectedBaseCurrency$ = currencyStore.select(selectSelectedBaseCurrency);
     this.selectConvertedValue$ = currencyStore.select(selectConvertedValue);
 
     this.itineraryItemForm = this.fb.group({
@@ -75,7 +72,7 @@ export class ItineraryItemCreateComponent implements OnInit {
     const item = this.itineraryItemForm.value;
     const newItineraryItem: ItineraryItem = {
       _id: null,
-      costEstimate: item.costEstimate,
+      costEstimate: parseFloat((item.costEstimate * item.currency).toFixed(2)),
       currency: item.currency,
       description: item.description,
       endDateTimeISOString: item.dateRange[1],

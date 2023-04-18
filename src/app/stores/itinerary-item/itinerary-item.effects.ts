@@ -15,9 +15,9 @@ export class ItineraryItemEffects {
       ofType(ItineraryItemActions.createItineraryItem),
       switchMap(({ itineraryItem }) =>
         this.fireStoreService.createItineraryItem(itineraryItem).pipe(
-          map((res) => ItineraryItemActions.createItineraryItemComplete({ itineraryItem: res })),
           tap(() => this.notification.create('success', 'Successfully Created Itinerary Item', '')),
           tap(() => this.router.navigate([`../`], { relativeTo: this.route })),
+          map((res) => ItineraryItemActions.createItineraryItemComplete({ itineraryItem: res })),
           catchError((error) => {
             this.notification.create('error', 'Create Itinerary Item Error', error.error.message);
             return EMPTY;
