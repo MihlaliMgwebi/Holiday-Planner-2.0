@@ -6,6 +6,7 @@ import { EMPTY } from 'rxjs';
 import { FireStoreService } from '../../services/fire/store/fire-store.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ActivatedRoute, Router } from '@angular/router';
+import { getAllItineraryItems } from './itinerary-item.actions';
 
 @Injectable()
 export class ItineraryItemEffects {
@@ -15,9 +16,10 @@ export class ItineraryItemEffects {
       ofType(ItineraryItemActions.createItineraryItem),
       switchMap(({ itineraryItem }) =>
         this.fireStoreService.createItineraryItem(itineraryItem).pipe(
-          tap(() => this.notification.create('success', 'Successfully Created Itinerary Item', '')),
-          tap(() => this.router.navigate([`../`], { relativeTo: this.route })),
-          map((res) => ItineraryItemActions.createItineraryItemComplete({ itineraryItem: res })),
+          map(() => {
+            this.notification.create('success', 'Successfully Created Itinerary Item', '');
+            return ItineraryItemActions.getAllItineraryItems();
+          }),
           catchError((error) => {
             this.notification.create('error', 'Create Itinerary Item Error', error.error.message);
             return EMPTY;
@@ -95,8 +97,6 @@ export class ItineraryItemEffects {
   constructor(
     private actions$: Actions,
     private fireStoreService: FireStoreService,
-    private notification: NzNotificationService,
-    private router: Router,
-    private route: ActivatedRoute
+    private notification: NzNotificationService
   ) {}
 }

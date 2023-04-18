@@ -79,7 +79,7 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.setSignedInComplete),
-        tap((user) => localStorage.setItem('user', JSON.stringify(user))),
+        tap((user) => localStorage.setItem('user', JSON.stringify(user.loggedInUser))),
         tap((user) => this.router.navigate([`../users/${user.loggedInUser.uid}/trips`], { relativeTo: this.route }))
       ),
     { dispatch: false }

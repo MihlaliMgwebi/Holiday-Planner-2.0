@@ -39,6 +39,7 @@ export class FireStoreService {
           return error;
         });
       });
+
     return EMPTY;
   }
 

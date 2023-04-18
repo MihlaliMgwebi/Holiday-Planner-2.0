@@ -7,18 +7,21 @@ export const tripFeatureKey = 'trip';
 export interface TripState {
   allTrips: Trip[];
   selectedTrip: Trip | null;
+  isLoading: boolean;
 }
 
 export const initialState: TripState = {
   allTrips: [],
   selectedTrip: null,
+  isLoading: false,
 };
 export const reducer = createReducer(
   initialState,
   // CREATE
   on(TripActions.createTripComplete, (state, { trip }) => ({ ...state, allTrips: [...state.allTrips, trip] })),
   // READ
-  on(TripActions.getAllTripsComplete, (state, { allTrips }) => ({ ...state, allTrips })),
+  on(TripActions.getAllTrips, (state) => ({ ...state, isLoading: true })),
+  on(TripActions.getAllTripsComplete, (state, { allTrips }) => ({ ...state, allTrips, isLoading: false })),
   // UPSERT
   on(TripActions.upsertTripComplete, (state, { upsertedTrip }) => ({
     ...state,

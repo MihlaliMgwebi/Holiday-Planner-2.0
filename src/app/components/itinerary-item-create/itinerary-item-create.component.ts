@@ -18,7 +18,7 @@ import {
   selectSelectedCurrencyCode,
 } from '../../stores/currency/currency.selectors';
 import { ItineraryItem } from '../../models/itineraryItem.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { createItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
 import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 
@@ -39,7 +39,8 @@ export class ItineraryItemCreateComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private currencyStore: Store<CurrencyState>,
     private itineraryItemStore: Store<ItineraryItemState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
     this.selectedCurrencyCode$ = currencyStore.select(selectSelectedCurrencyCode);
@@ -72,8 +73,8 @@ export class ItineraryItemCreateComponent implements OnInit {
     const item = this.itineraryItemForm.value;
     const newItineraryItem: ItineraryItem = {
       _id: null,
-      costEstimate: parseFloat((item.costEstimate * item.currency).toFixed(2)),
-      currency: item.currency,
+      costEstimate: isNaN(item.costEstimate) ? 0 : parseFloat((item.costEstimate * item.currency.rate).toFixed(2)),
+      currency: item.currency.code,
       description: item.description,
       endDateTimeISOString: item.dateRange[1],
       itineraryId: this.route.snapshot.paramMap.get('tripId'),
@@ -82,7 +83,10 @@ export class ItineraryItemCreateComponent implements OnInit {
       tag: item.tag,
       title: item.title,
     };
+
     this.itineraryItemStore.dispatch(createItineraryItem({ itineraryItem: newItineraryItem }));
+
+    this.router.navigate([`../`], { relativeTo: this.route });
   }
 
   resetForm(e: MouseEvent): void {

@@ -19,7 +19,7 @@ export const selectCorrelatedTrips = createSelector(
   selectAllItineraryItems,
   (loggedInUser, allTrips, allItineraryItems) => {
     const correlatedData: CorrelatedData[] = [];
-
+    // console.log('all Itinerary Items', selectAllItineraryItems);
     for (let trip of allTrips) {
       if (trip.userId === loggedInUser?.uid) {
         const itineraryItemsForTrip: ItineraryItem[] = [];
@@ -39,6 +39,7 @@ export const selectCorrelatedTrips = createSelector(
         });
       }
     }
+    console.log(correlatedData);
     return correlatedData;
   }
 );
