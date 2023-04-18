@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { catchError, concatMap, map } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 import * as CurrencyActions from './currency.actions';
 import { CurrencyApiService } from '../../services/api/currency-api.service';
 import { Currency } from '../../models/currency.model';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class CurrencyEffects {

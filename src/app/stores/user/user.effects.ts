@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, tap, switchMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 import * as UserActions from './user.actions';
 import { AuthService } from '../../services/fire/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class UserEffects {
@@ -15,6 +16,7 @@ export class UserEffects {
       switchMap(({ email, password }) =>
         this.authService.signUpNewUser(email, password).pipe(
           map((loggedInUser) => UserActions.setSignedUpNewUserComplete({ loggedInUser })),
+          tap(() => this.notification.create('success', 'Successfully Signed Up', '')),
           catchError((error) => {
             this.notification.create('error', 'Sign Up Error', error.error.message);
             return EMPTY;
@@ -30,6 +32,7 @@ export class UserEffects {
       switchMap(({ email, password }) =>
         this.authService.signInExistingUser(email, password).pipe(
           map((loggedInUser) => UserActions.setSignedInComplete({ loggedInUser })),
+          tap(() => this.notification.create('success', 'Successfully Signed In', '')),
           catchError((error) => {
             this.notification.create('error', 'Sign In Error', error.error.message);
             return EMPTY;
@@ -45,6 +48,7 @@ export class UserEffects {
       switchMap(() =>
         this.authService.signInExistingUserWithGoogle().pipe(
           map((loggedInUser) => UserActions.setSignedInComplete({ loggedInUser })),
+          tap(() => this.notification.create('success', 'Successfully Signed In With Google', '')),
           catchError((error) => {
             this.notification.create('error', 'Sign In With Google Error', error.error.message);
             return EMPTY;
@@ -60,6 +64,7 @@ export class UserEffects {
       switchMap(() =>
         this.authService.signOut().pipe(
           map(() => UserActions.setSignedOutComplete()),
+          tap(() => this.notification.create('success', 'Successfully Signed Out', '')),
           catchError((error) => {
             this.notification.create('error', 'Sign Out Error', error.error.message);
             return EMPTY;
@@ -85,7 +90,7 @@ export class UserEffects {
       this.actions$.pipe(
         ofType(UserActions.setSignedOutComplete),
         tap(() => localStorage.removeItem('user')),
-        tap((user) => this.router.navigate(['/login']))
+        tap(() => this.router.navigate(['/login']))
       ),
     { dispatch: false }
   );

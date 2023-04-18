@@ -1,11 +1,11 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import * as fromUser from './stores/user/user.reducer';
@@ -31,8 +31,7 @@ import { CurrencyComponent } from './components/currency/currency.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { uk_UA, en_US } from 'ng-zorro-antd/i18n';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgZorroAntdModule } from './ng-zorro-antd.module';
@@ -43,9 +42,8 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { TripListComponent } from './components/trip-list/trip-list.component';
 import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzIconService } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 registerLocaleData(en);
 
@@ -111,6 +109,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     NzSpaceModule,
     NzIconModule,
     NzSpinModule,
+    NzNotificationModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

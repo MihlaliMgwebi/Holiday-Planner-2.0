@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ItineraryItemActions from './itinerary-item.actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 import { FireStoreService } from '../../services/fire/store/fire-store.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class ItineraryItemEffects {
@@ -14,6 +15,7 @@ export class ItineraryItemEffects {
       switchMap(({ itineraryItem }) =>
         this.fireStoreService.createItineraryItem(itineraryItem).pipe(
           map((res) => ItineraryItemActions.createItineraryItemComplete({ itineraryItem: res })),
+          tap(() => this.notification.create('success', 'Successfully Created Itinerary Item', '')),
           catchError((error) => {
             this.notification.create('error', 'Create Itinerary Item Error', error.error.message);
             return EMPTY;
@@ -61,6 +63,7 @@ export class ItineraryItemEffects {
       switchMap(({ upsertedItineraryItem }) =>
         this.fireStoreService.upsertItineraryItem(upsertedItineraryItem).pipe(
           map((res) => ItineraryItemActions.upsertItineraryItemComplete({ upsertedItineraryItem: res })),
+          tap(() => this.notification.create('success', 'Successfully Edited Itinerary Item', '')),
           catchError((error) => {
             this.notification.create('error', 'Edit Itinerary Item Error', error.error.message);
             return EMPTY;
@@ -77,6 +80,7 @@ export class ItineraryItemEffects {
       switchMap(({ deletedItineraryItemId }) =>
         this.fireStoreService.deleteItineraryItem(deletedItineraryItemId).pipe(
           map((_) => ItineraryItemActions.deleteItineraryItemComplete()),
+          tap(() => this.notification.create('success', 'Successfully Deleted Itinerary Item', '')),
           catchError((error) => {
             this.notification.create('error', 'Delete Itinerary Item Error', error.error.message);
             return EMPTY;

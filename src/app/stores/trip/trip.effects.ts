@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { EMPTY, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 import * as TripActions from './trip.actions';
 import { FireStoreService } from '../../services/fire/store/fire-store.service';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class TripEffects {
@@ -16,6 +17,7 @@ export class TripEffects {
       switchMap(({ trip }) =>
         this.fireStoreService.createTrip(trip).pipe(
           map((res) => TripActions.createTripComplete({ trip: res })),
+          tap(() => this.notification.create('success', 'Successfully Created Trip', '')),
           catchError((error) => {
             this.notification.create('error', 'Create Trip Error', error.error.message);
             return EMPTY;
@@ -48,6 +50,7 @@ export class TripEffects {
       switchMap(({ trip }) =>
         this.fireStoreService.createTrip(trip).pipe(
           map((res) => TripActions.upsertTripComplete({ upsertedTrip: res })),
+          tap(() => this.notification.create('success', 'Successfully Edited', '')),
           catchError((error) => {
             this.notification.create('error', 'Edit Trip Error', error.error.message);
             return EMPTY;
@@ -64,6 +67,7 @@ export class TripEffects {
       switchMap(({ deletedTripId }) =>
         this.fireStoreService.deleteTrip(deletedTripId).pipe(
           map((_) => TripActions.deleteTripComplete()),
+          tap(() => this.notification.create('success', 'Successfully Deleted Tripe', '')),
           catchError((error) => {
             this.notification.create('error', 'Delete Trip Error', error.error.message);
             return EMPTY;
@@ -72,8 +76,6 @@ export class TripEffects {
       )
     );
   });
-
-  // Navigation, Routing
 
   constructor(
     private actions$: Actions,
