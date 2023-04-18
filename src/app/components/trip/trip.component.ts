@@ -4,6 +4,7 @@ import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectSelectedCorrelatedTrip } from '../../stores/trip/trip.selectors';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-trip',
@@ -14,7 +15,7 @@ import { selectSelectedCorrelatedTrip } from '../../stores/trip/trip.selectors';
 export class TripComponent {
   selectedCorrelatedData$: Observable<CorrelatedData | undefined>;
 
-  constructor(private tripStore: Store<TripState>) {
+  constructor(private tripStore: Store<TripState>, private route: ActivatedRoute, private router: Router) {
     this.selectedCorrelatedData$ = tripStore.select(selectSelectedCorrelatedTrip);
   }
 
@@ -22,5 +23,14 @@ export class TripComponent {
     return correlatedTrip.id;
   }
 
-  addItineraryItem() {}
+  // CREATE
+  addItineraryItem() {
+    this.router.navigate([`../itinerary-items/add`], {
+      relativeTo: this.route,
+    });
+  }
+
+  back(): void {
+    this.router.navigate(['../../'], { relativeTo: this.route });
+  }
 }

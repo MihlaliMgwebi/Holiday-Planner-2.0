@@ -4,7 +4,6 @@
       <h2 class="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 ">
         {{(selectedCorrelatedData$ | async)?.trip?.itinerary?.title}}
       </h2>
-
       <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(selectedCorrelatedData$ | async)?.trip?.itinerary?.description}}</dd>
     </div>
     <div *ngIf="(selectedCorrelatedData$ | async)?.itineraryItems;else noItineraryItems">

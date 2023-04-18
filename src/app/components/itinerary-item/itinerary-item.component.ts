@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
 import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
 import { deleteItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
 import { ItineraryItem } from '../../models/itineraryItem.model';
-import { Trip } from '../../models/trip.model';
-import { setSelectedTrip } from '../../stores/trip/trip.actions';
 
 @Component({
   selector: 'app-itinerary-item',
@@ -22,13 +19,6 @@ export class ItineraryItemComponent {
     private route: ActivatedRoute,
     private router: Router
   ) {}
-
-  // CREATE
-  addItineraryItem() {
-    this.router.navigate([`../${this.route.snapshot.paramMap.get('tripId')}/itinerary-items/add`], {
-      relativeTo: this.route,
-    });
-  }
 
   //NAVIGATE TO READ
   viewItineraryItem(itineraryItem: ItineraryItem | undefined) {

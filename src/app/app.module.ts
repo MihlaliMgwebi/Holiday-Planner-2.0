@@ -44,6 +44,7 @@ import { ItineraryItemListComponent } from './components/itinerary-item-list/iti
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 registerLocaleData(en);
 
@@ -110,6 +111,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     NzIconModule,
     NzSpinModule,
     NzNotificationModule,
+    NzPopconfirmModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

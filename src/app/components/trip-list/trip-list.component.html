@@ -2,23 +2,43 @@
 <nz-content class="w-full py-2 px-12 ">
   <div>
     <h1 class="self-center text-4xl font-semibold whitespace-nowrap w-full">My Trips</h1>
-    <div (click)="viewItinerary(correlatedTrip)" class="border-2 rounded-lg py-4 px-4 my-2 mx-auto max-w-2xl" *ngFor="let correlatedTrip of (correlatedTrips$ | async);trackBy:trackById">
+    <div class="border-2 rounded-lg py-4 px-4 my-2 mx-auto max-w-2xl" *ngFor="let correlatedTrip of (correlatedTrips$ | async);trackBy:trackById">
       <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl">{{correlatedTrip.trip.title}}</h2>
-<!--      <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl">{{correlatedTrip.costEstimate | currency:'R'}}</p>-->
+      <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl">{{correlatedTrip.costEstimate | currency:'R'}}</p>
       <dl>
         <dt class="mb-2 font-semibold leading-none text-gray-900">Description</dt>
         <dd class="mb-3 font-light text-gray-500">{{correlatedTrip.trip.description}}</dd>
       </dl>
-<!--      <dl class="flex items-start space-x-6">-->
-<!--        <div>-->
-<!--          <dt class="mb-2 font-semibold leading-none text-gray-900">Start Date</dt>-->
-<!--          <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(correlatedTrip.startDate | date: 'EEEE, MMMM d, y')??'N/A'}}</dd>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <dt class="mb-2 font-semibold leading-none text-gray-900">End Date</dt>-->
-<!--          <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(correlatedTrip.endDate | date: 'EEEE, MMMM d, y')??'N/A'}}</dd>-->
-<!--        </div>-->
-<!--      </dl>-->
+      <dl class="flex items-start space-x-6">
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900">Start Date</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(correlatedTrip.startDate | date: 'EEEE, MMMM d, y')??'N/A'}}</dd>
+        </div>
+        <div>
+          <dt class="mb-2 font-semibold leading-none text-gray-900">End Date</dt>
+          <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(correlatedTrip.endDate | date: 'EEEE, MMMM d, y')??'N/A'}}</dd>
+        </div>
+      </dl>
+      <div class="w-1/2 flex justify-between">
+        <button nzButton (click)="viewItinerary(correlatedTrip)" class="h-8 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-2.5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          <span nz-icon nzType="eye" nzTheme="outline"></span>
+        </button>
+        <button nzButton (click)="editTrip(correlatedTrip.trip)" class="h-8 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-2.5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          <span nz-icon nzType="edit" nzTheme="outline"></span>
+        </button>
+        <button
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure you want to delete this trip?"
+          (nzOnConfirm)="deleteTrip(correlatedTrip.trip._id)"
+          nzPopconfirmPlacement="top"
+          nz-button
+          nzType="primary"
+          nzDanger
+          nzOkText="Yes"
+        >
+          <span nz-icon nzType="delete" nzTheme="outline"></span>
+        </button>
+      </div>
     </div>
   </div>
 </nz-content>
@@ -29,9 +49,6 @@
 
 </nz-footer>
 </div>
-<!--    <button nz-button nzType="primary" nzShape="circle" nzSize="large" class="flex items-center justify-center bg-black">-->
-<!--      <span nz-icon nzType="edit" nzTheme="outline" nzSize="large"></span>-->
-<!--    </button>-->
 
 <ng-template #isLoading>
   <nz-spin nzTip="Loading..."/>
