@@ -4,9 +4,20 @@ import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CurrencyState } from '../../stores/currency/currency.reducer';
-import { getAllCurrencies } from '../../stores/currency/currency.actions';
+import {
+  getAllCurrencies,
+  setSelectedCurrencyCode,
+  setSelectedCurrencyValue,
+} from '../../stores/currency/currency.actions';
 import { Currency } from '../../models/currency.model';
-import { selectAllCurrencies } from '../../stores/currency/currency.selectors';
+import {
+  selectAllCurrencies,
+  selectConvertedValue,
+  selectSelectBaseValue,
+  selectSelectedBaseCurrency,
+  selectSelectedCurrencyCode,
+  selectZARCurrency,
+} from '../../stores/currency/currency.selectors';
 import { ItineraryItem } from '../../models/itineraryItem.model';
 import { ActivatedRoute } from '@angular/router';
 import { createItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
@@ -19,6 +30,11 @@ import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.r
 })
 export class ItineraryItemCreateComponent implements OnInit {
   allCurrencies$: Observable<Currency[]>;
+  selectedCurrencyCode$: Observable<string>;
+  selectSelectBaseValue$: Observable<number>;
+  selectSelectedBaseCurrency$: Observable<Currency | undefined>;
+  selectZARCurrency$: Observable<Currency | undefined>;
+  selectConvertedValue$: Observable<number>;
   itineraryItemForm: UntypedFormGroup;
 
   constructor(
@@ -28,6 +44,12 @@ export class ItineraryItemCreateComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
+    this.selectedCurrencyCode$ = currencyStore.select(selectSelectedCurrencyCode);
+    this.selectSelectBaseValue$ = currencyStore.select(selectSelectBaseValue);
+    this.selectSelectedBaseCurrency$ = currencyStore.select(selectSelectedBaseCurrency);
+    this.selectZARCurrency$ = currencyStore.select(selectZARCurrency);
+    this.selectConvertedValue$ = currencyStore.select(selectConvertedValue);
+
     this.itineraryItemForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
       dateRange: ['', [Validators.required]],
@@ -41,6 +63,14 @@ export class ItineraryItemCreateComponent implements OnInit {
   ngOnInit(): void {
     this.currencyStore.dispatch(getAllCurrencies());
   }
+  setSelectedCurrencyCode(selectedCurrencyCode: string) {
+    this.itineraryItemStore.dispatch(setSelectedCurrencyCode({ selectedCurrencyCode }));
+  }
+  setSelectedCurrencyValue(selectedCurrencyValue: number) {
+    console.log(selectedCurrencyValue);
+    this.itineraryItemStore.dispatch(setSelectedCurrencyValue({ selectedCurrencyValue }));
+  }
+
   submitForm(): void {
     const item = this.itineraryItemForm.value;
     const newItineraryItem: ItineraryItem = {

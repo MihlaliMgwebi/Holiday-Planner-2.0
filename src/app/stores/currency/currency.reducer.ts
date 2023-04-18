@@ -6,24 +6,27 @@ export const currencyFeatureKey = 'currency';
 
 export interface CurrencyState {
   allCurrencies: Currency[];
-  convertedValue: number | null;
-  fromBaseCurrency: string | null;
-  toSelectedCurrency: string | null;
-  valueToConvert: number | null;
+  selectedCurrencyValue: number;
+  selectedCurrencyCode: string;
 }
 
 export const initialState: CurrencyState = {
   allCurrencies: [],
-  convertedValue: null,
-  fromBaseCurrency: null,
-  toSelectedCurrency: null,
-  valueToConvert: null,
+  selectedCurrencyValue: 0,
+  selectedCurrencyCode: 'ZAR',
 };
 
 export const reducer = createReducer(
   initialState,
   on(CurrencyActions.getAllCurrenciesComplete, (state, { allCurrencies }) => ({ ...state, allCurrencies })),
-  on(CurrencyActions.convertExchangeRatesComplete, (state, { convertedValue }) => ({ ...state, convertedValue }))
+  on(CurrencyActions.setSelectedCurrencyCode, (state, { selectedCurrencyCode }) => ({
+    ...state,
+    selectedCurrencyCode,
+  })),
+  on(CurrencyActions.setSelectedCurrencyValue, (state, { selectedCurrencyValue }) => ({
+    ...state,
+    selectedCurrencyValue,
+  }))
 );
 
 export const currencyFeature = createFeature({

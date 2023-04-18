@@ -23,20 +23,6 @@ export class CurrencyEffects {
       )
     );
   });
-  convertExchangeRates$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(CurrencyActions.convertExchangeRates),
-      concatMap(({ valueToConvert, fromBaseCurrency, toSelectedCurrency }) =>
-        this.currencyApiService.convertExchangeRates(valueToConvert, fromBaseCurrency, toSelectedCurrency).pipe(
-          map((convertedValue: number) => CurrencyActions.convertExchangeRatesComplete({ convertedValue })),
-          catchError((error) => {
-            this.notification.create('error', 'Convert Exchange Rates Error', error.error.message);
-            return EMPTY;
-          })
-        )
-      )
-    );
-  });
 
   constructor(
     private actions$: Actions,

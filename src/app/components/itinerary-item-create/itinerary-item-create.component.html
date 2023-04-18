@@ -44,35 +44,38 @@
     </nz-form-control>
   </nz-form-item>
 <!-- Cost Estimate and Currency -->
-  <nz-form-item class="sm:col-span-2">
-    <nz-form-label nzFor="costEstimate" nzRequired class="block text-sm font-medium text-gray-900">Cost Estimate</nz-form-label>
-    <nz-form-control [nzErrorTip]="costEstimateErrorTpl">
-      <nz-input-number-group  [nzAddOnAfter]="addOnAfterTemplate">
-        <nz-input-number formControlName="costEstimate" [nzStep]="0.1" nzPlaceHolder="Enter a cost estimate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></nz-input-number>
-      </nz-input-number-group>
-    </nz-form-control>
-  </nz-form-item>
-  <ng-template #addOnAfterTemplate>
-    <nz-select
-      id="currency"
-      formControlName="currency"
-      nzPlaceHolder="ZAR"
-    >
-      <ng-container *ngIf="allCurrencies$ | async as categories">
-        <nz-option *ngFor="let category of categories" [nzValue]="category.code" [nzLabel]="category.code"></nz-option>
-      </ng-container>
-    </nz-select>
-  </ng-template>
-
-  <ng-template #costEstimateErrorTpl let-control>
-    <ng-container *ngIf="control.hasError('required')">
-      Please enter a cost estimate!
-    </ng-container>
-    <ng-container *ngIf="control.hasError('min')">
-      Please enter a valid cost estimate!
-    </ng-container>
-  </ng-template>
-  <!-- Description -->
+    <div>
+      <nz-form-item class="sm:col-span-2">
+        <nz-form-label nzFor="costEstimate" nzRequired class="block text-sm font-medium text-gray-900">Cost Estimate</nz-form-label>
+        <nz-form-control [nzErrorTip]="costEstimateErrorTpl">
+          <nz-input-number-group  [nzAddOnAfter]="addOnAfterTemplate">
+            <nz-input-number (ngModelChange)="setSelectedCurrencyValue($event)" formControlName="costEstimate" [nzStep]="0.1" nzPlaceHolder="Enter a cost estimate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"></nz-input-number>
+          </nz-input-number-group>
+        </nz-form-control>
+      </nz-form-item>
+      <ng-template #addOnAfterTemplate>
+        <nz-select
+          id="currency"
+          formControlName="currency"
+          nzPlaceHolder="ZAR"
+          (ngModelChange)="setSelectedCurrencyCode($event)"
+        >
+          <ng-container *ngIf="allCurrencies$ | async as categories">
+            <nz-option *ngFor="let category of categories" [nzValue]="category.code" [nzLabel]="category.code"></nz-option>
+          </ng-container>
+        </nz-select>
+      </ng-template>
+      <ng-template #costEstimateErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">
+          Please enter a cost estimate!
+        </ng-container>
+        <ng-container *ngIf="control.hasError('min')">
+          Please enter a valid cost estimate!
+        </ng-container>
+      </ng-template>
+      <p class="mb-4 text-sm leading-none text-gray-900 md:text-2xl">({{selectConvertedValue$ | async | currency:'R'}})</p>
+    </div>
+      <!-- Description -->
   <nz-form-item>
       <nz-form-label>Description</nz-form-label>
       <nz-form-control nzHasFeedback>
