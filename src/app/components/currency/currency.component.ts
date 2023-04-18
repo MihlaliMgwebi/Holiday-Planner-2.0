@@ -2,10 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Currency } from '../../models/currency.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { CurrencyState } from '../../store/reducers/currency.reducer';
-import { getAllCurrencies } from '../../store/actions/currency.actions';
+import { CurrencyState } from '../../stores/currency/currency.reducer';
+import { getAllCurrencies } from '../../stores/currency/currency.actions';
 import { Observable } from 'rxjs';
-import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
+import { selectAllCurrencies } from '../../stores/currency/currency.selectors';
 
 @Component({
   selector: 'app-currency',

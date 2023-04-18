@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
-import { deleteItineraryItem } from '../../store/actions/itinerary-item.actions';
+import { deleteItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
 import { ItineraryItem } from '../../models/itineraryItem.model';
 import { Trip } from '../../models/trip.model';
-import { setSelectedTrip } from '../../store/actions/trip.actions';
+import { setSelectedTrip } from '../../stores/trip/trip.actions';
 
 @Component({
   selector: 'app-itinerary-item',

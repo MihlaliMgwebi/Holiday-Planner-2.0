@@ -8,12 +8,12 @@ import {
   UrlTree,
 } from '@angular/router';
 import { combineLatestWith, Observable } from 'rxjs';
-import { TripState } from '../store/reducers/trip.reducer';
+import { TripState } from '../stores/trip/trip.reducer';
 import { select, Store } from '@ngrx/store';
-import { selectCorrelatedTrips } from '../store/selectors/trip.selectors';
+import { selectCorrelatedTrips } from '../stores/trip/trip.selectors';
 import { map } from 'rxjs/operators';
-import { UserState } from '../store/reducers/user.reducer';
-import { selectLoggedInUser } from '../store/selectors/user.selectors';
+import { UserState } from '../stores/user/user.reducer';
+import { selectLoggedInUser } from '../stores/user/user.selectors';
 
 @Injectable({
   providedIn: 'root',

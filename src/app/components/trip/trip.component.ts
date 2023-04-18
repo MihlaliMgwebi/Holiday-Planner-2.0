@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TripState } from '../../store/reducers/trip.reducer';
+import { TripState } from '../../stores/trip/trip.reducer';
 import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectSelectedCorrelatedTrip } from '../../store/selectors/trip.selectors';
+import { selectSelectedCorrelatedTrip } from '../../stores/trip/trip.selectors';
 
 @Component({
   selector: 'app-trip',

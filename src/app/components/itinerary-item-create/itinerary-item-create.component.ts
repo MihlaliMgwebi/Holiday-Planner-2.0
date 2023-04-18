@@ -3,14 +3,14 @@ import { Store } from '@ngrx/store';
 
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { CurrencyState } from '../../store/reducers/currency.reducer';
-import { getAllCurrencies } from '../../store/actions/currency.actions';
+import { CurrencyState } from '../../stores/currency/currency.reducer';
+import { getAllCurrencies } from '../../stores/currency/currency.actions';
 import { Currency } from '../../models/currency.model';
-import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
+import { selectAllCurrencies } from '../../stores/currency/currency.selectors';
 import { ItineraryItem } from '../../models/itineraryItem.model';
 import { ActivatedRoute } from '@angular/router';
-import { createItineraryItem } from '../../store/actions/itinerary-item.actions';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
+import { createItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 
 @Component({
   selector: 'app-itinerary-item-create',

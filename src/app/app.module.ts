@@ -8,16 +8,16 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
-import * as fromUser from './store/reducers/user.reducer';
+import * as fromUser from './stores/user/user.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/effects/user.effects';
+import { UserEffects } from './stores/user/user.effects';
 import { AuthComponent } from './components/auth/auth.component';
-import * as fromTrip from './store/reducers/trip.reducer';
-import { TripEffects } from './store/effects/trip.effects';
-import * as fromItineraryItem from './store/reducers/itinerary-item.reducer';
-import { ItineraryItemEffects } from './store/effects/itinerary-item.effects';
-import * as fromCurrency from './store/reducers/currency.reducer';
-import { CurrencyEffects } from './store/effects/currency.effects';
+import * as fromTrip from './stores/trip/trip.reducer';
+import { TripEffects } from './stores/trip/trip.effects';
+import * as fromItineraryItem from './stores/itinerary-item/itinerary-item.reducer';
+import { ItineraryItemEffects } from './stores/itinerary-item/itinerary-item.effects';
+import * as fromCurrency from './stores/currency/currency.reducer';
+import { CurrencyEffects } from './stores/currency/currency.effects';
 import { HttpClientModule } from '@angular/common/http';
 import { TripComponent } from './components/trip/trip.component';
 import { TripCreateComponent } from './components/trip-create/trip-create.component';
@@ -45,6 +45,7 @@ import { ItineraryItemListComponent } from './components/itinerary-item-list/iti
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzIconService } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 registerLocaleData(en);
 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SignInUser, SignInUserWithGoogle, SignOutUser, SignUpUser } from '../../store/actions/user.actions';
+import { SignInUser, SignInUserWithGoogle, SignOutUser, SignUpUser } from '../../stores/user/user.actions';
 import { select, Store } from '@ngrx/store';
-import { UserState } from '../../store/reducers/user.reducer';
+import { UserState } from '../../stores/user/user.reducer';
 import { Observable, of } from 'rxjs';
-import { selectIsLoggedIn } from '../../store/selectors/user.selectors';
+import { selectIsLoggedIn } from '../../stores/user/user.selectors';
 import { FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({

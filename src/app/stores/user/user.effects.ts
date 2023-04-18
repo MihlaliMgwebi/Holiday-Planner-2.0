@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as UserActions from '../actions/user.actions';
+import { EMPTY, of } from 'rxjs';
+import * as UserActions from './user.actions';
 import { AuthService } from '../../services/fire/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -15,7 +15,10 @@ export class UserEffects {
       switchMap(({ email, password }) =>
         this.authService.signUpNewUser(email, password).pipe(
           map((loggedInUser) => UserActions.setSignedUpNewUserComplete({ loggedInUser })),
-          catchError((error) => of(UserActions.setSignedUpNewUserFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Sign Up Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -27,19 +30,10 @@ export class UserEffects {
       switchMap(({ email, password }) =>
         this.authService.signInExistingUser(email, password).pipe(
           map((loggedInUser) => UserActions.setSignedInComplete({ loggedInUser })),
-          catchError((error) => of(UserActions.setSignedInFailure({ error })))
-        )
-      )
-    );
-  });
-
-  setSignedInExistingUserEmailAndPassword$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserActions.SignInUser),
-      switchMap(({ email, password }) =>
-        this.authService.signInExistingUser(email, password).pipe(
-          map(() => UserActions.setSignedInExistingUserComplete({ email, password })),
-          catchError((error) => of(UserActions.setSignedInExistingUserFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Sign In Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -51,7 +45,10 @@ export class UserEffects {
       switchMap(() =>
         this.authService.signInExistingUserWithGoogle().pipe(
           map((loggedInUser) => UserActions.setSignedInComplete({ loggedInUser })),
-          catchError((error) => of(UserActions.setSignedInFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Sign In With Google Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -63,7 +60,10 @@ export class UserEffects {
       switchMap(() =>
         this.authService.signOut().pipe(
           map(() => UserActions.setSignedOutComplete()),
-          catchError((error) => of(UserActions.setSignedOutFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Sign Out Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -94,6 +94,7 @@ export class UserEffects {
     private actions$: Actions,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notification: NzNotificationService
   ) {}
 }

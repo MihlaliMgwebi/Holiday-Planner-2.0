@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TripState } from '../../store/reducers/trip.reducer';
+import { TripState } from '../../stores/trip/trip.reducer';
 import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
-import { selectCorrelatedTrips, selectSelectedCorrelatedTrip } from '../../store/selectors/trip.selectors';
+import { selectCorrelatedTrips, selectSelectedCorrelatedTrip } from '../../stores/trip/trip.selectors';
 import { Observable } from 'rxjs';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
-import { getAllItineraryItems } from '../../store/actions/itinerary-item.actions';
-import { deleteTrip, getAllTrips, setSelectedTrip } from '../../store/actions/trip.actions';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
+import { getAllItineraryItems } from '../../stores/itinerary-item/itinerary-item.actions';
+import { deleteTrip, getAllTrips, setSelectedTrip } from '../../stores/trip/trip.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from '../../models/trip.model';
 

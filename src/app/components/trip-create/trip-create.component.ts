@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { TripState } from '../../store/reducers/trip.reducer';
+import { TripState } from '../../stores/trip/trip.reducer';
 import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Trip } from '../../models/trip.model';
 import { User } from '../../models/user.model';
-import { CurrencyState } from '../../store/reducers/currency.reducer';
+import { CurrencyState } from '../../stores/currency/currency.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
-import { createTrip } from '../../store/actions/trip.actions';
+import { createTrip } from '../../stores/trip/trip.actions';
 
 @Component({
   selector: 'app-trip-create',

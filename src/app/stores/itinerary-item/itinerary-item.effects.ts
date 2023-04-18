@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as ItineraryItemActions from '../actions/itinerary-item.actions';
+import * as ItineraryItemActions from './itinerary-item.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { FireStoreService } from '../../services/fire/store/fire-store.service';
 
 @Injectable()
@@ -14,7 +14,10 @@ export class ItineraryItemEffects {
       switchMap(({ itineraryItem }) =>
         this.fireStoreService.createItineraryItem(itineraryItem).pipe(
           map((res) => ItineraryItemActions.createItineraryItemComplete({ itineraryItem: res })),
-          catchError((error) => of(ItineraryItemActions.createItineraryItemFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Create Itinerary Item Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -27,7 +30,10 @@ export class ItineraryItemEffects {
       switchMap(() => {
         return this.fireStoreService.getAllItineraryItems().pipe(
           map((res) => ItineraryItemActions.getAllItineraryItemsComplete({ allItineraryItems: res })),
-          catchError((error) => of(ItineraryItemActions.getAllItineraryItemsFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Get All Itinerary Items Error', error.error.message);
+            return EMPTY;
+          })
         );
       })
     );
@@ -39,7 +45,10 @@ export class ItineraryItemEffects {
       switchMap(({ itineraryItemId }) => {
         return this.fireStoreService.getItineraryItemById(itineraryItemId).pipe(
           map((res) => ItineraryItemActions.getItineraryItemComplete({ itineraryItem: res })),
-          catchError((error) => of(ItineraryItemActions.getItineraryItemFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Get Itinerary Item Error', error.error.message);
+            return EMPTY;
+          })
         );
       })
     );
@@ -52,7 +61,10 @@ export class ItineraryItemEffects {
       switchMap(({ upsertedItineraryItem }) =>
         this.fireStoreService.upsertItineraryItem(upsertedItineraryItem).pipe(
           map((res) => ItineraryItemActions.upsertItineraryItemComplete({ upsertedItineraryItem: res })),
-          catchError((error) => of(ItineraryItemActions.upsertItineraryItemFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Edit Itinerary Item Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -65,11 +77,18 @@ export class ItineraryItemEffects {
       switchMap(({ deletedItineraryItemId }) =>
         this.fireStoreService.deleteItineraryItem(deletedItineraryItemId).pipe(
           map((_) => ItineraryItemActions.deleteItineraryItemComplete()),
-          catchError((error) => of(ItineraryItemActions.deleteItineraryItemFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Delete Itinerary Item Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
   });
 
-  constructor(private actions$: Actions, private fireStoreService: FireStoreService) {}
+  constructor(
+    private actions$: Actions,
+    private fireStoreService: FireStoreService,
+    private notification: NzNotificationService
+  ) {}
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, concatMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as CurrencyActions from '../actions/currency.actions';
+import { EMPTY, of } from 'rxjs';
+import * as CurrencyActions from './currency.actions';
 import { CurrencyApiService } from '../../services/api/currency-api.service';
 import { Currency } from '../../models/currency.model';
 
@@ -14,7 +14,10 @@ export class CurrencyEffects {
       concatMap(() =>
         this.currencyApiService.getAllCurrencies().pipe(
           map((allCurrencies: Currency[]) => CurrencyActions.getAllCurrenciesComplete({ allCurrencies })),
-          catchError((error) => of(CurrencyActions.getAllCurrenciesFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Get All Currencies Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -25,11 +28,18 @@ export class CurrencyEffects {
       concatMap(({ valueToConvert, fromBaseCurrency, toSelectedCurrency }) =>
         this.currencyApiService.convertExchangeRates(valueToConvert, fromBaseCurrency, toSelectedCurrency).pipe(
           map((convertedValue: number) => CurrencyActions.convertExchangeRatesComplete({ convertedValue })),
-          catchError((error) => of(CurrencyActions.convertExchangeRatesFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Convert Exchange Rates Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
   });
 
-  constructor(private actions$: Actions, private currencyApiService: CurrencyApiService) {}
+  constructor(
+    private actions$: Actions,
+    private currencyApiService: CurrencyApiService,
+    private notification: NzNotificationService
+  ) {}
 }

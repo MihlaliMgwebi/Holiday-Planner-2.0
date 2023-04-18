@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as TripActions from '../actions/trip.actions';
+import { EMPTY, of } from 'rxjs';
+import * as TripActions from './trip.actions';
 import { FireStoreService } from '../../services/fire/store/fire-store.service';
 
 @Injectable()
@@ -16,7 +16,10 @@ export class TripEffects {
       switchMap(({ trip }) =>
         this.fireStoreService.createTrip(trip).pipe(
           map((res) => TripActions.createTripComplete({ trip: res })),
-          catchError((error) => of(TripActions.createTripFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Create Trip Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -29,7 +32,10 @@ export class TripEffects {
       switchMap(() =>
         this.fireStoreService.getTrips().pipe(
           map((res) => TripActions.getAllTripsComplete({ allTrips: res })),
-          catchError((error) => of(TripActions.getAllTripsFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Get All Trips Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -42,7 +48,10 @@ export class TripEffects {
       switchMap(({ trip }) =>
         this.fireStoreService.createTrip(trip).pipe(
           map((res) => TripActions.upsertTripComplete({ upsertedTrip: res })),
-          catchError((error) => of(TripActions.upsertTripFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Edit Trip Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -55,7 +64,10 @@ export class TripEffects {
       switchMap(({ deletedTripId }) =>
         this.fireStoreService.deleteTrip(deletedTripId).pipe(
           map((_) => TripActions.deleteTripComplete()),
-          catchError((error) => of(TripActions.deleteTripFailure({ error })))
+          catchError((error) => {
+            this.notification.create('error', 'Delete Trip Error', error.error.message);
+            return EMPTY;
+          })
         )
       )
     );
@@ -63,5 +75,9 @@ export class TripEffects {
 
   // Navigation, Routing
 
-  constructor(private actions$: Actions, private fireStoreService: FireStoreService) {}
+  constructor(
+    private actions$: Actions,
+    private fireStoreService: FireStoreService,
+    private notification: NzNotificationService
+  ) {}
 }

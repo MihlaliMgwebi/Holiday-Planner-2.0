@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import * as TripActions from '../actions/trip.actions';
+import * as TripActions from './trip.actions';
 import { Trip } from '../../models/trip.model';
 
 export const tripFeatureKey = 'trip';
@@ -30,15 +30,6 @@ export const reducer = createReducer(
     ...state,
     allTrips: state.allTrips.filter((currentTrip) => currentTrip._id !== deletedTripId),
   })),
-
-  // FAILURES
-  on(
-    TripActions.createTripFailure,
-    TripActions.getAllTripsFailure,
-    TripActions.upsertTripFailure,
-    TripActions.deleteTripFailure,
-    (state, { error }) => ({ ...state, error })
-  ),
 
   // UI
   on(TripActions.setSelectedTrip, (state, { selectedTrip }) => ({ ...state, selectedTrip }))

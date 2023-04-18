@@ -4,14 +4,14 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ItineraryItem } from '../../models/itineraryItem.model';
-import { getItineraryItem, upsertItineraryItem } from '../../store/actions/itinerary-item.actions';
-import { selectItineraryItem } from '../../store/selectors/itineraryItem.selectors';
+import { getItineraryItem, upsertItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
+import { selectItineraryItem } from '../../stores/itinerary-item/itineraryItem.selectors';
 import { Currency } from '../../models/currency.model';
-import { CurrencyState } from '../../store/reducers/currency.reducer';
-import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
-import { getAllCurrencies } from '../../store/actions/currency.actions';
+import { CurrencyState } from '../../stores/currency/currency.reducer';
+import { selectAllCurrencies } from '../../stores/currency/currency.selectors';
+import { getAllCurrencies } from '../../stores/currency/currency.actions';
 import { map } from 'rxjs/operators';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 
 @Component({
   selector: 'app-itinerary-item-upsert',

@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import * as ItineraryItemActions from '../actions/itinerary-item.actions';
+import * as ItineraryItemActions from './itinerary-item.actions';
 import { ItineraryItem } from '../../models/itineraryItem.model';
 
 export const itineraryItemFeatureKey = 'itineraryItem';
@@ -44,15 +44,7 @@ export const reducer = createReducer(
     allItineraryItems: state.allItineraryItems.filter(
       (currentItineraryItem) => currentItineraryItem._id !== deletedItineraryItemId
     ),
-  })),
-  // FAILURES
-  on(
-    ItineraryItemActions.createItineraryItemFailure,
-    ItineraryItemActions.getAllItineraryItemsFailure,
-    ItineraryItemActions.upsertItineraryItemFailure,
-    ItineraryItemActions.deleteItineraryItemFailure,
-    (state, { error }) => ({ ...state, error })
-  )
+  }))
 );
 
 export const itineraryItemsFeature = createFeature({

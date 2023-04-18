@@ -1,9 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromTrip from '../reducers/trip.reducer';
+import * as fromTrip from './trip.reducer';
 import { CorrelatedData } from '../../models/correlatedData.model';
 import { ItineraryItem } from '../../models/itineraryItem.model';
-import { selectLoggedInUser } from './user.selectors';
-import { selectAllItineraryItems } from './itineraryItem.selectors';
+import { selectLoggedInUser } from '../user/user.selectors';
+import { selectAllItineraryItems } from '../itinerary-item/itineraryItem.selectors';
 export const selectTripState = createFeatureSelector<fromTrip.TripState>(fromTrip.tripFeatureKey);
 
 // Sliced state
