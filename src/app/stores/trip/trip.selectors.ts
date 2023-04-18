@@ -29,6 +29,7 @@ export const selectCorrelatedTrips = createSelector(
             itineraryItemsForTrip.push(itineraryItem);
           }
         }
+
         correlatedData.push({
           trip,
           itineraryItems: itineraryItemsForTrip,
@@ -40,7 +41,7 @@ export const selectCorrelatedTrips = createSelector(
         });
       }
     }
-    console.log(correlatedData);
+    // console.log(correlatedData.costEstimate);
     return correlatedData;
   }
 );
