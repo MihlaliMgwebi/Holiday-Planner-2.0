@@ -26,10 +26,10 @@ export class TripCreateComponent {
     this.tripForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
       description: ['', [Validators.maxLength(250)]],
-      itinerary: this.fb.group({
-        title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
-        description: ['', [Validators.maxLength(250)]],
-      }),
+      // itinerary: this.fb.group({
+      //   title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
+      //   description: ['', [Validators.maxLength(250)]],
+      // }),
     });
   }
   submitForm(): void {
@@ -43,12 +43,13 @@ export class TripCreateComponent {
         title: newTrip.title,
         itinerary: {
           _id: null,
-          description: newTrip.itinerary.description,
-          title: newTrip.itinerary.title,
+          description: newTrip.description,
+          title: newTrip.title,
         },
         userId: loggedInUser.uid,
       };
       this.tripStore.dispatch(createTrip({ trip }));
+      this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
 

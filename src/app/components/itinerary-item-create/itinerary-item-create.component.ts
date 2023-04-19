@@ -86,7 +86,7 @@ export class ItineraryItemCreateComponent implements OnInit {
 
     this.itineraryItemStore.dispatch(createItineraryItem({ itineraryItem: newItineraryItem }));
 
-    this.router.navigate([`../`], { relativeTo: this.route });
+    this.router.navigate([`../../../`], { relativeTo: this.route });
   }
 
   resetForm(e: MouseEvent): void {

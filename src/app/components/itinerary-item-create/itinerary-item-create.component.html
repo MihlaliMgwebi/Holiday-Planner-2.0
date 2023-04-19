@@ -18,7 +18,7 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
-<!--  Date Range -->
+  <!--  Date Start -->
   <nz-form-item class="sm:col-span-2">
     <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">Date Range</nz-form-label>
     <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateRangeErrorTpl">
@@ -28,6 +28,8 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
+    <!--  Date End -->
+
   <!-- Tag -->
   <nz-form-item class="sm:col-span-2">
     <nz-form-label nzFor="tag" nzRequired class="block text-sm font-medium text-gray-900">Category</nz-form-label>
@@ -39,8 +41,8 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-2.5"
       >
         <nz-option nzValue="" nzLabel="Select a category">Select a category</nz-option>
-        <nz-option nzValue="destination" nzLabel="destination">Destination</nz-option>
-        <nz-option nzValue="travel" nzLabel="travel">Travel</nz-option>
+        <nz-option nzValue="destination" nzLabel="destination">DESTINATION</nz-option>
+        <nz-option nzValue="travel" nzLabel="travel">TRAVEL</nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
@@ -74,10 +76,10 @@
           Please enter a valid cost estimate!
         </ng-container>
       </ng-template>
-      <p class="mb-4 text-sm leading-none text-gray-900 md:text-2xl">({{selectConvertedValue$ | async | currency:'R'}})</p>
+<!--      <p class="mb-4 text-sm leading-none text-gray-900 md:text-2xl">({{selectConvertedValue$ | async | currency:'R'}})</p>-->
     </div>
       <!-- Description -->
-  <nz-form-item>F
+  <nz-form-item>
       <nz-form-label>Description</nz-form-label>
       <nz-form-control nzHasFeedback>
         <nz-textarea-count [nzMaxCharacterCount]="250">

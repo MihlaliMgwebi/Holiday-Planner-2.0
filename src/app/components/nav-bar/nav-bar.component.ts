@@ -13,7 +13,7 @@ export class NavBarComponent {
   constructor(private route: ActivatedRoute, private router: Router, private userStore: Store<UserState>) {}
 
   back(): void {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.router.navigate(['../../'], { relativeTo: this.route });
   }
 
   signOut() {

@@ -13,3 +13,7 @@
 .login-form-button {
   width: 100%;
 }
+
+:host {
+  height: 100svh;
+}
