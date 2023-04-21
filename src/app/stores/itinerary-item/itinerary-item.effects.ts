@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as ItineraryItemActions from './itinerary-item.actions';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
-import { FireStoreService } from '../../services/fire/store/fire-store.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { ActivatedRoute, Router } from '@angular/router';
-import { getAllItineraryItems } from './itinerary-item.actions';
+import { EMPTY } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { FireStoreService } from '../../services/fire/store/fire-store.service';
+import * as ItineraryItemActions from './itinerary-item.actions';
 
 @Injectable()
 export class ItineraryItemEffects {

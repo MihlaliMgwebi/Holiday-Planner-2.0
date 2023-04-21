@@ -9,7 +9,7 @@
     <div *ngIf="(selectedCorrelatedData$ | async)?.itineraryItems;else noItineraryItems">
     <app-calendar [itineraryItems]="(selectedCorrelatedData$ | async)?.itineraryItems"/>
     <div class="flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16">
-        <ol *ngFor=" let itineraryItem of (selectedCorrelatedData$ | async)?.itineraryItems;trackBy:trackById" class="relative border-l border-gray-200 dark:border-gray-700">
+        <ol *ngFor=" let itineraryItem of (selectedCorrelatedData$ | async)?.itineraryItems;" class="relative border-l border-gray-200 dark:border-gray-700">
           <app-itinerary-item [itineraryItem]="itineraryItem ?? undefined"/>
         </ol>
       </div>

@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { TripState } from '../../stores/trip/trip.reducer';
-import { CorrelatedData } from '../../models/correlatedData.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
+import { CorrelatedData } from '../../models/correlatedData.model';
+import { Trip } from '../../models/trip.model';
+import { getAllItineraryItems } from '../../stores/itinerary-item/itinerary-item.actions';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
+import { selectIsLoadingItineraryItems } from '../../stores/itinerary-item/itineraryItem.selectors';
+import { deleteTrip, getAllTrips, setSelectedTrip } from '../../stores/trip/trip.actions';
+import { TripState } from '../../stores/trip/trip.reducer';
 import {
   selectCorrelatedTrips,
   selectIsLoadingTrips,
   selectSelectedCorrelatedTrip,
 } from '../../stores/trip/trip.selectors';
-import { Observable } from 'rxjs';
-import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
-import { getAllItineraryItems } from '../../stores/itinerary-item/itinerary-item.actions';
-import { deleteTrip, getAllTrips, setSelectedTrip } from '../../stores/trip/trip.actions';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Trip } from '../../models/trip.model';
-import { selectIsLoadingItineraryItems } from '../../stores/itinerary-item/itineraryItem.selectors';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { TripUpsertComponent } from '../trip-upsert/trip-upsert.component';
 
 @Component({
@@ -45,12 +45,9 @@ export class TripListComponent implements OnInit {
     this.tripStore.dispatch(getAllTrips());
     this.itineraryItemStore.dispatch(getAllItineraryItems());
   }
-  trackById(index: number, correlatedTrip: any): number {
-    return correlatedTrip.id;
-  }
   // CREATE
   addTrip() {
-    this.router.navigate([`../trips/add`], { relativeTo: this.route });
+    this.router.navigate(['../trips/add'], { relativeTo: this.route });
   }
   //READ
   selectTrip(selectedTrip: Trip) {

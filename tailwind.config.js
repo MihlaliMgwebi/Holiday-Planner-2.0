@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        auth: "url('/assets/img/auth.avif')",
+        auth: "url('/assets/img/auth.avif')"
       },
       colors: {
         footer: 'rgb(240 242 245)',
@@ -20,16 +20,15 @@ module.exports = {
           600: '#2563eb',
           700: '#1d4ed8',
           800: '#1e40af',
-          900: '#1e3a8a',
-        },
-      },
+          900: '#1e3a8a'
+        }
+      }
     },
     screens: {
-      //E.g. => @media (min-width: 640px) { ... }
       sm: '640px',
       md: '768px',
-      lg: '1024px',
-    },
+      lg: '1024px'
+    }
   },
-  plugins: [],
-};
+  plugins: []
+}

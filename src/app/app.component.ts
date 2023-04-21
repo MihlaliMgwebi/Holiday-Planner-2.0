@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserState } from './stores/user/user.reducer';
-import { User } from './models/user.model';
 import { Store } from '@ngrx/store';
+import { User } from './models/user.model';
 import * as UserActions from './stores/user/user.actions';
+import { UserState } from './stores/user/user.reducer';
 
 @Component({
   selector: 'app-root',

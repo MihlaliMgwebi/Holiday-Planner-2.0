@@ -13,11 +13,11 @@ export const selectSelectBaseValue = createSelector(selectCurrencyState, (state)
 export const selectSelectedBaseCurrency = createSelector(
   selectSelectedCurrencyCode,
   selectAllCurrencies,
-  (baseCurrencyCode, allCurrencies) => allCurrencies.find((currentCurrency) => currentCurrency.code == baseCurrencyCode)
+  (baseCurrencyCode, allCurrencies) => allCurrencies.find((currentCurrency) => currentCurrency.code === baseCurrencyCode)
 );
 
 export const selectConvertedValue = createSelector(
   selectSelectBaseValue,
   selectSelectedBaseCurrency,
-  (baseValue, baseCurrency) => (baseCurrency && baseCurrency.rate ? baseValue * baseCurrency?.rate : baseValue)
+  (baseValue, baseCurrency) => (baseCurrency?.rate ? baseValue * baseCurrency?.rate : baseValue)
 );

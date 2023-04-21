@@ -25,7 +25,6 @@ export class AuthService {
       signInWithEmailAndPassword(this.auth, email, password)
         .then((userCredential) => {
           const user: User = JSON.parse(JSON.stringify(userCredential.user));
-          // localStorage.setItem('user', JSON.stringify((user)))
           observer.next(user);
           observer.complete();
         })

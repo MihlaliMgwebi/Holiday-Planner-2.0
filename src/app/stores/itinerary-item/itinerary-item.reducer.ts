@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import * as ItineraryItemActions from './itinerary-item.actions';
 import { ItineraryItem } from '../../models/itineraryItem.model';
+import * as ItineraryItemActions from './itinerary-item.actions';
 
 export const itineraryItemFeatureKey = 'itineraryItem';
 

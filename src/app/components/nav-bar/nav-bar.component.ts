@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SignOutUser } from '../../stores/user/user.actions';
 import { Store } from '@ngrx/store';
-import { UserState } from '../../stores/user/user.reducer';
 import { User } from '../../models/user.model';
+import { SignOutUser } from '../../stores/user/user.actions';
+import { UserState } from '../../stores/user/user.reducer';
 
 @Component({
   selector: 'app-nav-bar',

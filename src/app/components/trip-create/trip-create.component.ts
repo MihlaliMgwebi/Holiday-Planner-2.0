@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { TripState } from '../../stores/trip/trip.reducer';
-import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Trip } from '../../models/trip.model';
 import { User } from '../../models/user.model';
 import { CurrencyState } from '../../stores/currency/currency.reducer';
-import { ActivatedRoute, Router } from '@angular/router';
 import { createTrip } from '../../stores/trip/trip.actions';
+import { TripState } from '../../stores/trip/trip.reducer';
 
 @Component({
   selector: 'app-trip-create',
@@ -26,10 +26,6 @@ export class TripCreateComponent {
     this.tripForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
       description: ['', [Validators.maxLength(250)]],
-      // itinerary: this.fb.group({
-      //   title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
-      //   description: ['', [Validators.maxLength(250)]],
-      // }),
     });
   }
   submitForm(): void {
@@ -61,9 +57,5 @@ export class TripCreateComponent {
         this.tripForm.controls[key].updateValueAndValidity();
       }
     }
-  }
-
-  back(): void {
-    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

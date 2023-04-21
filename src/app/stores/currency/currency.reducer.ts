@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import * as CurrencyActions from './currency.actions';
 import { Currency } from '../../models/currency.model';
+import * as CurrencyActions from './currency.actions';
 
 export const currencyFeatureKey = 'currency';
 

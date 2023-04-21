@@ -7,11 +7,11 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { combineLatestWith, Observable } from 'rxjs';
-import { TripState } from '../stores/trip/trip.reducer';
 import { select, Store } from '@ngrx/store';
-import { selectCorrelatedTrips } from '../stores/trip/trip.selectors';
+import { combineLatestWith, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TripState } from '../stores/trip/trip.reducer';
+import { selectCorrelatedTrips } from '../stores/trip/trip.selectors';
 import { UserState } from '../stores/user/user.reducer';
 import { selectLoggedInUser } from '../stores/user/user.selectors';
 
@@ -33,7 +33,7 @@ export class SelectedTripGuard implements CanActivate {
     return loggedInUser.pipe(
       combineLatestWith(correlatedTrips),
       map(([user, correlatedData]) =>
-        !!correlatedData.find((correlatedData) => !!correlatedData?.trip?._id)
+        correlatedData.find((correlatedData) => !!correlatedData?.trip?._id)
           ? true
           : this.router.createUrlTree(['/users/OPUZG9snX0TVHMeyqCOA2UtedSx1/trips'])
       )

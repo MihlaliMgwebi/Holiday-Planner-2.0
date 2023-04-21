@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Currency } from '../../models/currency.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Currency } from '../../models/currency.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +11,12 @@ export class CurrencyApiService {
   apiKey: string = '';
   getAllCurrencies(): Observable<Currency[]> {
     return new Observable((observer) => {
-      fetch(`https://api.exchangerate.host/latest?base=ZAR`)
+      fetch("https://api.exchangerate.host/latest?base=ZAR")
         .then((response) => response.json())
         .then((data) => {
           const currenciesByCurrencyCode = data.rates;
           const currencies: Currency[] = [];
-          for (let currencyCode in currenciesByCurrencyCode) {
+          for (const currencyCode in currenciesByCurrencyCode) {
             if (currenciesByCurrencyCode.hasOwnProperty(currencyCode)) {
               currencies.push({ code: currencyCode, rate: currenciesByCurrencyCode[currencyCode] } as Currency);
             }
@@ -40,11 +40,11 @@ export class CurrencyApiService {
           let fromRate: number = 1;
           let toRate: number = 1;
 
-          for (let currency of currencies) {
-            if (currency.code == fromBaseCurrency) {
+          for (const currency of currencies) {
+            if (currency.code === fromBaseCurrency) {
               toRate = currency.rate ?? 1;
             }
-            if (currency.code == toSelectedCurrency) {
+            if (currency.code === toSelectedCurrency) {
               fromRate = currency.rate ?? 1;
             }
           }

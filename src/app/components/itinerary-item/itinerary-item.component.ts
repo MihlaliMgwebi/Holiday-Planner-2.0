@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
-import { ActivatedRoute, Router } from '@angular/router';
-import { deleteItineraryItem, setSelectedItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
-import { ItineraryItem } from '../../models/itineraryItem.model';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { ItineraryItemUpsertComponent } from '../itinerary-item-upsert/itinerary-item-upsert.component';
 import { Observable } from 'rxjs';
+import { ItineraryItem } from '../../models/itineraryItem.model';
+import { deleteItineraryItem, setSelectedItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 import { selectItineraryItem } from '../../stores/itinerary-item/itineraryItem.selectors';
+import { ItineraryItemUpsertComponent } from '../itinerary-item-upsert/itinerary-item-upsert.component';
 
 @Component({
   selector: 'app-itinerary-item',

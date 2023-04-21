@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Timestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs';
-import { ItineraryItem } from '../../models/itineraryItem.model';
-import { getItineraryItem, upsertItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
-import { selectItineraryItem } from '../../stores/itinerary-item/itineraryItem.selectors';
+import { map, tap } from 'rxjs/operators';
 import { Currency } from '../../models/currency.model';
+import { ItineraryItem } from '../../models/itineraryItem.model';
+import { getAllCurrencies } from '../../stores/currency/currency.actions';
 import { CurrencyState } from '../../stores/currency/currency.reducer';
 import { selectAllCurrencies } from '../../stores/currency/currency.selectors';
-import { getAllCurrencies } from '../../stores/currency/currency.actions';
-import { map, tap } from 'rxjs/operators';
+import { upsertItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
 import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
-import { Timestamp } from 'firebase/firestore';
+import { selectItineraryItem } from '../../stores/itinerary-item/itineraryItem.selectors';
 
 @Component({
   selector: 'app-itinerary-item-upsert',
@@ -28,8 +27,7 @@ export class ItineraryItemUpsertComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private itineraryItemStore: Store<ItineraryItemState>,
-    private currencyStore: Store<CurrencyState>,
-    private route: ActivatedRoute
+    private currencyStore: Store<CurrencyState>
   ) {
     this.itineraryItemForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],

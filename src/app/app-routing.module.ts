@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './components/auth/auth.component';
-import { TripCreateComponent } from './components/trip-create/trip-create.component';
-import { TripUpsertComponent } from './components/trip-upsert/trip-upsert.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { ItineraryItemUpsertComponent } from './components/itinerary-item-upsert/itinerary-item-upsert.component';
 import { ItineraryItemCreateComponent } from './components/itinerary-item-create/itinerary-item-create.component';
+import { ItineraryItemUpsertComponent } from './components/itinerary-item-upsert/itinerary-item-upsert.component';
 import { ItineraryItemComponent } from './components/itinerary-item/itinerary-item.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { TripCreateComponent } from './components/trip-create/trip-create.component';
 import { TripListComponent } from './components/trip-list/trip-list.component';
+import { TripUpsertComponent } from './components/trip-upsert/trip-upsert.component';
 import { TripComponent } from './components/trip/trip.component';
 import { SelectedTripGuard } from './guards/selected-trip.guard';
 

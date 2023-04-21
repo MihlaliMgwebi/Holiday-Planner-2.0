@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CurrencyState } from '../../stores/currency/currency.reducer';
+import { Currency } from '../../models/currency.model';
+import { ItineraryItem } from '../../models/itineraryItem.model';
 import {
   getAllCurrencies,
   setSelectedCurrencyCode,
   setSelectedCurrencyValue,
 } from '../../stores/currency/currency.actions';
-import { Currency } from '../../models/currency.model';
+import { CurrencyState } from '../../stores/currency/currency.reducer';
 import {
   selectAllCurrencies,
   selectConvertedValue,
@@ -17,8 +19,6 @@ import {
   selectSelectedBaseCurrency,
   selectSelectedCurrencyCode,
 } from '../../stores/currency/currency.selectors';
-import { ItineraryItem } from '../../models/itineraryItem.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { createItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
 import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 
@@ -88,7 +88,7 @@ export class ItineraryItemCreateComponent implements OnInit {
       title: item.title,
     };
     this.itineraryItemStore.dispatch(createItineraryItem({ itineraryItem: newItineraryItem }));
-    this.router.navigate([`../../../`], { relativeTo: this.route });
+    this.router.navigate(["../../../"], { relativeTo: this.route });
   }
 
   resetForm(e: MouseEvent): void {

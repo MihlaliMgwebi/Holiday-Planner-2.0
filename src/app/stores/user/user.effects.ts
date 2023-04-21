@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
-import * as UserActions from './user.actions';
-import { AuthService } from '../../services/fire/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { EMPTY } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { AuthService } from '../../services/fire/auth/auth.service';
+import * as UserActions from './user.actions';
 
 @Injectable()
 export class UserEffects {

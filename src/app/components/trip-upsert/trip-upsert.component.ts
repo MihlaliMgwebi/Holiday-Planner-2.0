@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { TripState } from '../../stores/trip/trip.reducer';
-import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { upsertTrip } from '../../stores/trip/trip.actions';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../models/user.model';
-import { Trip } from '../../models/trip.model';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectSelectedTrip } from '../../stores/trip/trip.selectors';
 import { map, tap } from 'rxjs/operators';
+import { Trip } from '../../models/trip.model';
+import { User } from '../../models/user.model';
+import { upsertTrip } from '../../stores/trip/trip.actions';
+import { TripState } from '../../stores/trip/trip.reducer';
+import { selectSelectedTrip } from '../../stores/trip/trip.selectors';
 
 @Component({
   selector: 'app-trip-upsert',

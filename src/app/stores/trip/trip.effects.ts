@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
-import * as TripActions from './trip.actions';
-import { FireStoreService } from '../../services/fire/store/fire-store.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { EMPTY } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { FireStoreService } from '../../services/fire/store/fire-store.service';
+import * as TripActions from './trip.actions';
 
 @Injectable()
 export class TripEffects {
