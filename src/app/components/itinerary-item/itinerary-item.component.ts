@@ -27,14 +27,6 @@ export class ItineraryItemComponent {
       relativeTo: this.route,
     });
   }
-  // UPDATE
-  editItineraryItem(itineraryItem: ItineraryItem | undefined) {
-    if (!itineraryItem) return;
-    this.router.navigate(
-      [`../${this.route.snapshot.paramMap.get('tripId')}/itinerary-items/${itineraryItem._id}/edit`],
-      { relativeTo: this.route }
-    );
-  }
   // DELETE
   deleteItineraryItem(deletedItineraryItemId: string | null | undefined) {
     if (!deletedItineraryItemId) return;
