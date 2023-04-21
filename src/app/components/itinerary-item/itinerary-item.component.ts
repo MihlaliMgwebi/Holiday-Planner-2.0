@@ -13,20 +13,16 @@ import { ItineraryItem } from '../../models/itineraryItem.model';
 })
 export class ItineraryItemComponent {
   @Input() itineraryItem: ItineraryItem | undefined;
-
-  constructor(
-    private itineraryItemStore: Store<ItineraryItemState>,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  //NAVIGATE TO READ
-  viewItineraryItem(itineraryItem: ItineraryItem | undefined) {
-    if (!itineraryItem) return;
-    this.router.navigate([`../${this.route.snapshot.paramMap.get('tripId')}/itinerary-items/${itineraryItem._id}`], {
-      relativeTo: this.route,
-    });
+  isItineraryItemDetailsVisible: boolean;
+  constructor(private itineraryItemStore: Store<ItineraryItemState>) {
+    this.isItineraryItemDetailsVisible = false;
   }
+
+  // READ
+  viewItineraryItem() {
+    this.isItineraryItemDetailsVisible = !this.isItineraryItemDetailsVisible;
+  }
+
   // DELETE
   deleteItineraryItem(deletedItineraryItemId: string | null | undefined) {
     if (!deletedItineraryItemId) return;

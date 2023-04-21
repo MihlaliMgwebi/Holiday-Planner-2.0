@@ -82,7 +82,7 @@ registerLocaleData(en);
     StoreModule.forFeature(fromItineraryItem.itineraryItemFeatureKey, fromItineraryItem.reducer),
     StoreModule.forFeature(fromTrip.tripFeatureKey, fromTrip.reducer),
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
-    StoreModule.forRoot({}, { metaReducers }),
+    StoreModule.forRoot({}),
 
     EffectsModule.forFeature([UserEffects, TripEffects, ItineraryItemEffects, CurrencyEffects]),
     EffectsModule.forRoot(),
