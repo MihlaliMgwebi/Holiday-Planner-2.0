@@ -1,4 +1,4 @@
-<li class="mb-10 ml-4" *ngIf="itineraryItem" (click)="viewItineraryItem()" >
+<li class="mb-10 ml-4" *ngIf="itineraryItem" (click)="viewItineraryItem(itineraryItem)" >
   <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white"></div>
   <time class="mb-1 text-sm font-normal leading-none text-gray-400">{{(itineraryItem.startDateTimeISOString?.toDate() | date:'mediumDate':'shortTime')}} - {{(itineraryItem.endDateTimeISOString?.toDate() | date: 'h:mm a')}}</time>
   <h3 class="text-lg font-semibold text-gray-900">{{itineraryItem.title}}</h3>

@@ -47,4 +47,7 @@ export const deleteItineraryItem = createAction(
 
 export const deleteItineraryItemComplete = createAction('[Itinerary Item Effect] Delete Itinerary Item Complete');
 
-export const clearItineraryItems = createAction('[ItineraryItem/API] Clear ItineraryItems');
+export const setSelectedItineraryItem = createAction(
+  '[Itinerary Item] Set Selected Itinerary Item',
+  props<{ itineraryItem: ItineraryItem }>()
+);

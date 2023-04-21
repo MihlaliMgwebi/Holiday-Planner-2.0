@@ -29,7 +29,7 @@ export const reducer = createReducer(
     allItineraryItems,
     isLoading: false,
   })),
-  on(ItineraryItemActions.getItineraryItemComplete, (state, { itineraryItem }) => ({
+  on(ItineraryItemActions.setSelectedItineraryItem, (state, { itineraryItem }) => ({
     ...state,
     itineraryItem,
   })),

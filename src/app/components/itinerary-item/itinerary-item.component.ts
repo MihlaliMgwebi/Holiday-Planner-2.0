@@ -2,10 +2,12 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
-import { deleteItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
+import { deleteItineraryItem, setSelectedItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
 import { ItineraryItem } from '../../models/itineraryItem.model';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ItineraryItemUpsertComponent } from '../itinerary-item-upsert/itinerary-item-upsert.component';
+import { Observable } from 'rxjs';
+import { selectItineraryItem } from '../../stores/itinerary-item/itineraryItem.selectors';
 
 @Component({
   selector: 'app-itinerary-item',
@@ -16,13 +18,16 @@ import { ItineraryItemUpsertComponent } from '../itinerary-item-upsert/itinerary
 export class ItineraryItemComponent {
   @Input() itineraryItem: ItineraryItem | undefined;
   isItineraryItemDetailsVisible: boolean;
+  selectedItineraryItem: Observable<ItineraryItem | null>;
   constructor(private itineraryItemStore: Store<ItineraryItemState>, private modalService: NzModalService) {
     this.isItineraryItemDetailsVisible = false;
+    this.selectedItineraryItem = this.itineraryItemStore.select(selectItineraryItem);
   }
 
   // READ
-  viewItineraryItem() {
+  viewItineraryItem(itineraryItem: ItineraryItem) {
     this.isItineraryItemDetailsVisible = !this.isItineraryItemDetailsVisible;
+    this.itineraryItemStore.dispatch(setSelectedItineraryItem({ itineraryItem }));
   }
   editItineraryItem(itineraryItem: ItineraryItem) {
     this.modalService.create({
