@@ -34,7 +34,6 @@ export class ItineraryItemComponent {
       nzTitle: 'Modal Title',
       nzContent: ItineraryItemUpsertComponent,
       nzClosable: true,
-      nzFooter: null,
       nzData: itineraryItem._id,
     });
   }

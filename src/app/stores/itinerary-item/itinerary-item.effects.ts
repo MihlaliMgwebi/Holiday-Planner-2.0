@@ -51,7 +51,6 @@ export class ItineraryItemEffects {
       ofType(ItineraryItemActions.upsertItineraryItem),
       switchMap(({ itineraryItem }) =>
         this.fireStoreService.upsertItineraryItem(itineraryItem).pipe(
-          tap((itineraryItem) => console.log('FS Updated', itineraryItem)),
           map((res) => ItineraryItemActions.upsertItineraryItemComplete({ itineraryItem: res })),
           tap(() => this.notification.create('success', 'Successfully Edited Itinerary Item', '')),
           catchError((error) => {

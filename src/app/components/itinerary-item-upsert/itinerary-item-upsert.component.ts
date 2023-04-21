@@ -33,7 +33,8 @@ export class ItineraryItemUpsertComponent implements OnInit {
   ) {
     this.itineraryItemForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-      dateRange: ['', [Validators.required]],
+      dateStart: ['', [Validators.required]],
+      dateEnd: ['', [Validators.required]],
       tag: ['', [Validators.required, Validators.minLength(1)]],
       currency: ['', [Validators.required, Validators.minLength(3)]],
       costEstimate: ['', [Validators.required, Validators.min(0)]],
@@ -55,10 +56,8 @@ export class ItineraryItemUpsertComponent implements OnInit {
         map((itineraryItem) => {
           this.itineraryItemForm.patchValue({
             title: itineraryItem?.title ?? 'No tile',
-            dateRange: [
-              itineraryItem?.startDateTimeISOString ? itineraryItem.startDateTimeISOString.toDate() : null,
-              itineraryItem?.endDateTimeISOString ? itineraryItem.endDateTimeISOString.toDate() : null,
-            ],
+            dateStart: itineraryItem?.startDateTimeISOString?.toDate() || Date.now(),
+            dateEnd: itineraryItem?.endDateTimeISOString?.toDate() || Date.now(),
             tag: itineraryItem?.tag ?? '',
             currency: itineraryItem?.currency ?? 'ZAR',
             costEstimate: itineraryItem?.costEstimate ?? '0',
@@ -81,10 +80,10 @@ export class ItineraryItemUpsertComponent implements OnInit {
       costEstimate: item.costEstimate,
       currency: item.currency,
       description: item.description,
-      endDateTimeISOString: Timestamp.fromDate(item.dateRange[1]),
+      endDateTimeISOString: Timestamp.fromDate(item.dateEnd),
       itineraryId: this.itineraryId,
       notes: item.notes,
-      startDateTimeISOString: Timestamp.fromDate(item.dateRange[0]),
+      startDateTimeISOString: Timestamp.fromDate(item.dateStart),
       tag: item.tag,
       title: item.title,
     };
