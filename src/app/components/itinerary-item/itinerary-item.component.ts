@@ -4,6 +4,8 @@ import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.r
 import { ActivatedRoute, Router } from '@angular/router';
 import { deleteItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
 import { ItineraryItem } from '../../models/itineraryItem.model';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ItineraryItemUpsertComponent } from '../itinerary-item-upsert/itinerary-item-upsert.component';
 
 @Component({
   selector: 'app-itinerary-item',
@@ -14,7 +16,7 @@ import { ItineraryItem } from '../../models/itineraryItem.model';
 export class ItineraryItemComponent {
   @Input() itineraryItem: ItineraryItem | undefined;
   isItineraryItemDetailsVisible: boolean;
-  constructor(private itineraryItemStore: Store<ItineraryItemState>) {
+  constructor(private itineraryItemStore: Store<ItineraryItemState>, private modalService: NzModalService) {
     this.isItineraryItemDetailsVisible = false;
   }
 
@@ -22,7 +24,14 @@ export class ItineraryItemComponent {
   viewItineraryItem() {
     this.isItineraryItemDetailsVisible = !this.isItineraryItemDetailsVisible;
   }
-
+  editItineraryItem(itineraryItem: ItineraryItem) {
+    this.modalService.create({
+      nzTitle: 'Modal Title',
+      nzContent: ItineraryItemUpsertComponent,
+      nzClosable: false,
+      nzOnOk: () => new Promise((resolve) => setTimeout(resolve, 1000)),
+    });
+  }
   // DELETE
   deleteItineraryItem(deletedItineraryItemId: string | null | undefined) {
     if (!deletedItineraryItemId) return;

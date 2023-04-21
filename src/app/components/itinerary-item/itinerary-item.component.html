@@ -3,13 +3,13 @@
   <time class="mb-1 text-sm font-normal leading-none text-gray-400">{{(itineraryItem.startDateTimeISOString?.toDate() | date:'mediumDate':'shortTime')}} - {{(itineraryItem.endDateTimeISOString?.toDate() | date: 'h:mm a')}}</time>
   <h3 class="text-lg font-semibold text-gray-900">{{itineraryItem.title}}</h3>
   <p class="mb-4 text-base font-normal text-gray-500">{{itineraryItem.description}}</p>
-  <p class="mb-4 text-sm leading-none text-gray-400 md:text-2xl">{{ itineraryItem.costEstimate | currency:itineraryItem.currency ?? 'R'}}</p>
+  <p class="mb-4 text-sm leading-none text-gray-400 md:text-2xl">Cost: {{ itineraryItem.costEstimate | currency:itineraryItem.currency ?? 'R'}}</p>
   <div *ngIf="isItineraryItemDetailsVisible">
     <p class="mb-4 text-sm leading-none text-gray-400 md:text-2xl">{{ itineraryItem.tag}}</p>
     <p class="mb-4 text-sm font-normal text-gray-500">Notes: {{itineraryItem.notes}}</p>
   </div>
   <div class="w-2/6 flex gap-1">
-    <button  *ngIf="isItineraryItemDetailsVisible" nzButton class="h-8 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-2.5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+    <button (click)="editItineraryItem(itineraryItem)" *ngIf="isItineraryItemDetailsVisible" nzButton class="h-8 text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-2.5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
       <span  nz-icon nzType="edit" nzTheme="outline"></span>
     </button>
     <button
