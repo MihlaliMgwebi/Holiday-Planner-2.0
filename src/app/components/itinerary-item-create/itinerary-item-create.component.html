@@ -1,9 +1,9 @@
 <section class="bg-white">
   <div class="flex pt-6 my-2 items-center">
-    <button nz-button nzType="text" routerLink="/home" class="flex items-center">
-      <span nz-icon nzType="arrow-left" nzTheme="outline" class="mr-2"></span>
-    </button>
-    <h2 class="text-xl font-bold text-gray-900">Add a new itinerary item</h2>
+<!--    <button nz-button nzType="text" routerLink="/home" class="flex items-center">-->
+<!--      <span nz-icon nzType="arrow-left" nzTheme="outline" class="mr-2"></span>-->
+<!--    </button>-->
+    <h2 class="text-xl font-bold text-gray-900 mx-auto">Add Itinerary Item</h2>
   </div>
   <div class="py-4 px-4 mx-auto max-w-2xl">
 <form nz-form [formGroup]="itineraryItemForm" (ngSubmit)="submitForm()">
@@ -20,16 +20,24 @@
   </nz-form-item>
   <!--  Date Start -->
   <nz-form-item class="sm:col-span-2">
-    <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">Date Range</nz-form-label>
-    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateRangeErrorTpl">
-      <nz-range-picker formControlName="dateRange" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-2.5"></nz-range-picker>
-      <ng-template #dateRangeErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">Please select a date range!</ng-container>
+    <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">Start Date</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateStartErrorTpl">
+      <nz-date-picker formControlName="dateStart" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-2.5"></nz-date-picker>
+      <ng-template #dateStartErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please select a start date!</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
     <!--  Date End -->
-
+    <nz-form-item class="sm:col-span-2">
+      <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">End Date</nz-form-label>
+      <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndErrorTpl">
+        <nz-date-picker formControlName="dateEnd" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-2.5"></nz-date-picker>
+        <ng-template #dateEndErrorTpl let-control>
+          <ng-container *ngIf="control.hasError('required')">Please select an end date!</ng-container>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
   <!-- Tag -->
   <nz-form-item class="sm:col-span-2">
     <nz-form-label nzFor="tag" nzRequired class="block text-sm font-medium text-gray-900">Category</nz-form-label>
@@ -41,8 +49,8 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-2.5"
       >
         <nz-option nzValue="" nzLabel="Select a category">Select a category</nz-option>
-        <nz-option nzValue="destination" nzLabel="destination">DESTINATION</nz-option>
-        <nz-option nzValue="travel" nzLabel="travel">TRAVEL</nz-option>
+        <nz-option nzValue="destination" nzLabel="DESTINATION">DESTINATION</nz-option>
+        <nz-option nzValue="travel" nzLabel="TRAVEL">TRAVEL</nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
@@ -76,7 +84,7 @@
           Please enter a valid cost estimate!
         </ng-container>
       </ng-template>
-<!--      <p class="mb-4 text-sm leading-none text-gray-900 md:text-2xl">({{selectConvertedValue$ | async | currency:'R'}})</p>-->
+      <p class="mb-4 text-sm leading-none text-gray-400 md:text-2xl">( Converted Cost Estimate: {{selectConvertedValue$ | async | currency:'R'}} )</p>
     </div>
       <!-- Description -->
   <nz-form-item>

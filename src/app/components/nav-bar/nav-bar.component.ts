@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SignOutUser } from '../../stores/user/user.actions';
 import { Store } from '@ngrx/store';
 import { UserState } from '../../stores/user/user.reducer';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,7 +14,8 @@ export class NavBarComponent {
   constructor(private route: ActivatedRoute, private router: Router, private userStore: Store<UserState>) {}
 
   back(): void {
-    this.router.navigate(['../../'], { relativeTo: this.route });
+    const loggedInUser: User = JSON.parse(localStorage.getItem('user') || '{}');
+    this.router.navigate([`/users/${loggedInUser.uid}/trips`], { relativeTo: this.route });
   }
 
   signOut() {

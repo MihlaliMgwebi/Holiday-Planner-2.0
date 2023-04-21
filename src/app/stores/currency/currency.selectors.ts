@@ -23,9 +23,6 @@ export const selectZARCurrency = createSelector(selectAllCurrencies, (allCurrenc
 export const selectConvertedValue = createSelector(
   selectSelectBaseValue,
   selectSelectedBaseCurrency,
-  selectZARCurrency,
-  (baseValue, baseCurrency, ZARCurrency) =>
-    baseCurrency && ZARCurrency && baseCurrency.rate && ZARCurrency.rate
-      ? (baseValue * baseCurrency?.rate) / ZARCurrency?.rate
-      : baseValue
+  (baseValue, baseCurrency) =>
+    baseCurrency && baseCurrency.rate ? 10000 / (baseValue * baseCurrency?.rate) : baseValue * 100
 );

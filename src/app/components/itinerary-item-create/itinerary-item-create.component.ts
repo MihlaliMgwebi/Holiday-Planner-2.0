@@ -49,8 +49,9 @@ export class ItineraryItemCreateComponent implements OnInit {
     this.selectConvertedValue$ = currencyStore.select(selectConvertedValue);
 
     this.itineraryItemForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
-      dateRange: ['', [Validators.required]],
+      title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+      dateStart: ['', [Validators.required]],
+      dateEnd: ['', [Validators.required]],
       tag: ['', [Validators.required, Validators.minLength(1)]],
       currency: ['ZAR', [Validators.required, Validators.minLength(3)]],
       costEstimate: ['', [Validators.required, Validators.min(0)]],
@@ -65,27 +66,28 @@ export class ItineraryItemCreateComponent implements OnInit {
     this.itineraryItemStore.dispatch(setSelectedCurrencyCode({ selectedCurrencyCode }));
   }
   setSelectedCurrencyValue(selectedCurrencyValue: number) {
-    console.log(selectedCurrencyValue);
     this.itineraryItemStore.dispatch(setSelectedCurrencyValue({ selectedCurrencyValue }));
   }
 
   submitForm(): void {
     const item = this.itineraryItemForm.value;
+    const selectedCostEstimate = parseFloat(item.costEstimate);
+    const selectedCurrencyRate = parseFloat(item.currency.rate);
+    const newCostEstimate = parseFloat((selectedCostEstimate * selectedCurrencyRate).toFixed(2));
+
     const newItineraryItem: ItineraryItem = {
       _id: null,
-      costEstimate: isNaN(item.costEstimate) ? 0 : parseFloat((item.costEstimate * item.currency.rate).toFixed(2)),
+      costEstimate: newCostEstimate,
       currency: item.currency.code,
       description: item.description,
-      endDateTimeISOString: item.dateRange[1],
+      endDateTimeISOString: item.dateEnd,
       itineraryId: this.route.snapshot.paramMap.get('tripId'),
       notes: item.notes,
-      startDateTimeISOString: item.dateRange[0],
+      startDateTimeISOString: item.dateStart,
       tag: item.tag,
       title: item.title,
     };
-
     this.itineraryItemStore.dispatch(createItineraryItem({ itineraryItem: newItineraryItem }));
-
     this.router.navigate([`../../../`], { relativeTo: this.route });
   }
 

@@ -45,20 +45,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-
 registerLocaleData(en);
-
-export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function (state, action) {
-    console.log(action.type, action);
-    console.log('current state', state);
-    console.log('future value of state', reducer(state, action));
-
-    return reducer(state, action);
-  };
-}
-
-export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug] : [];
 
 @NgModule({
   declarations: [
@@ -89,7 +76,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     provideFirestore(() => getFirestore()),
 
     // NgRx
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    // StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
 
     StoreModule.forFeature(fromCurrency.currencyFeatureKey, fromCurrency.reducer),
     StoreModule.forFeature(fromItineraryItem.itineraryItemFeatureKey, fromItineraryItem.reducer),
@@ -100,6 +87,10 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     EffectsModule.forFeature([UserEffects, TripEffects, ItineraryItemEffects, CurrencyEffects]),
     EffectsModule.forRoot(),
 
+    StoreDevtoolsModule.instrument({
+      maxAge: 40, // Retains last 25 states
+      logOnly: !environment.production, // Restrict extension to log-only mode
+    }),
     // NgZorro and Forms
     FormsModule,
     ReactiveFormsModule,
