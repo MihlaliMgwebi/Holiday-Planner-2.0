@@ -1,5 +1,3 @@
-<p>itinerary-item-create works!</p>
-
 <form *ngIf="(selectedItineraryItem$|async)" nz-form [formGroup]="itineraryItemForm" (ngSubmit)="submitForm()">
   <!--  Title  -->
   <nz-form-item>
@@ -11,13 +9,23 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
-  <!--  Date Range -->
-  <nz-form-item>
-    <nz-form-label nzRequired>Date Range</nz-form-label>
-    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateRangeErrorTpl">
-      <nz-range-picker [nzShowTime]="true" formControlName="dateRange"></nz-range-picker>
-      <ng-template #dateRangeErrorTpl let-control>
-        <ng-container *ngIf="control.hasError('required')">Please select a date range!</ng-container>
+  <!--  Date Start -->
+  <nz-form-item class="sm:col-span-2">
+    <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">Start Date</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateStartErrorTpl">
+      <nz-date-picker formControlName="dateStart" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-2.5"></nz-date-picker>
+      <ng-template #dateStartErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please select a start date!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <!--  Date End -->
+  <nz-form-item class="sm:col-span-2">
+    <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">End Date</nz-form-label>
+    <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndErrorTpl">
+      <nz-date-picker formControlName="dateEnd" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full py-2.5"></nz-date-picker>
+      <ng-template #dateEndErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Please select an end date!</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
@@ -86,7 +94,7 @@
 
   <nz-form-item>
     <nz-form-control>
-      <button nz-button nzType="primary" [disabled]="!itineraryItemForm.valid">Submit</button>
+      <button nz-button (click)="submitForm()" nzType="primary" [disabled]="!itineraryItemForm.valid">Submit</button>
       <button nz-button (click)="resetForm($event)">Reset</button>
     </nz-form-control>
   </nz-form-item>

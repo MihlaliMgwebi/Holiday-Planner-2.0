@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Timestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs';
-import { ItineraryItem } from '../../models/itineraryItem.model';
-import { getItineraryItem, upsertItineraryItem } from '../../store/actions/itinerary-item.actions';
-import { selectItineraryItem } from '../../store/selectors/itineraryItem.selectors';
+import { map, tap } from 'rxjs/operators';
 import { Currency } from '../../models/currency.model';
-import { CurrencyState } from '../../store/reducers/currency.reducer';
-import { selectAllCurrencies } from '../../store/selectors/currency.selectors';
-import { getAllCurrencies } from '../../store/actions/currency.actions';
-import { map } from 'rxjs/operators';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
+import { ItineraryItem } from '../../models/itineraryItem.model';
+import { getAllCurrencies } from '../../stores/currency/currency.actions';
+import { CurrencyState } from '../../stores/currency/currency.reducer';
+import { selectAllCurrencies } from '../../stores/currency/currency.selectors';
+import { upsertItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
+import { selectItineraryItem } from '../../stores/itinerary-item/itineraryItem.selectors';
 
 @Component({
   selector: 'app-itinerary-item-upsert',
@@ -22,15 +22,17 @@ export class ItineraryItemUpsertComponent implements OnInit {
   selectedItineraryItem$: Observable<ItineraryItem | null>;
   allCurrencies$: Observable<Currency[]>;
   itineraryItemForm: UntypedFormGroup;
+  itineraryId: string | null;
+  itineraryItemId: string | null;
   constructor(
     private fb: UntypedFormBuilder,
     private itineraryItemStore: Store<ItineraryItemState>,
-    private currencyStore: Store<CurrencyState>,
-    private route: ActivatedRoute
+    private currencyStore: Store<CurrencyState>
   ) {
     this.itineraryItemForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-      dateRange: ['', [Validators.required]],
+      dateStart: ['', [Validators.required]],
+      dateEnd: ['', [Validators.required]],
       tag: ['', [Validators.required, Validators.minLength(1)]],
       currency: ['', [Validators.required, Validators.minLength(3)]],
       costEstimate: ['', [Validators.required, Validators.min(0)]],
@@ -40,16 +42,20 @@ export class ItineraryItemUpsertComponent implements OnInit {
 
     this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
     this.selectedItineraryItem$ = itineraryItemStore.select(selectItineraryItem);
+    this.itineraryId = null;
+    this.itineraryItemId = null;
 
     this.selectedItineraryItem$
       .pipe(
+        tap((itineraryItem) => {
+          this.itineraryId = itineraryItem?.itineraryId ?? null;
+          this.itineraryItemId = itineraryItem?._id ?? null;
+        }),
         map((itineraryItem) => {
           this.itineraryItemForm.patchValue({
             title: itineraryItem?.title ?? 'No tile',
-            dateRange: [
-              itineraryItem?.startDateTimeISOString ? itineraryItem.startDateTimeISOString.toDate() : null,
-              itineraryItem?.endDateTimeISOString ? itineraryItem.endDateTimeISOString.toDate() : null,
-            ],
+            dateStart: itineraryItem?.startDateTimeISOString?.toDate() || Date.now(),
+            dateEnd: itineraryItem?.endDateTimeISOString?.toDate() || Date.now(),
             tag: itineraryItem?.tag ?? '',
             currency: itineraryItem?.currency ?? 'ZAR',
             costEstimate: itineraryItem?.costEstimate ?? '0',
@@ -62,26 +68,24 @@ export class ItineraryItemUpsertComponent implements OnInit {
   }
   ngOnInit(): void {
     this.currencyStore.dispatch(getAllCurrencies());
-    const itineraryItemId: string = this.route.snapshot.params['itineraryItemId'];
-    this.itineraryItemStore.dispatch(getItineraryItem({ itineraryItemId }));
   }
 
   submitForm(): void {
     const item = this.itineraryItemForm.value;
-    const _id: string = this.route.snapshot.params['itineraryItemId'];
+    //Used a popup and not params askies
     const newItineraryItem: ItineraryItem = {
-      _id,
+      _id: this.itineraryItemId,
       costEstimate: item.costEstimate,
       currency: item.currency,
       description: item.description,
-      endDateTimeISOString: item.dateRange[1],
-      itineraryId: this.route.snapshot.paramMap.get('tripId'),
+      endDateTimeISOString: Timestamp.fromDate(item.dateEnd),
+      itineraryId: this.itineraryId,
       notes: item.notes,
-      startDateTimeISOString: item.dateRange[0],
+      startDateTimeISOString: Timestamp.fromDate(item.dateStart),
       tag: item.tag,
       title: item.title,
     };
-    this.itineraryItemStore.dispatch(upsertItineraryItem({ upsertedItineraryItem: newItineraryItem }));
+    this.itineraryItemStore.dispatch(upsertItineraryItem({ itineraryItem: newItineraryItem }));
   }
 
   resetForm(e: MouseEvent): void {

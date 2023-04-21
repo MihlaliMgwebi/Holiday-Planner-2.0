@@ -1,17 +1,19 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import * as ItineraryItemActions from '../actions/itinerary-item.actions';
 import { ItineraryItem } from '../../models/itineraryItem.model';
+import * as ItineraryItemActions from './itinerary-item.actions';
 
 export const itineraryItemFeatureKey = 'itineraryItem';
 
 export interface ItineraryItemState {
   allItineraryItems: ItineraryItem[];
   itineraryItem: ItineraryItem | null;
+  isLoading: boolean;
 }
 
 export const initialState: ItineraryItemState = {
   allItineraryItems: [],
   itineraryItem: null,
+  isLoading: false,
 };
 
 export const reducer = createReducer(
@@ -25,16 +27,17 @@ export const reducer = createReducer(
   on(ItineraryItemActions.getAllItineraryItemsComplete, (state, { allItineraryItems }) => ({
     ...state,
     allItineraryItems,
+    isLoading: false,
   })),
-  on(ItineraryItemActions.getItineraryItemComplete, (state, { itineraryItem }) => ({
+  on(ItineraryItemActions.setSelectedItineraryItem, (state, { itineraryItem }) => ({
     ...state,
     itineraryItem,
   })),
   //UPSERT
-  on(ItineraryItemActions.upsertItineraryItemComplete, (state, { upsertedItineraryItem }) => ({
+  on(ItineraryItemActions.upsertItineraryItemComplete, (state, { itineraryItem }) => ({
     ...state,
     allItineraryItems: state.allItineraryItems.map((currentItineraryItem) =>
-      currentItineraryItem._id === upsertedItineraryItem._id ? upsertedItineraryItem : currentItineraryItem
+      currentItineraryItem._id === itineraryItem._id ? itineraryItem : currentItineraryItem
     ),
     // selectedProduct: null
   })),
@@ -44,15 +47,7 @@ export const reducer = createReducer(
     allItineraryItems: state.allItineraryItems.filter(
       (currentItineraryItem) => currentItineraryItem._id !== deletedItineraryItemId
     ),
-  })),
-  // FAILURES
-  on(
-    ItineraryItemActions.createItineraryItemFailure,
-    ItineraryItemActions.getAllItineraryItemsFailure,
-    ItineraryItemActions.upsertItineraryItemFailure,
-    ItineraryItemActions.deleteItineraryItemFailure,
-    (state, { error }) => ({ ...state, error })
-  )
+  }))
 );
 
 export const itineraryItemsFeature = createFeature({

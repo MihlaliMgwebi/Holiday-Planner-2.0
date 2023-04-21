@@ -1,11 +1,13 @@
-<button (click)="setMonth(-1)">&lt;</button>
-{{date | date}}
-<button (click)="setMonth(+1)">&gt;</button>
+<div class="flex justify-center mb-4 gap-3">
+  <button (click)="setMonth(-1)" class="font-semibold">&lt;</button>
+  <p class="font-semibold">{{date | date}}</p>
+  <button (click)="setMonth(+1)" class="font-semibold">&gt;</button>
+</div>
 <ul>
   <li class="days" *ngFor="let day of days"> {{day}} </li>
-  <li *ngFor="let date of dates"
-      [ngClass]="{grey: !isSameMonth(date),
-    'bg-blue-200': isCalendarDayMatched(date)}"
+  <li *ngFor="let date of dates;trackBy:trackByDate"
+      [class.grey]="!isSameMonth(date)"
+      [class.bg-blue-200]="isCalendarDayMatched(date)"
       (click)="selected.emit(getItineraryItemsForDate(date))">
     {{date | date:'d'}}
   </li>

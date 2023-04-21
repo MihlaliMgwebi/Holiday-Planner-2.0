@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromItineraryItem from '../reducers/itinerary-item.reducer';
+import * as fromItineraryItem from './itinerary-item.reducer';
 export const selectItineraryItemState = createFeatureSelector<fromItineraryItem.ItineraryItemState>(
   fromItineraryItem.itineraryItemFeatureKey
 );
@@ -8,3 +8,4 @@ export const selectItineraryItemState = createFeatureSelector<fromItineraryItem.
 export const selectAllItineraryItems = createSelector(selectItineraryItemState, (state) => state.allItineraryItems);
 
 export const selectItineraryItem = createSelector(selectItineraryItemState, (state) => state.itineraryItem);
+export const selectIsLoadingItineraryItems = createSelector(selectItineraryItemState, (state) => state.isLoading);

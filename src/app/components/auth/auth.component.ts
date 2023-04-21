@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SignInUser, SignInUserWithGoogle, SignOutUser, SignUpUser } from '../../store/actions/user.actions';
-import { select, Store } from '@ngrx/store';
-import { UserState } from '../../store/reducers/user.reducer';
+import { FormControl, FormGroup, UntypedFormBuilder } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { selectIsLoggedIn } from '../../store/selectors/user.selectors';
-import { FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { SignInUser, SignInUserWithGoogle, SignUpUser } from '../../stores/user/user.actions';
+import { UserState } from '../../stores/user/user.reducer';
+import { selectIsLoggedIn } from '../../stores/user/user.selectors';
 
 @Component({
   selector: 'app-auth',
@@ -15,7 +15,7 @@ export class AuthComponent implements OnInit {
   isLoggedIn$: Observable<boolean> = of(false);
   authForm: FormGroup = new FormGroup({});
 
-  constructor(private userStore: Store<UserState>, private fb: UntypedFormBuilder) {}
+  constructor(private userStore: Store<UserState>, private fb: UntypedFormBuilder) { }
   ngOnInit(): void {
     this.isLoggedIn$ = this.userStore.pipe(select(selectIsLoggedIn));
     this.authForm = new FormGroup({
@@ -56,9 +56,5 @@ export class AuthComponent implements OnInit {
 
   signInExistingUserWithGoogle() {
     this.userStore.dispatch(SignInUserWithGoogle());
-  }
-
-  signOut() {
-    this.userStore.dispatch(SignOutUser());
   }
 }

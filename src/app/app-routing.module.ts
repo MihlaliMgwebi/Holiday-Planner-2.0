@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './components/auth/auth.component';
-import { TripCreateComponent } from './components/trip-create/trip-create.component';
-import { TripUpsertComponent } from './components/trip-upsert/trip-upsert.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { ItineraryItemUpsertComponent } from './components/itinerary-item-upsert/itinerary-item-upsert.component';
 import { ItineraryItemCreateComponent } from './components/itinerary-item-create/itinerary-item-create.component';
+import { ItineraryItemUpsertComponent } from './components/itinerary-item-upsert/itinerary-item-upsert.component';
 import { ItineraryItemComponent } from './components/itinerary-item/itinerary-item.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { TripCreateComponent } from './components/trip-create/trip-create.component';
 import { TripListComponent } from './components/trip-list/trip-list.component';
+import { TripUpsertComponent } from './components/trip-upsert/trip-upsert.component';
 import { TripComponent } from './components/trip/trip.component';
-// import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
+import { SelectedTripGuard } from './guards/selected-trip.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -39,11 +39,6 @@ const routes: Routes = [
         title: 'Add a Trip',
         component: TripCreateComponent,
       },
-      // {
-      //   path: 'trips/:tripId',
-      //   title: 'My Trip',
-      //   component: TripListComponent,
-      // },
       {
         path: 'trips/:tripId/edit',
         title: 'Edit a Trip',
@@ -53,6 +48,7 @@ const routes: Routes = [
         path: 'trips/:tripId/itinerary-items',
         title: 'All Your Itinerary Items',
         component: TripComponent,
+        canActivate: [SelectedTripGuard],
       },
       {
         path: 'trips/:tripId/itinerary-items/add',

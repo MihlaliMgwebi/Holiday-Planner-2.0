@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {CorrelatedData} from "../../models/correlatedData.model";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CorrelatedData } from "../../models/correlatedData.model";
 
 @Component({
   selector: 'app-itinerary',

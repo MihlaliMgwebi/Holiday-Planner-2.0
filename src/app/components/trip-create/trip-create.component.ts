@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { TripState } from '../../store/reducers/trip.reducer';
-import { Store } from '@ngrx/store';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Trip } from '../../models/trip.model';
 import { User } from '../../models/user.model';
-import { CurrencyState } from '../../store/reducers/currency.reducer';
-import { ActivatedRoute, Router } from '@angular/router';
-import { createTrip } from '../../store/actions/trip.actions';
+import { CurrencyState } from '../../stores/currency/currency.reducer';
+import { createTrip } from '../../stores/trip/trip.actions';
+import { TripState } from '../../stores/trip/trip.reducer';
 
 @Component({
   selector: 'app-trip-create',
   templateUrl: './trip-create.component.html',
-  styleUrls: ['./trip-create.component.css'],
+  styleUrls: [],
 })
 export class TripCreateComponent {
   tripForm: UntypedFormGroup;
@@ -26,10 +26,6 @@ export class TripCreateComponent {
     this.tripForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
       description: ['', [Validators.maxLength(250)]],
-      itinerary: this.fb.group({
-        title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
-        description: ['', [Validators.maxLength(250)]],
-      }),
     });
   }
   submitForm(): void {
@@ -43,13 +39,12 @@ export class TripCreateComponent {
         title: newTrip.title,
         itinerary: {
           _id: null,
-          description: newTrip.itinerary.description,
-          title: newTrip.itinerary.title,
+          description: newTrip.description,
+          title: newTrip.title,
         },
         userId: loggedInUser.uid,
       };
       this.tripStore.dispatch(createTrip({ trip }));
-      this.router.navigate([`../../`], { relativeTo: this.route });
     }
   }
 

@@ -1,44 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { TripState } from '../../store/reducers/trip.reducer';
-import { CorrelatedData } from '../../models/correlatedData.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
+import { CorrelatedData } from '../../models/correlatedData.model';
+import { Trip } from '../../models/trip.model';
+import { getAllItineraryItems } from '../../stores/itinerary-item/itinerary-item.actions';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
+import { selectIsLoadingItineraryItems } from '../../stores/itinerary-item/itineraryItem.selectors';
+import { deleteTrip, getAllTrips, setSelectedTrip } from '../../stores/trip/trip.actions';
+import { TripState } from '../../stores/trip/trip.reducer';
 import {
   selectCorrelatedTrips,
+  selectIsLoadingTrips,
   selectSelectedCorrelatedTrip,
-  selectSelectedCorrelatedTripEndDate,
-  selectSelectedCorrelatedTripStartDate,
-  selectSelectedCorrelatedTripTotalCostEstimate,
-} from '../../store/selectors/trip.selectors';
-import { Observable } from 'rxjs';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
-import { getAllItineraryItems } from '../../store/actions/itinerary-item.actions';
-import { deleteTrip, getAllTrips, setSelectedCorrelatedData, setSelectedTrip } from '../../store/actions/trip.actions';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Trip } from '../../models/trip.model';
+} from '../../stores/trip/trip.selectors';
+import { TripUpsertComponent } from '../trip-upsert/trip-upsert.component';
 
 @Component({
   selector: 'app-trip-list',
   templateUrl: './trip-list.component.html',
-  styleUrls: [],
+  styleUrls: ['trip-list.component.css'],
 })
 export class TripListComponent implements OnInit {
   correlatedTrips$: Observable<CorrelatedData[]>;
   selectedCorrelatedTrip$: Observable<CorrelatedData | undefined>;
-  selectedCorrelatedTripStartDate$: Observable<Date | undefined>;
-  selectedCorrelatedTripEndDate$: Observable<Date | undefined>;
-  selectedCorrelatedTripTotalCostEstimate$: Observable<number | undefined>;
-
+  selectIsLoadingTrips$: Observable<boolean>;
+  selectIsLoadingItineraryItems$: Observable<boolean>;
   constructor(
     private tripStore: Store<TripState>,
     private itineraryItemStore: Store<ItineraryItemState>,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private modalService: NzModalService
   ) {
     this.correlatedTrips$ = tripStore.select(selectCorrelatedTrips);
     this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip);
-    this.selectedCorrelatedTripStartDate$ = tripStore.select(selectSelectedCorrelatedTripStartDate);
-    this.selectedCorrelatedTripEndDate$ = tripStore.select(selectSelectedCorrelatedTripEndDate);
-    this.selectedCorrelatedTripTotalCostEstimate$ = tripStore.select(selectSelectedCorrelatedTripTotalCostEstimate);
+    this.selectIsLoadingTrips$ = this.tripStore.select(selectIsLoadingTrips);
+    this.selectIsLoadingItineraryItems$ = this.itineraryItemStore.select(selectIsLoadingItineraryItems);
   }
 
   ngOnInit(): void {
@@ -48,7 +47,7 @@ export class TripListComponent implements OnInit {
   }
   // CREATE
   addTrip() {
-    this.router.navigate([`../trips/add`], { relativeTo: this.route });
+    this.router.navigate(['../trips/add'], { relativeTo: this.route });
   }
   //READ
   selectTrip(selectedTrip: Trip) {
@@ -56,7 +55,11 @@ export class TripListComponent implements OnInit {
   }
   // UPDATE
   editTrip(trip: Trip) {
-    this.router.navigate([`../trips/${trip._id}/edit`], { relativeTo: this.route });
+    this.modalService.create({
+      nzTitle: `Edit ${trip.title}`,
+      nzContent: TripUpsertComponent,
+      nzClosable: true,
+    });
   }
   // DELETE
   deleteTrip(deletedTripId: string | null) {
@@ -65,7 +68,7 @@ export class TripListComponent implements OnInit {
 
   //NAVIGATE
   viewItinerary(selectedCorrelatedData: CorrelatedData) {
-    this.tripStore.dispatch(setSelectedCorrelatedData({ selectedCorrelatedData }));
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip: selectedCorrelatedData.trip }));
     this.router.navigate([`../trips/${selectedCorrelatedData.trip._id}/itinerary-items`], { relativeTo: this.route });
   }
 }

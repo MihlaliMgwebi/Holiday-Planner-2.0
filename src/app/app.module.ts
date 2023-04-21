@@ -1,61 +1,51 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { environment } from '../environments/environment';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
-import * as fromUser from './store/reducers/user.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { UserEffects } from './store/effects/user.effects';
-import { AuthComponent } from './components/auth/auth.component';
-import * as fromTrip from './store/reducers/trip.reducer';
-import { TripEffects } from './store/effects/trip.effects';
-import * as fromItineraryItem from './store/reducers/itinerary-item.reducer';
-import { ItineraryItemEffects } from './store/effects/itinerary-item.effects';
-import * as fromCurrency from './store/reducers/currency.reducer';
-import { CurrencyEffects } from './store/effects/currency.effects';
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { TripComponent } from './components/trip/trip.component';
-import { TripCreateComponent } from './components/trip-create/trip-create.component';
-import { TripUpsertComponent } from './components/trip-upsert/trip-upsert.component';
-import { ItineraryComponent } from './components/itinerary/itinerary.component';
-import { ItineraryItemComponent } from './components/itinerary-item/itinerary-item.component';
+import en from '@angular/common/locales/en';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ItineraryItemCreateComponent } from './components/itinerary-item-create/itinerary-item-create.component';
-import { ItineraryItemUpsertComponent } from './components/itinerary-item-upsert/itinerary-item-upsert.component';
-import { CurrencyComponent } from './components/currency/currency.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AuthComponent } from './components/auth/auth.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { CurrencyComponent } from './components/currency/currency.component';
+import { ItineraryItemCreateComponent } from './components/itinerary-item-create/itinerary-item-create.component';
+import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
+import { ItineraryItemUpsertComponent } from './components/itinerary-item-upsert/itinerary-item-upsert.component';
+import { ItineraryItemComponent } from './components/itinerary-item/itinerary-item.component';
+import { ItineraryComponent } from './components/itinerary/itinerary.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { uk_UA, en_US } from 'ng-zorro-antd/i18n';
-import { registerLocaleData } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgZorroAntdModule } from './ng-zorro-antd.module';
-import en from '@angular/common/locales/en';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { CalendarComponent } from './components/calendar/calendar.component';
+import { TripCreateComponent } from './components/trip-create/trip-create.component';
 import { TripListComponent } from './components/trip-list/trip-list.component';
-import { ItineraryItemListComponent } from './components/itinerary-item-list/itinerary-item-list.component';
-
+import { TripUpsertComponent } from './components/trip-upsert/trip-upsert.component';
+import { TripComponent } from './components/trip/trip.component';
+import { NgZorroAntdModule } from './ng-zorro-antd.module';
+import { CurrencyEffects } from './stores/currency/currency.effects';
+import * as fromCurrency from './stores/currency/currency.reducer';
+import { ItineraryItemEffects } from './stores/itinerary-item/itinerary-item.effects';
+import * as fromItineraryItem from './stores/itinerary-item/itinerary-item.reducer';
+import { TripEffects } from './stores/trip/trip.effects';
+import * as fromTrip from './stores/trip/trip.reducer';
+import { UserEffects } from './stores/user/user.effects';
+import * as fromUser from './stores/user/user.reducer';
 registerLocaleData(en);
-
-export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function (state, action) {
-    console.log(action.type, action);
-    console.log('current state', state);
-    console.log('future value of state', reducer(state, action));
-
-    return reducer(state, action);
-  };
-}
-
-export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug] : [];
 
 @NgModule({
   declarations: [
@@ -85,18 +75,19 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
 
-    // NgRx
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-
     StoreModule.forFeature(fromCurrency.currencyFeatureKey, fromCurrency.reducer),
     StoreModule.forFeature(fromItineraryItem.itineraryItemFeatureKey, fromItineraryItem.reducer),
     StoreModule.forFeature(fromTrip.tripFeatureKey, fromTrip.reducer),
     StoreModule.forFeature(fromUser.userFeatureKey, fromUser.reducer),
-    StoreModule.forRoot({}, { metaReducers }),
+    StoreModule.forRoot({}),
 
     EffectsModule.forFeature([UserEffects, TripEffects, ItineraryItemEffects, CurrencyEffects]),
     EffectsModule.forRoot(),
 
+    StoreDevtoolsModule.instrument({
+      maxAge: 40, // Retains last 25 states
+      logOnly: !environment.production, // Restrict extension to log-only mode
+    }),
     // NgZorro and Forms
     FormsModule,
     ReactiveFormsModule,
@@ -105,6 +96,10 @@ export const metaReducers: MetaReducer<any>[] = !environment.production ? [debug
     HttpClientModule,
     NzInputNumberModule,
     NzSpaceModule,
+    NzIconModule,
+    NzSpinModule,
+    NzNotificationModule,
+    NzPopconfirmModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CorrelatedData } from '../../models/correlatedData.model';
 import { Store } from '@ngrx/store';
-import { ItineraryItemState } from '../../store/reducers/itinerary-item.reducer';
-import { ActivatedRoute, Router } from '@angular/router';
-import { deleteItineraryItem } from '../../store/actions/itinerary-item.actions';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
 import { ItineraryItem } from '../../models/itineraryItem.model';
-import { Trip } from '../../models/trip.model';
-import { setSelectedTrip } from '../../store/actions/trip.actions';
+import { deleteItineraryItem, setSelectedItineraryItem } from '../../stores/itinerary-item/itinerary-item.actions';
+import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
+import { selectItineraryItem } from '../../stores/itinerary-item/itineraryItem.selectors';
+import { ItineraryItemUpsertComponent } from '../itinerary-item-upsert/itinerary-item-upsert.component';
 
 @Component({
   selector: 'app-itinerary-item',
@@ -16,34 +16,25 @@ import { setSelectedTrip } from '../../store/actions/trip.actions';
 })
 export class ItineraryItemComponent {
   @Input() itineraryItem: ItineraryItem | undefined;
-
-  constructor(
-    private itineraryItemStore: Store<ItineraryItemState>,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  // CREATE
-  addItineraryItem() {
-    this.router.navigate([`../${this.route.snapshot.paramMap.get('tripId')}/itinerary-items/add`], {
-      relativeTo: this.route,
-    });
+  isItineraryItemDetailsVisible: boolean;
+  selectedItineraryItem: Observable<ItineraryItem | null>;
+  constructor(private itineraryItemStore: Store<ItineraryItemState>, private modalService: NzModalService) {
+    this.isItineraryItemDetailsVisible = false;
+    this.selectedItineraryItem = this.itineraryItemStore.select(selectItineraryItem);
   }
 
-  //NAVIGATE TO READ
-  viewItineraryItem(itineraryItem: ItineraryItem | undefined) {
-    if (!itineraryItem) return;
-    this.router.navigate([`../${this.route.snapshot.paramMap.get('tripId')}/itinerary-items/${itineraryItem._id}`], {
-      relativeTo: this.route,
-    });
+  // READ
+  viewItineraryItem(itineraryItem: ItineraryItem) {
+    this.isItineraryItemDetailsVisible = !this.isItineraryItemDetailsVisible;
+    this.itineraryItemStore.dispatch(setSelectedItineraryItem({ itineraryItem }));
   }
-  // UPDATE
-  editItineraryItem(itineraryItem: ItineraryItem | undefined) {
-    if (!itineraryItem) return;
-    this.router.navigate(
-      [`../${this.route.snapshot.paramMap.get('tripId')}/itinerary-items/${itineraryItem._id}/edit`],
-      { relativeTo: this.route }
-    );
+  editItineraryItem(itineraryItem: ItineraryItem) {
+    this.modalService.create({
+      nzTitle: `Edit ${itineraryItem.title}`,
+      nzContent: ItineraryItemUpsertComponent,
+      nzClosable: true,
+      nzData: itineraryItem._id,
+    });
   }
   // DELETE
   deleteItineraryItem(deletedItineraryItemId: string | null | undefined) {
