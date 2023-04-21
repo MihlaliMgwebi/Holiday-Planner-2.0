@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "mehh-2a423": {
+      "hosting": {
+        "Auth": [
+          "mehh-2a423"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "mehh-2a423"
+  }
+}

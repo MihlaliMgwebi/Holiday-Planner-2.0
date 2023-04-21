@@ -1,0 +1,30 @@
+<section class="bg-white antialiased">
+  <div class="max-w-screen-xl px-4 py-8 mx-auto lg:px-6 sm:py-16 lg:py-24">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-4xl font-extrabold leading-tight tracking-tight text-gray-900 ">
+        {{(selectedCorrelatedData$ | async)?.trip?.itinerary?.title}}
+      </h2>
+      <dd class="mb-4 font-light text-gray-500 sm:mb-5">{{(selectedCorrelatedData$ | async)?.trip?.itinerary?.description}}</dd>
+    </div>
+    <div *ngIf="(selectedCorrelatedData$ | async)?.itineraryItems;else noItineraryItems">
+    <app-calendar [itineraryItems]="(selectedCorrelatedData$ | async)?.itineraryItems"/>
+    <div class="flow-root max-w-3xl mx-auto mt-8 sm:mt-12 lg:mt-16">
+        <ol *ngFor=" let itineraryItem of (selectedCorrelatedData$ | async)?.itineraryItems;" class="relative border-l border-gray-200 dark:border-gray-700">
+          <app-itinerary-item [itineraryItem]="itineraryItem ?? undefined"/>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <nz-footer class="rounded-lg fixed bottom-0 left-0 z-20 w-full p-4 bg-footer border-t border-gray-200 shadow">
+    <div class="flex justify-center">
+      <button (click)="addItineraryItem()" nz-button nzType="primary" nzSize="large" nzShape="circle" class="flex items-center justify-center bg-black"><span nz-icon nzType="plus" nzTheme="outline"></span></button>
+    </div>
+
+  </nz-footer>
+</section>
+
+<ng-template #noItineraryItems>
+  <h3 class="text-2xl font-extrabold leading-tight tracking-tight text-gray-900 ">
+    No itinerary items
+  </h3>
+</ng-template>

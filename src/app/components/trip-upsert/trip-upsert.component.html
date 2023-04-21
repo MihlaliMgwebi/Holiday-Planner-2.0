@@ -1,0 +1,38 @@
+<section class="bg-white">
+  <div class="flex pt-6 my-2 items-center">
+    <h2 class="text-xl font-bold text-gray-900">Update</h2>
+  </div>
+  <div class="py-4 px-4 mx-auto max-w-2xl">
+    <form nz-form [formGroup]="tripForm" (ngSubmit)="submitForm()">
+      <div class="grid sm:grid-cols-2">
+        <!--  Title  -->
+        <nz-form-item class="sm:col-span-2">
+          <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">Trip Title</nz-form-label>
+          <nz-form-control nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="titleErrorTpl">
+            <input nz-input formControlName="title" placeholder="E.g. Destination Holiday In London" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"/>
+            <ng-template #titleErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">Please input the title!</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <!-- Description -->
+        <nz-form-item class="sm:col-span-2">
+          <nz-form-label nzRequired class="block text-sm font-medium text-gray-900">Trip Description</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-textarea-count [nzMaxCharacterCount]="250">
+              <textarea formControlName="description" nz-input rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Describe your trip..."></textarea>
+            </nz-textarea-count>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" [disabled]="!tripForm.valid">Submit</button>
+      <button nz-button (click)="resetForm($event)">Reset</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+  </div>
+</section>
+
+
