@@ -121,6 +121,7 @@ export class FireStoreService {
         return error;
       });
     });
+    console.log();
     return of(itineraryItem);
   }
 

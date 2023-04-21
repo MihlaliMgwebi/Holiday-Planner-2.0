@@ -10,8 +10,9 @@ import { Currency } from '../../models/currency.model';
 import { CurrencyState } from '../../stores/currency/currency.reducer';
 import { selectAllCurrencies } from '../../stores/currency/currency.selectors';
 import { getAllCurrencies } from '../../stores/currency/currency.actions';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ItineraryItemState } from '../../stores/itinerary-item/itinerary-item.reducer';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-itinerary-item-upsert',
@@ -22,6 +23,8 @@ export class ItineraryItemUpsertComponent implements OnInit {
   selectedItineraryItem$: Observable<ItineraryItem | null>;
   allCurrencies$: Observable<Currency[]>;
   itineraryItemForm: UntypedFormGroup;
+  itineraryId: string | null;
+  itineraryItemId: string | null;
   constructor(
     private fb: UntypedFormBuilder,
     private itineraryItemStore: Store<ItineraryItemState>,
@@ -40,9 +43,15 @@ export class ItineraryItemUpsertComponent implements OnInit {
 
     this.allCurrencies$ = currencyStore.select(selectAllCurrencies);
     this.selectedItineraryItem$ = itineraryItemStore.select(selectItineraryItem);
+    this.itineraryId = null;
+    this.itineraryItemId = null;
 
     this.selectedItineraryItem$
       .pipe(
+        tap((itineraryItem) => {
+          this.itineraryId = itineraryItem?.itineraryId ?? null;
+          this.itineraryItemId = itineraryItem?._id ?? null;
+        }),
         map((itineraryItem) => {
           this.itineraryItemForm.patchValue({
             title: itineraryItem?.title ?? 'No tile',
@@ -62,26 +71,24 @@ export class ItineraryItemUpsertComponent implements OnInit {
   }
   ngOnInit(): void {
     this.currencyStore.dispatch(getAllCurrencies());
-    const itineraryItemId: string = this.route.snapshot.params['itineraryItemId'];
-    this.itineraryItemStore.dispatch(getItineraryItem({ itineraryItemId }));
   }
 
   submitForm(): void {
     const item = this.itineraryItemForm.value;
-    const _id: string = this.route.snapshot.params['itineraryItemId'];
+    //Used a popup and not params askies
     const newItineraryItem: ItineraryItem = {
-      _id,
+      _id: this.itineraryItemId,
       costEstimate: item.costEstimate,
       currency: item.currency,
       description: item.description,
-      endDateTimeISOString: item.dateRange[1],
-      itineraryId: this.route.snapshot.paramMap.get('tripId'),
+      endDateTimeISOString: Timestamp.fromDate(item.dateRange[1]),
+      itineraryId: this.itineraryId,
       notes: item.notes,
-      startDateTimeISOString: item.dateRange[0],
+      startDateTimeISOString: Timestamp.fromDate(item.dateRange[0]),
       tag: item.tag,
       title: item.title,
     };
-    this.itineraryItemStore.dispatch(upsertItineraryItem({ upsertedItineraryItem: newItineraryItem }));
+    this.itineraryItemStore.dispatch(upsertItineraryItem({ itineraryItem: newItineraryItem }));
   }
 
   resetForm(e: MouseEvent): void {

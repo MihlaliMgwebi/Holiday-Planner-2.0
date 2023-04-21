@@ -84,7 +84,7 @@
 
   <nz-form-item>
     <nz-form-control>
-      <button nz-button nzType="primary" [disabled]="!itineraryItemForm.valid">Submit</button>
+      <button nz-button (click)="submitForm()" nzType="primary" [disabled]="!itineraryItemForm.valid">Submit</button>
       <button nz-button (click)="resetForm($event)">Reset</button>
     </nz-form-control>
   </nz-form-item>

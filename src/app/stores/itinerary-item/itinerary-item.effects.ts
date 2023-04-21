@@ -45,28 +45,14 @@ export class ItineraryItemEffects {
     );
   });
 
-  getItineraryItem$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ItineraryItemActions.getItineraryItem),
-      switchMap(({ itineraryItemId }) => {
-        return this.fireStoreService.getItineraryItemById(itineraryItemId).pipe(
-          map((res) => ItineraryItemActions.getItineraryItemComplete({ itineraryItem: res })),
-          catchError((error) => {
-            this.notification.create('error', 'Get Itinerary Item Error', error.error.message);
-            return EMPTY;
-          })
-        );
-      })
-    );
-  });
-
   // UPDATE
   upsertItineraryItem$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ItineraryItemActions.upsertItineraryItem),
-      switchMap(({ upsertedItineraryItem }) =>
-        this.fireStoreService.upsertItineraryItem(upsertedItineraryItem).pipe(
-          map((res) => ItineraryItemActions.upsertItineraryItemComplete({ upsertedItineraryItem: res })),
+      switchMap(({ itineraryItem }) =>
+        this.fireStoreService.upsertItineraryItem(itineraryItem).pipe(
+          tap((itineraryItem) => console.log('FS Updated', itineraryItem)),
+          map((res) => ItineraryItemActions.upsertItineraryItemComplete({ itineraryItem: res })),
           tap(() => this.notification.create('success', 'Successfully Edited Itinerary Item', '')),
           catchError((error) => {
             this.notification.create('error', 'Edit Itinerary Item Error', error.error.message);

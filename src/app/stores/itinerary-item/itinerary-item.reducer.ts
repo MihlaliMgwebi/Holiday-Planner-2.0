@@ -34,10 +34,10 @@ export const reducer = createReducer(
     itineraryItem,
   })),
   //UPSERT
-  on(ItineraryItemActions.upsertItineraryItemComplete, (state, { upsertedItineraryItem }) => ({
+  on(ItineraryItemActions.upsertItineraryItemComplete, (state, { itineraryItem }) => ({
     ...state,
     allItineraryItems: state.allItineraryItems.map((currentItineraryItem) =>
-      currentItineraryItem._id === upsertedItineraryItem._id ? upsertedItineraryItem : currentItineraryItem
+      currentItineraryItem._id === itineraryItem._id ? itineraryItem : currentItineraryItem
     ),
     // selectedProduct: null
   })),

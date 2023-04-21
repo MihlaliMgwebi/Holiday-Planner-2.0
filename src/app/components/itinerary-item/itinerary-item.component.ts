@@ -33,8 +33,9 @@ export class ItineraryItemComponent {
     this.modalService.create({
       nzTitle: 'Modal Title',
       nzContent: ItineraryItemUpsertComponent,
-      nzClosable: false,
-      nzOnOk: () => new Promise((resolve) => setTimeout(resolve, 1000)),
+      nzClosable: true,
+      nzFooter: null,
+      nzData: itineraryItem._id,
     });
   }
   // DELETE
