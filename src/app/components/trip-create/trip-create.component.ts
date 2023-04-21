@@ -49,7 +49,6 @@ export class TripCreateComponent {
         userId: loggedInUser.uid,
       };
       this.tripStore.dispatch(createTrip({ trip }));
-      this.router.navigate(['../'], { relativeTo: this.route });
     }
   }
 

@@ -14,6 +14,8 @@ import { deleteTrip, getAllTrips, setSelectedTrip } from '../../stores/trip/trip
 import { ActivatedRoute, Router } from '@angular/router';
 import { Trip } from '../../models/trip.model';
 import { selectIsLoadingItineraryItems } from '../../stores/itinerary-item/itineraryItem.selectors';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { TripUpsertComponent } from '../trip-upsert/trip-upsert.component';
 
 @Component({
   selector: 'app-trip-list',
@@ -29,7 +31,8 @@ export class TripListComponent implements OnInit {
     private tripStore: Store<TripState>,
     private itineraryItemStore: Store<ItineraryItemState>,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private modalService: NzModalService
   ) {
     this.correlatedTrips$ = tripStore.select(selectCorrelatedTrips);
     this.selectedCorrelatedTrip$ = tripStore.select(selectSelectedCorrelatedTrip);
@@ -50,10 +53,16 @@ export class TripListComponent implements OnInit {
     this.router.navigate([`../trips/add`], { relativeTo: this.route });
   }
   //READ
-  selectTrip(selectedTrip: Trip) {}
+  selectTrip(selectedTrip: Trip) {
+    this.tripStore.dispatch(setSelectedTrip({ selectedTrip }));
+  }
   // UPDATE
   editTrip(trip: Trip) {
-    this.router.navigate([`../trips/${trip._id}/edit`], { relativeTo: this.route });
+    this.modalService.create({
+      nzTitle: `Edit ${trip.title}`,
+      nzContent: TripUpsertComponent,
+      nzClosable: true,
+    });
   }
   // DELETE
   deleteTrip(deletedTripId: string | null) {

@@ -31,7 +31,7 @@ export class ItineraryItemComponent {
   }
   editItineraryItem(itineraryItem: ItineraryItem) {
     this.modalService.create({
-      nzTitle: 'Modal Title',
+      nzTitle: `Edit ${itineraryItem.title}`,
       nzContent: ItineraryItemUpsertComponent,
       nzClosable: true,
       nzData: itineraryItem._id,

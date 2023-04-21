@@ -8,7 +8,7 @@ import { User } from '../../models/user.model';
 import { Trip } from '../../models/trip.model';
 import { Observable } from 'rxjs';
 import { selectSelectedTrip } from '../../stores/trip/trip.selectors';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-trip-upsert',
@@ -18,25 +18,20 @@ import { map } from 'rxjs/operators';
 export class TripUpsertComponent {
   selectedTrip$: Observable<Trip | null>;
   tripForm: UntypedFormGroup;
-
-  constructor(
-    private fb: UntypedFormBuilder,
-    private tripStore: Store<TripState>,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  id: string | null;
+  constructor(private fb: UntypedFormBuilder, private tripStore: Store<TripState>) {
     this.tripForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
       description: ['', [Validators.maxLength(250)]],
-      itinerary: this.fb.group({
-        title: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(20)]],
-        description: ['', [Validators.maxLength(250)]],
-      }),
     });
 
+    this.id = null;
     this.selectedTrip$ = tripStore.select(selectSelectedTrip);
     this.selectedTrip$
       .pipe(
+        tap((trip) => {
+          this.id = trip?._id ?? null;
+        }),
         map((trip) => {
           this.tripForm.patchValue({
             title: trip?.title ?? 'No title',
@@ -49,23 +44,21 @@ export class TripUpsertComponent {
   }
   submitForm(): void {
     const newTrip = this.tripForm.value;
-    const _id: string = this.route.snapshot.params['tripId'];
     const loggedInUser: User = JSON.parse(localStorage.getItem('user') || '{}');
 
     if (loggedInUser) {
       const trip: Trip = {
-        _id,
+        _id: this.id,
         description: newTrip.description,
         title: newTrip.title,
         itinerary: {
-          _id,
-          description: newTrip.itinerary.description,
-          title: newTrip.itinerary.title,
+          _id: this.id,
+          description: newTrip.description,
+          title: newTrip.title,
         },
         userId: loggedInUser.uid,
       };
       this.tripStore.dispatch(upsertTrip({ trip }));
-      this.router.navigate([`../../`], { relativeTo: this.route });
     }
   }
 

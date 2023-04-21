@@ -16,13 +16,8 @@ export const selectSelectedBaseCurrency = createSelector(
   (baseCurrencyCode, allCurrencies) => allCurrencies.find((currentCurrency) => currentCurrency.code == baseCurrencyCode)
 );
 
-export const selectZARCurrency = createSelector(selectAllCurrencies, (allCurrencies) =>
-  allCurrencies.find((currentCurrency) => currentCurrency.code?.toUpperCase() == 'ZAR')
-);
-
 export const selectConvertedValue = createSelector(
   selectSelectBaseValue,
   selectSelectedBaseCurrency,
-  (baseValue, baseCurrency) =>
-    baseCurrency && baseCurrency.rate ? 10000 / (baseValue * baseCurrency?.rate) : baseValue * 100
+  (baseValue, baseCurrency) => (baseCurrency && baseCurrency.rate ? baseValue * baseCurrency?.rate : baseValue)
 );
